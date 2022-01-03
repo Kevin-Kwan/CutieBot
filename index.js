@@ -26,6 +26,9 @@ for (const folder of commandFolders) {
 		client.commands.set(command.name, command);
 	}
 }
+console.log('Commands loaded');
+
+// This is where command reading is supposed to occur.
 client.on('messageCreate', message=>{
 /* botched, fix this later
     if (!message.content.startsWith(prefix)) return;
@@ -43,7 +46,7 @@ client.on('messageCreate', message=>{
 	if (message.content == "ping") {
 		message.reply('pong');
 	}
-}
+});
 
 /* botched, fix this later
 client.on('interactionCreate', async interaction => {
