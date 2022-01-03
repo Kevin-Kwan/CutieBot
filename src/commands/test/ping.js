@@ -1,15 +1,10 @@
-const { Command } = require('../../')
+const { SlashCommandBuilder } = require('@discordjs/builders');
 
-module.exports = class Ping extends Command {
-  constructor (client) {
-    super({
-      name: 'ping',
-      aliases: ['pang', 'peng', 'pong', 'pung'],
-      category: 'bot'
-    }, client)
-  }
-
-  run ({ channel }) {
-    channel.send(`:ping_pong: \`${Math.ceil(this.client.ws.ping)}ms\``)
-  }
-}
+module.exports = {
+	data: new SlashCommandBuilder()
+		.setName('ping')
+		.setDescription('Replies with Pong!'),
+	async execute(interaction) {
+		await interaction.reply('Pong!');
+	},
+};
