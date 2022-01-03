@@ -1,8 +1,9 @@
-const { Client } = require("discord.js");
+const { Client, Intents } = require('discord.js');
 // Importing this allows you to access the environment variables of the running node process
 require("dotenv").config();
-
-const client = new Client();
+const myIntents = new Intents();
+myIntents.add(Intents.FLAGS.GUILD_MEMBERS, Intents.FLAGS.GUILDS);
+const client = new Client({ intents: myIntents });
 
 // "process.env" accesses the environment variables for the running node process. PREFIX is the environment variable you defined in your .env file
 const prefix = process.env.PREFIX;
