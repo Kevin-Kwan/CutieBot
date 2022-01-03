@@ -1,5 +1,6 @@
 const { Client, Intents } = require('discord.js');
 const Discord = require('discord.js');
+const fs = require('fs');
 // Importing this allows you to access the environment variables of the running node process
 require("dotenv").config();
 const myIntents = new Intents();
