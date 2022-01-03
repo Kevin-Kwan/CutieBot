@@ -27,7 +27,7 @@ for (const folder of commandFolders) {
 	}
 }
 client.on('messageCreate', message=>{
-    
+/* botched, fix this later
     if (!message.content.startsWith(prefix)) return;
     else {
         const args = message.content.slice(prefix.length).split(/ +/);
@@ -39,7 +39,13 @@ client.on('messageCreate', message=>{
         }
     }
 });
-/*
+*/
+	if (message.content == "ping") {
+		message.reply('pong');
+	}
+}
+
+/* botched, fix this later
 client.on('interactionCreate', async interaction => {
 	if (!interaction.isCommand()) return;
 
