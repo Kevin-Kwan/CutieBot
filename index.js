@@ -13,19 +13,17 @@ client.on("ready", () => {
     client.user.setActivity('yo', {type: 'WATCHING'});
 });
 
-client.on("messageCreate", message => {
+client.commands = new Discord.Collection();
 
-  // Here's I'm using one of An Idiot's Guide's basic command handlers. Using the PREFIX environment variable above, I can do the same as the bot token below
-  if (message.author.bot) return;
-  if (message.content.indexOf(prefix.length) !== 0) return;
+const commandFolders = fs.readdirSync('./commands');
 
-  const args = message.content.slice(prefix.length).trim().split(/ +/g);
-  const command = args.shift().toLowerCase();
-
-  if (command === "ping") {
-    message.reply("Pong!");
-  }
-});
+for (const folder of commandFolders) {
+	const commandFiles = fs.readdirSync(`./src/commands/${folder}`).filter(file => file.endsWith('.js'));
+	for (const file of commandFiles) {
+		const command = require(`./src/commands/${folder}/${file}`);
+		client.commands.set(command.name, command);
+	}
+}
 
 // Here you can login the bot. It automatically attempts to login the bot with the environment variable you set for your bot token (either "CLIENT_TOKEN" or "DISCORD_TOKEN")
 client.login();
