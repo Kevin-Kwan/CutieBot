@@ -26,7 +26,7 @@ for (const folder of commandFolders) {
 		client.commands.set(command.name, command);
 	}
 }
-client.on('message', message=>{
+client.on('messageCreate', message=>{
     
     if (!message.content.startsWith(prefix)) return;
     else {
@@ -34,6 +34,7 @@ client.on('message', message=>{
         const command = args.shift().toLowerCase();
 
         if(command === 'ping') {
+			command.reply('pong');
             client.commands.get('ping').execute();
         }
     }
