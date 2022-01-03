@@ -17,19 +17,19 @@ client.on("ready", () => {
 
 client.commands = new Discord.Collection();
 
-const commandFolders = fs.readdirSync('./src/commands');
+const commandFolders = fs.readdirSync("./src/commands");
 
 for (const folder of commandFolders) {
-	const commandFiles = fs.readdirSync(`./src/commands/${folder}`).filter(file => file.endsWith('.js'));
+	const commandFiles = fs.readdirSync("./src/commands/${folder}").filter(file => file.endsWith(".js"));
 	for (const file of commandFiles) {
-		const command = require(`./src/commands/${folder}/${file}`);
+		const command = require("./src/commands/${folder}/${file}");
 		client.commands.set(command.name, command);
 	}
 }
 console.log('Commands loaded');
 
 // This is where command reading is supposed to occur.
-client.on('messageCreate', (message) =>{
+client.on("messageCreate", (message) =>{
 /* botched, fix this later
     if (!message.content.startsWith(prefix)) return;
     else {
@@ -44,7 +44,7 @@ client.on('messageCreate', (message) =>{
 });
 */
 	if (message.content == "ping") {
-		message.reply('pong');
+		message.reply("pong");
 	}
 })
 
