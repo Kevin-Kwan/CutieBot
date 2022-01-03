@@ -29,7 +29,7 @@ for (const folder of commandFolders) {
 console.log('Commands loaded');
 
 // This is where command reading is supposed to occur.
-client.on('messageCreate', message=>{
+client.on('messageCreate', (message) =>{
 /* botched, fix this later
     if (!message.content.startsWith(prefix)) return;
     else {
@@ -46,7 +46,7 @@ client.on('messageCreate', message=>{
 	if (message.content == "ping") {
 		message.reply('pong');
 	}
-});
+})
 
 /* botched, fix this later
 client.on('interactionCreate', async interaction => {
