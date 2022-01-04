@@ -40,6 +40,7 @@ const activities = [
   // swap out the x's with their respective variables
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
+  client.user.setActivity('<help | Cutie has awoken!', {type: "STREAMING", url: "https://www.twitch.tv/koolkev246"});
   setInterval(() => {
     const randomIndex = Math.floor(Math.random() * (activities.length - 1) + 1);
     const newActivity = activities[randomIndex];
