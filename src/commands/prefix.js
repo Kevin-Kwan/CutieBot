@@ -1,5 +1,5 @@
 /*
-    First test command
+    Command that returns the bot's prefix
 */
 
 module.exports.execute = (client, message, args) => {
