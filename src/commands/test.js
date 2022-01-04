@@ -3,7 +3,6 @@
 */
 
 module.exports.execute = (client, message, args) => {
-    console.log("test");
     message.channel.send("test command");
 };
 

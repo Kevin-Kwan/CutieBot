@@ -41,7 +41,6 @@ console.log('Commands loaded.');
 client.on('messageCreate', message =>{
 	if (message.content == "hi"){
         message.reply("whaddup!")
-		message.reply(prefix)
     }
 	
     if (!message.content.startsWith(prefix)) return;
