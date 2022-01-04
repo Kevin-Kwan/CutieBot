@@ -11,67 +11,62 @@ const client = new Discord.Client({
     ]
 })
 
-// 'process.env' accesses the environment variables for the running node process. PREFIX is the environment variable you defined in your .env file
+// 'process.env' accesses the environment variables for the running node process
 const prefix = process.env.PREFIX;
 
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
-  client.user.setActivity('yo', {type: 'WATCHING'});
+  client.user.setActivity('You', {type: 'WATCHING'});
 });
 
-client.commands = new Discord.Collection();
-const commandFolders = fs.readdirSync('./src/commands');
-for (const folder of commandFolders) {
-	const commandFiles = fs.readdirSync(`./src/commands/${folder}`).filter(file => file.endsWith('.js'));
-	for (const file of commandFiles) {
-		const command = require(`./src/commands/${folder}/${file}`);
-		client.commands.set(command.name, command);
-	}
+exports.commands = () => {
+    return client.commands;
 }
-console.log('Commands loaded');
 
-client.on("messageCreate", (message) => {
-    if (message.content == "hi"){
-        message.reply("Hello World!")
+// add all commands
+// todo: add error checking
+// todo: add subfolder search support
+let success = 0;
+let fail = 0;
+client.commands = [];
+fs.readdir("./src/commands/", function(err, files){
+    files.forEach(f => {
+        const cmd = require(`./src/commands/${f}`);
+        client.commands.push(cmd) ? success++ : fail++;
+    });
+});
+
+console.log('Commands loaded.');
+
+client.on('messageCreate', message =>{
+	if (message.content == "hi"){
+        message.reply("whaddup!")
+		message.reply(prefix)
     }
-})
-
-// This is where command reading is supposed to occur. botched, fix this later
-/*client.on('messageCreate', (message) =>{
+	
     if (!message.content.startsWith(prefix)) return;
-    else {
-        const args = message.content.slice(prefix.length).split(/ +/);
-        const command = args.shift().toLowerCase();
+    const args = message.content.slice(prefix.length).split(/ +/);
+	const cmdName = args.shift().toLowerCase();
+	client.commands.forEach(command => {
+		if(cmdName === command.info.name || command.info.alias.includes(cmdName)){
+            //guild or private chat check
+            if(command.info.guildOnly && message.channel.type === 'dm'){
+                message.channel.send("This command unavailable in private chat :^(");
+                return;
+            }
 
-        if(command === 'ping') {
-			command.reply('pong');
-            client.commands.get('ping').execute();
+            //admin check
+            if(command.info.permission == "admin"
+                    && message.author.id != client.config.OWNER_ID){
+                message.channel.send("Admin only command :^)");
+            }
+			else{
+                command.execute(client, message, args);
+            }
         }
-    }
+    });
 });
+console.log('Bot is ready!');
 
-	if (message.content == 'ping') {
-		message.reply('pong');
-	}
-})
-*/
-
-/* botched, fix this later
-client.on('interactionCreate', async interaction => {
-	if (!interaction.isCommand()) return;
-
-	const command = client.commands.get(interaction.commandName);
-
-	if (!command) return;
-
-	try {
-		await command.execute(interaction);
-	} catch (error) {
-		console.error(error);
-		await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
-	}
-});
-*/
-
-// Here you can login the bot. It automatically attempts to login the bot with the environment variable you set for your bot token (either 'CLIENT_TOKEN' or 'DISCORD_TOKEN')
+// attempts to login the bot with the environment variable you set for your bot token (either 'CLIENT_TOKEN' or 'DISCORD_TOKEN')
 client.login();
