@@ -3,7 +3,8 @@
 */
 
 module.exports.execute = (client, message, args) => {
-    message.channel.send("Bot's Prefix: " + prefix);
+    const prefix = process.env.PREFIX;
+    message.channel.send(`Bot's Prefix: \`\`${prefix}\`\``);
 };
 
 module.exports.info = {
