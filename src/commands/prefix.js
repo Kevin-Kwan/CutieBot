@@ -11,7 +11,7 @@ module.exports.info = {
     name: "prefix",
     alias: [],
     permission: "default",
-    type: "general",
+    category: "general",
     guildOnly: false,
 	help: "command to get the bot's prefix"
 };

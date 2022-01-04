@@ -7,12 +7,23 @@ const client = new Discord.Client({
     intents: [
         "GUILDS",
         "GUILD_MESSAGES",
+        "DIRECT_MESSAGES",
+        "GUILD_BANS",
+        "GUILD_EMOJIS_AND_STICKERS",
+        "GUILD_INTEGRATIONS",
+        "GUILD_WEBHOOKS",
+        "GUILD_INVITES",
+        "GUILD_PRESENCES",
         "GUILD_MEMBERS"
-    ]
+    ],
+    partials: [
+        "CHANNEL"
+    ] 
 })
 
 // 'process.env' accesses the environment variables for the running node process
 const prefix = process.env.PREFIX;
+const owner = process.env.OWNER;
 
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
@@ -40,9 +51,12 @@ console.log('Commands loaded.');
 
 client.on('messageCreate', message =>{
 	if (message.content == "hi"){
+        if (message.author.bot) return;
         message.reply("whaddup!")
     }
-	
+	if(message.channel.type === 'dm'){
+        message.channel.send("Pog");
+    }
     if (!message.content.startsWith(prefix)) return;
     const args = message.content.slice(prefix.length).split(/ +/);
 	const cmdName = args.shift().toLowerCase();
@@ -55,9 +69,13 @@ client.on('messageCreate', message =>{
             }
 
             //admin check
-            if(command.info.permission == "admin"
-                    && message.author.id != client.config.OWNER_ID){
-                message.channel.send("Admin only command :^)");
+            if(command.info.permission == "owner"
+                    && message.author.id != owner){
+                message.channel.send("owner only command :^)");
+            }
+            if(command.info.permission == "admin")
+            {
+
             }
 			else{
                 command.execute(client, message, args);
@@ -65,6 +83,12 @@ client.on('messageCreate', message =>{
         }
     });
 });
+
+// prob need a better error handler idk
+process.on('unhandledRejection', error => {
+	console.error('Unhandled promise rejection:', error);
+});
+
 console.log('Bot is ready!');
 
 // attempts to login the bot with the environment variable you set for your bot token (either 'CLIENT_TOKEN' or 'DISCORD_TOKEN')

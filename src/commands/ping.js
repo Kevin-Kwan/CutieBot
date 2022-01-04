@@ -13,7 +13,7 @@ module.exports.info = {
     name: "ping",
     alias: ["pung", "pong", "pang"],
     permission: "default",
-    type: "general",
+    category: "general",
     guildOnly: false,
 	help: "command to test the bot's ping"
 };

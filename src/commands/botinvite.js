@@ -13,7 +13,7 @@ module.exports.info = {
     name: "botinvite",
     alias: ["invite"],
     permission: "default",
-    type: "general",
+    category: "general",
     guildOnly: false,
 	help: "command to get the bot's invite"
 };

@@ -10,7 +10,7 @@ module.exports.info = {
     name: "test",
     alias: ["test1", "test2", "test3"],
     permission: "default",
-    type: "test",
+    category: "test",
     guildOnly: false,
 	help: "basic command to see if bot is functioning"
 };
