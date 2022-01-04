@@ -44,7 +44,7 @@ client.on('ready', () => {
     const randomIndex = Math.floor(Math.random() * (activities.length - 1) + 1);
     const newActivity = activities[randomIndex];
 
-    bot.user.setActivity(newActivity, {type: "STREAMING",
+    client.user.setActivity(newActivity, {type: "STREAMING",
     url: "https://www.twitch.tv/koolkev246"});
   }, 120000);
 });
