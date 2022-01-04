@@ -24,10 +24,29 @@ const client = new Discord.Client({
 // 'process.env' accesses the environment variables for the running node process
 const prefix = process.env.PREFIX;
 const owner = process.env.OWNER;
-
+const activities = [
+    "<help | discord.koolkev246.com",
+    "<help | koolkev246.com",
+    "<help | invite.gg/GSMST",
+    "<help | Managing x guilds!",
+    "x servers | x members",
+    "<help | x members",
+    "<help | twitch.tv/Koolkev246",
+    "<help | discord.gg/uE2Enuv",
+    "twitch.tv/Koolkev246",
+    "instagram.com/Koolkev246",
+    "twitter.com/Koolkev246"
+  ];
+  // swap out the x's with their respective variables
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
-  client.user.setActivity('You', {type: 'WATCHING'});
+  setInterval(() => {
+    const randomIndex = Math.floor(Math.random() * (activities.length - 1) + 1);
+    const newActivity = activities[randomIndex];
+
+    bot.user.setActivity(newActivity, {type: "STREAMING",
+    url: "https://www.twitch.tv/koolkev246"});
+  }, 120000);
 });
 
 exports.commands = () => {
