@@ -89,13 +89,12 @@ client.on('messageCreate', message =>{
             }
 
             //admin check
-            if(command.info.permission == "owner"
-                    && message.author.id != owner){
+            if(command.info.permission == "owner" && message.author.id != owner){
                 message.channel.send("owner only command :^)");
             }
-            if(command.info.permission == "admin")
+            if(command.info.permission == "admin" && !message.member.permissionsIn(message.channel).has("ADMINISTRATOR"))
             {
-
+                message.channel.send("admin only command :^)");
             }
 			else{
                 command.execute(client, message, args);
