@@ -89,13 +89,12 @@ client.on('messageCreate', message =>{
             }
 
             //admin check
-            if(command.info.permission == "owner"
-                    && message.author.id != owner){
+            if(command.info.permission == "owner" && message.author.id != owner){
                 message.channel.send("owner only command :^)");
             }
-            if(command.info.permission == "admin")
+            if(command.info.permission == "admin" && !message.member.permissionsIn(message.channel).has("ADMINISTRATOR"))
             {
-
+                message.channel.send("admin only command :^)");
             }
 			else{
                 command.execute(client, message, args);
@@ -107,7 +106,23 @@ client.on('messageCreate', message =>{
 // prob need a better error handler idk
 process.on('unhandledRejection', error => {
 	console.error('Unhandled promise rejection:', error);
+    
 });
+
+
+function getUserFromMention(mention) {
+	if (!mention) return;
+
+	if (mention.startsWith('<@') && mention.endsWith('>')) {
+		mention = mention.slice(2, -1);
+
+		if (mention.startsWith('!')) {
+			mention = mention.slice(1);
+		}
+
+		return client.users.cache.get(mention);
+	}
+}
 
 console.log('Bot is ready!');
 
