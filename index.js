@@ -27,17 +27,17 @@ const owner = process.env.OWNER;
 var usernum = client.guilds.cache.reduce((a, g) => a + g.memberCount, 0)
 var guildnum = client.guilds.cache.size;
 const activities = [
-    // "<help | discord.koolkev246.com",
-    // "<help | koolkev246.com",
-    // "<help | invite.gg/GSMST",
+    "<help | discord.koolkev246.com",
+    "<help | koolkev246.com",
+    "<help | invite.gg/GSMST",
     "<help | Managing "+guildnum+" guilds!",
     ""+guildnum+" servers | "+usernum+" users",
     "<help | "+usernum+" users",
-    // "<help | twitch.tv/Koolkev246",
-    // "<help | discord.gg/uE2Enuv",
-    // "twitch.tv/Koolkev246",
-    // "instagram.com/Koolkev246",
-    // "twitter.com/Koolkev246"
+    "<help | twitch.tv/Koolkev246",
+    "<help | discord.gg/uE2Enuv",
+    "twitch.tv/Koolkev246",
+    "instagram.com/Koolkev246",
+    "twitter.com/Koolkev246"
   ];
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
