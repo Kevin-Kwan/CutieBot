@@ -104,10 +104,10 @@ client.on('messageCreate', message =>{
 });
 
 // prob need a better error handler idk
-// process.on('unhandledRejection', error => {
-// 	console.error('Unhandled promise rejection:', error);
+process.on('unhandledRejection', error => {
+	console.error('Unhandled promise rejection:', error);
     
-// });
+});
 
 
 function getUserFromMention(mention) {
