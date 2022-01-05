@@ -24,30 +24,33 @@ const client = new Discord.Client({
 // 'process.env' accesses the environment variables for the running node process
 const prefix = process.env.PREFIX;
 const owner = process.env.OWNER;
+var usernum = client.guilds.cache.reduce((a, g) => a + g.memberCount, 0)
+var guildnum = client.guilds.cache.size;
 const activities = [
     "<help | discord.koolkev246.com",
     "<help | koolkev246.com",
     "<help | invite.gg/GSMST",
-    "<help | Managing x guilds!",
-    "x servers | x members",
-    "<help | x members",
+    "<help | Managing "+guildnum+" guilds!",
+    ""+guildnum+" servers | "+usernum+" users",
+    "<help | "+usernum+" users",
     "<help | twitch.tv/Koolkev246",
     "<help | discord.gg/uE2Enuv",
     "twitch.tv/Koolkev246",
     "instagram.com/Koolkev246",
     "twitter.com/Koolkev246"
   ];
-  // swap out the x's with their respective variables
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
+  storeNumbers();
   client.user.setActivity('<help | Cutie has awoken!', {type: "STREAMING", url: "https://www.twitch.tv/koolkev246"});
   setInterval(() => {
+    storeNumbers();
     const randomIndex = Math.floor(Math.random() * (activities.length - 1) + 1);
     const newActivity = activities[randomIndex];
-
     client.user.setActivity(newActivity, {type: "STREAMING",
     url: "https://www.twitch.tv/koolkev246"});
   }, 120000);
+  console.log(usernum+" users in "+guildnum+" guilds!");
 });
 
 exports.commands = () => {
@@ -108,7 +111,10 @@ process.on('unhandledRejection', error => {
 	console.error('Unhandled promise rejection:', error);
     
 });
-
+function storeNumbers() {
+usernum = client.guilds.cache.reduce((a, g) => a + g.memberCount, 0)
+guildnum = client.guilds.cache.size;
+}
 
 function getUserFromMention(mention) {
 	if (!mention) return;
