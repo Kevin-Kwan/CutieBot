@@ -13,13 +13,16 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "@discordjs/builders": "^0.11.0",
-    "@discordjs/opus": "^0.7.0",
-    "discord.js": "^13.5.0",
-    "dotenv": "^10.0.0",
-    "ffmpeg": "^0.0.4",
-    "fluent-ffmpeg": "^2.1.2",
-    "fs": "^0.0.1-security",
-    "ytdl-core": "^4.9.2"
+    "@discordjs/builders": "latest",
+    "@ksoft/api": "latest",
+    "hh-mm-ss": "latest",
+    "jimp": "latest",
+    "@discordjs/opus": "latest",
+    "discord.js": "latest",
+    "dotenv": "latest",
+    "ffmpeg": "latest",
+    "fluent-ffmpeg": "latest",
+    "fs": "latest",
+    "ytdl-core": "latest"
   }
 }
