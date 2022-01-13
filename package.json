@@ -14,15 +14,18 @@
   "description": "",
   "dependencies": {
     "@discordjs/builders": "latest",
-    "@ksoft/api": "latest",
-    "hh-mm-ss": "latest",
-    "jimp": "latest",
     "@discordjs/opus": "latest",
+    "@ksoft/api": "latest",
     "discord.js": "latest",
     "dotenv": "latest",
     "ffmpeg": "latest",
     "fluent-ffmpeg": "latest",
     "fs": "latest",
+    "hh-mm-ss": "latest",
+    "jimp": "latest",
     "ytdl-core": "latest"
+  },
+  "devDependencies": {
+    "eslint": "^8.6.0"
   }
 }
