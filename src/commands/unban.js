@@ -1,4 +1,7 @@
 module.exports.execute = (client, message, args) => {
+
+    //basically the same but pass in id instead of mention
+    //todo: implement, this is currently just a copy/paste of the ban command
     let reason = args.slice(1).join(" ");
     function getUserFromMention(mention) {
         if (!mention) return;
@@ -41,10 +44,10 @@ module.exports.execute = (client, message, args) => {
 }
 
 module.exports.info = {
-    name: "ban",
-    alias: ["permaban"],
+    name: "unban",
+    alias: [],
     permission: "default",
     category: "moderation",
     guildOnly: true,
-	help: "ban someone in the guild"
+	help: "unban someone by id"
 };
