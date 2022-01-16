@@ -23,7 +23,7 @@ module.exports.execute = (client, message, args) => {
 
     if (message.author.bot) return;
     if (message.member.permissionsIn(message.channel).has("BAN_MEMBERS")) {
-        const user = getUserFromMention(args[0]);
+        const user =  message.guild.members.cache.get(args[0]);
         // todo: implement a way to set a ban duration
         // https://stackoverflow.com/questions/55654965/how-to-add-reason-thing-to-ban-command
         user.ban({reason}).then((user) => {
