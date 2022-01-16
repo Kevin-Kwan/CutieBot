@@ -23,23 +23,23 @@ module.exports.execute = (client, message, args) => {
     if (message.author.bot) return;
     if (message.member.permissionsIn(message.channel).has("BAN_MEMBERS")) {
         const user = getUserFromMention(args[0]);
-        if (user) {
-            try {
-                user.ban();
-            } catch {
-                message.reply("I do not have permissions to ban " + args[0]);
-                // this doesn't work for some reason, please someone debug
+        // todo: implement a way to set a ban duration
+        // https://stackoverflow.com/questions/55654965/how-to-add-reason-thing-to-ban-command
+        user.ban({reason}).then((user) => {
+            if (!reason) {
+            reason = "No reason provided."
             }
-        } else if (!user) {
-            message.reply("You must mention someone to ban!");
-        } else {
-            message.reply("You do not have permissions to ban " + args[0]);
+
+                let formattedReason = `\`\`${reason}\`\``;
+                message.channel.send(""+user.displayName + " has been successfully banned for: " + formattedReason);
+        }).catch((error) => {
+            console.log(error);
+            message.channel.send("You do not have permissions to ban "+ args[0]+".");
+        });
+    } else
+        {
+            message.reply("You do not have permissions to ban people.");
         }
-    }
-    else
-    {
-        message.reply("You do not have permissions to ban people.");
-    }
 }
 
 module.exports.info = {

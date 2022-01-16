@@ -110,8 +110,9 @@ client.on('messageCreate', message =>{
 // prob need a better error handler idk
 process.on('unhandledRejection', error => {
 	console.error('Unhandled promise rejection:', error);
-    
+    // this conflicts with the ban command, needs debugging
 });
+
 function storeNumbers() {
 usernum = client.guilds.cache.reduce((a, g) => a + g.memberCount, 0)
 guildnum = client.guilds.cache.size;
@@ -130,8 +131,6 @@ function getUserFromMention(mention) {
 		return client.users.cache.get(mention);
 	}
 }
-
-console.log('Bot is ready!');
 
 // attempts to login the bot with the environment variable you set for your bot token (either 'CLIENT_TOKEN' or 'DISCORD_TOKEN')
 client.login();
