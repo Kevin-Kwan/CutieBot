@@ -1,5 +1,5 @@
 
-name: Check ESLint
+name: Super-Linter
 
 on: [push, pull_request]
 
@@ -12,13 +12,19 @@ jobs:
         node-version: [14.x, 16.x]
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: github/super-linter@v4.8.5
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
 
-      - name: Install dependencies
-        run: npm install
-      - name: Run lint
-        run: npm run lint
+        env:
+          VALIDATE_ALL_CODEBASE: false
+          DEFAULT_BRANCH: main
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+          LINTER_RULES_PATH: /
+          CSS_FILE_NAME: .stylelintrc.json
+          JAVASCRIPT_ES_CONFIG_FILE: .eslintrc.json
+          VALIDATE_CSS: true
+          VALIDATE_JAVASCRIPT_ES: true
