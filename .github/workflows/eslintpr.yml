@@ -1,2 +1,0 @@
-- name: ESLint PR review
-  uses: rpkak/ESLint-PR-review@v1.2.1
