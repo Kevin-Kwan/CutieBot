@@ -17,7 +17,11 @@ const client = new Discord.Client({
         "GUILD_MEMBERS"
     ],
     partials: [
-        "CHANNEL"
+        "CHANNEL",
+        "MESSAGE",
+        "REACTION",
+        "USER",
+        "GUILD_MEMBER"
     ] 
 })
 
