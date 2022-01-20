@@ -31,31 +31,34 @@ const owner = process.env.OWNER;
 let usernum = client.guilds.cache.reduce((a, g) => a + g.memberCount, 0)
 let guildnum = client.guilds.cache.size;
 // todo, social links can be moved to the .env file
-let twitchurl = "https://www.twitch.tv/Koolkev246";
-let twitterurl;
+let twitch = process.env.TWITCH;
+let twitter = process.env.TWITTER;
+let website = process.env.WEBSITE;
+let instagram = process.env.INSTAGRAM;
+let support = process.env.SUPPORT;
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
   storeNumbers();
-  client.user.setActivity('<help | Cutie has awoken!', {type: "STREAMING", url: twitchurl});
+  client.user.setActivity('<help | Cutie has awoken!', {type: "STREAMING", url: twitch});
   setInterval(() => {
     storeNumbers();
     let activities = [
-        "<help | discord.koolkev246.com",
-        "<help | koolkev246.com",
+        "<help | "+support,
+        "<help | "+website,
         "<help | invite.gg/GSMST",
         "<help | Managing "+guildnum+" guilds!",
         ""+guildnum+" servers | "+usernum+" users",
         "<help | "+usernum+" users",
-        "<help | "+twitchurl,
+        "<help | "+twitch,
         "<help | discord.gg/uE2Enuv",
-        ""+twitchurl,
-        "instagram.com/Koolkev246",
-        "twitter.com/Koolkev246"
+        ""+twitch,
+        ""+instagram,
+        ""+twitter
       ];
     const randomIndex = Math.floor(Math.random() * (activities.length - 1) + 1);
     const newActivity = activities[randomIndex];
     client.user.setActivity(newActivity, {type: "STREAMING",
-    url: twitchurl});
+    url: twitch});
     //console.log(usernum+" users in "+guildnum+" guilds!");
   }, 120000);
   console.log(usernum+" users in "+guildnum+" guilds!");
