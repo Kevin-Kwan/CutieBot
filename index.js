@@ -17,37 +17,45 @@ const client = new Discord.Client({
         "GUILD_MEMBERS"
     ],
     partials: [
-        "CHANNEL"
+        "CHANNEL",
+        "MESSAGE",
+        "REACTION",
+        "USER",
+        "GUILD_MEMBER"
     ] 
 })
 
 // 'process.env' accesses the environment variables for the running node process
 const prefix = process.env.PREFIX;
 const owner = process.env.OWNER;
-const activities = [
-    "<help | discord.koolkev246.com",
-    "<help | koolkev246.com",
-    "<help | invite.gg/GSMST",
-    "<help | Managing x guilds!",
-    "x servers | x members",
-    "<help | x members",
-    "<help | twitch.tv/Koolkev246",
-    "<help | discord.gg/uE2Enuv",
-    "twitch.tv/Koolkev246",
-    "instagram.com/Koolkev246",
-    "twitter.com/Koolkev246"
-  ];
-  // swap out the x's with their respective variables
+let usernum = client.guilds.cache.reduce((a, g) => a + g.memberCount, 0)
+let guildnum = client.guilds.cache.size;
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
+  storeNumbers();
   client.user.setActivity('<help | Cutie has awoken!', {type: "STREAMING", url: "https://www.twitch.tv/koolkev246"});
   setInterval(() => {
+    storeNumbers();
+    let activities = [
+        "<help | discord.koolkev246.com",
+        "<help | koolkev246.com",
+        "<help | invite.gg/GSMST",
+        "<help | Managing "+guildnum+" guilds!",
+        ""+guildnum+" servers | "+usernum+" users",
+        "<help | "+usernum+" users",
+        "<help | twitch.tv/Koolkev246",
+        "<help | discord.gg/uE2Enuv",
+        "twitch.tv/Koolkev246",
+        "instagram.com/Koolkev246",
+        "twitter.com/Koolkev246"
+      ];
     const randomIndex = Math.floor(Math.random() * (activities.length - 1) + 1);
     const newActivity = activities[randomIndex];
-
     client.user.setActivity(newActivity, {type: "STREAMING",
     url: "https://www.twitch.tv/koolkev246"});
+    //console.log(usernum+" users in "+guildnum+" guilds!");
   }, 120000);
+  console.log(usernum+" users in "+guildnum+" guilds!");
 });
 
 exports.commands = () => {
@@ -89,13 +97,12 @@ client.on('messageCreate', message =>{
             }
 
             //admin check
-            if(command.info.permission == "owner"
-                    && message.author.id != owner){
+            if(command.info.permission == "owner" && message.author.id != owner){
                 message.channel.send("owner only command :^)");
             }
-            if(command.info.permission == "admin")
+            if(command.info.permission == "admin" && !message.member.permissionsIn(message.channel).has("ADMINISTRATOR"))
             {
-
+                message.channel.send("admin only command :^)");
             }
 			else{
                 command.execute(client, message, args);
@@ -107,9 +114,27 @@ client.on('messageCreate', message =>{
 // prob need a better error handler idk
 process.on('unhandledRejection', error => {
 	console.error('Unhandled promise rejection:', error);
+    // this conflicts with the ban command, needs debugging
 });
 
-console.log('Bot is ready!');
+function storeNumbers() {
+usernum = client.guilds.cache.reduce((a, g) => a + g.memberCount, 0)
+guildnum = client.guilds.cache.size;
+}
+
+function getUserFromMention(mention) {
+	if (!mention) return;
+
+	if (mention.startsWith('<@') && mention.endsWith('>')) {
+		mention = mention.slice(2, -1);
+
+		if (mention.startsWith('!')) {
+			mention = mention.slice(1);
+		}
+
+		return client.users.cache.get(mention);
+	}
+}
 
 // attempts to login the bot with the environment variable you set for your bot token (either 'CLIENT_TOKEN' or 'DISCORD_TOKEN')
 client.login();
