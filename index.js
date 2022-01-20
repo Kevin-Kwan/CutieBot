@@ -30,7 +30,7 @@ const prefix = process.env.PREFIX;
 const owner = process.env.OWNER;
 let usernum = client.guilds.cache.reduce((a, g) => a + g.memberCount, 0)
 let guildnum = client.guilds.cache.size;
-// todo, social links can be moved to the .env file
+// enter these in the .env file
 let twitch = process.env.TWITCH;
 let twitter = process.env.TWITTER;
 let website = process.env.WEBSITE;
