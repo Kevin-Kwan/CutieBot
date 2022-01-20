@@ -30,10 +30,12 @@ const prefix = process.env.PREFIX;
 const owner = process.env.OWNER;
 let usernum = client.guilds.cache.reduce((a, g) => a + g.memberCount, 0)
 let guildnum = client.guilds.cache.size;
+let twitchurl = "https://www.twitch.tv/Koolkev246";
+let twitterurl;
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
   storeNumbers();
-  client.user.setActivity('<help | Cutie has awoken!', {type: "STREAMING", url: "https://www.twitch.tv/koolkev246"});
+  client.user.setActivity('<help | Cutie has awoken!', {type: "STREAMING", url: twitchurl});
   setInterval(() => {
     storeNumbers();
     let activities = [
@@ -43,16 +45,16 @@ client.on('ready', () => {
         "<help | Managing "+guildnum+" guilds!",
         ""+guildnum+" servers | "+usernum+" users",
         "<help | "+usernum+" users",
-        "<help | twitch.tv/Koolkev246",
+        "<help | "+twitchurl,
         "<help | discord.gg/uE2Enuv",
-        "twitch.tv/Koolkev246",
+        ""+twitchurl,
         "instagram.com/Koolkev246",
         "twitter.com/Koolkev246"
       ];
     const randomIndex = Math.floor(Math.random() * (activities.length - 1) + 1);
     const newActivity = activities[randomIndex];
     client.user.setActivity(newActivity, {type: "STREAMING",
-    url: "https://www.twitch.tv/koolkev246"});
+    url: twitchurl});
     //console.log(usernum+" users in "+guildnum+" guilds!");
   }, 120000);
   console.log(usernum+" users in "+guildnum+" guilds!");
