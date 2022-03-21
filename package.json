@@ -9,9 +9,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js"
   },
-  "author": "",
+  "author": "Kevin",
   "license": "ISC",
-  "description": "",
+  "description": "A generic multi-purpose Discord bot. Mainly used for coding a bot from scratch.",
   "dependencies": {
     "@discordjs/builders": "latest",
     "@discordjs/opus": "latest",
