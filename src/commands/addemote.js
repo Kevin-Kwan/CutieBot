@@ -17,7 +17,7 @@ module.exports.execute = (client, message, args) => {
 
 module.exports.info = {
     name: "addemote",
-    alias: ["emoteadd","newemote"],
+    alias: ["emoteadd","newemote", "addemoji" , "newemoji"],
     permission: "default",
     category: "communication",
     guildOnly: true,
