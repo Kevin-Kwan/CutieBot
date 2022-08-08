@@ -22,7 +22,7 @@
     "fluent-ffmpeg": "latest",
     "fs": "latest",
     "hh-mm-ss": "latest",
-    "jimp": "latest",
+    "jimp": "^0.16.0",
     "ytdl-core": "latest"
   },
   "devDependencies": {
