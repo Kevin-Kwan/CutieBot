@@ -1,13 +1,14 @@
+const prefix = process.env.PREFIX;
 module.exports.execute = (client, message, args) => {
     let guild = message.guild;
     let emoteName = args[1];
     let emoteURL = args[0];
     if (message.author.bot) return;
     if (emoteURL == undefined) {
-        message.reply('Usage: `<addemote {URL} {Emote Name}` \nPlease provide a image/gif URL.');
+        message.reply("Usage: `" + prefix + "addemote {URL} {Emote Name}` \nPlease provide a image/gif URL.");
         return;
     } else if (emoteName == undefined) {
-        message.reply('Usage: `<addemote {URL} {Emote Name}` \nPlease provide a valid emote name.');
+        message.reply("Usage: `" + prefix + "addemote {URL} {Emote Name}` \nPlease provide a valid emote name.");
         return;
     } else {
         guild.emojis.create(emoteURL, emoteName)

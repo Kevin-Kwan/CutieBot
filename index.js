@@ -43,21 +43,21 @@ client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
   storeNumbers();
   // 
-  client.user.setActivity('<help | Cutie has awoken!', { type: ActivityType.Streaming, url: 'https://www.twitch.tv/KoolKev246' });
+  client.user.setActivity("" + prefix + "help | Cutie has awoken!", { type: ActivityType.Streaming, url: 'https://www.twitch.tv/KoolKev246' });
   setInterval(() => {
     storeNumbers();
     let activities = [
-        "<help | discord.koolkev246.com",
+        //"<help | discord.koolkev246.com",
         "<help | koolkev246.com",
-        "<help | invite.gg/GSMST",
-        "<help | Managing "+guildnum+" guilds!",
-        ""+guildnum+" servers | "+usernum+" users",
-        "<help | "+usernum+" users",
-        "<help | twitch.tv/Koolkev246",
-        "<help | discord.gg/uE2Enuv",
-        "twitch.tv/Koolkev246",
-        "instagram.com/Koolkev246",
-        "twitter.com/Koolkev246"
+        //"<help | invite.gg/GSMST",
+        "" + prefix + "help | Managing " + guildnum + " guilds!",
+        "" + guildnum + " servers | " + usernum +" users",
+        "" + prefix + "help | " + usernum + " users",
+        "" + prefix + "help | " + process.env.TWITCH,
+        //"<help | discord.gg/uE2Enuv",
+        "" + process.env.TWITCH,
+        "" + process.env.INSTAGRAM,
+        "" + process.env.TWITTER
       ];
     const randomIndex = Math.floor(Math.random() * (activities.length - 1) + 1);
     const newActivity = activities[randomIndex];
