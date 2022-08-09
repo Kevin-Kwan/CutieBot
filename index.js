@@ -76,14 +76,11 @@ fs.readdir("./src/commands/", function(err, files){
 });
 
 console.log('Commands loaded.');
-
+// todo: log people's dms to bot
 client.on('messageCreate', message =>{
 	if (message.content == "hi"){
         if (message.author.bot) return;
         message.reply("whaddup!")
-    }
-	if(message.channel.type === 'dm'){
-        message.channel.send("Pog");
     }
     if (!message.content.startsWith(prefix)) return;
     const args = message.content.slice(prefix.length).split(/ +/);
