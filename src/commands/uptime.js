@@ -1,7 +1,7 @@
 /*
     Command that returns the bot's uptime
 */
-const Discord = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 
 module.exports.execute = (client, message, args) => {
     let totalSeconds = (client.uptime / 1000);
@@ -11,8 +11,8 @@ module.exports.execute = (client, message, args) => {
     totalSeconds %= 3600;
     let minutes = Math.floor(totalSeconds / 60);
     let seconds = Math.floor(totalSeconds % 60);
-    const embed = new Discord.MessageEmbed()
-        .setColor('RANDOM')
+    const embed = new EmbedBuilder()
+        .setColor( Math.floor(Math.random() * 16777215).toString(16))
         .setTitle('Bot Uptime')
         .setDescription(`Total Uptime: ${days} days, ${hours} hours, ${minutes} minutes, ${seconds} seconds`)
         .setAuthor({name: (client.user.username).toString(), iconURL: client.user.avatarURL()})
