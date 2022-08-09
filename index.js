@@ -42,7 +42,8 @@ let guildnum = client.guilds.cache.size;
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
   storeNumbers();
-  client.user.setActivity('<help | Cutie has awoken!', {type: "STREAMING", url: "https://www.twitch.tv/koolkev246"});
+  // 
+  //client.user.setActivity('<help | Cutie has awoken!', {type: "STREAMING", url: "https://www.twitch.tv/koolkev246"});
   setInterval(() => {
     storeNumbers();
     let activities = [

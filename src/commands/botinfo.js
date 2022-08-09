@@ -1,7 +1,7 @@
 /*
     Command that returns the bot's information
 */
-const Discord = require('discord.js')
+const { EmbedBuilder } = require('discord.js');
 const osu = require('node-os-utils');
 const cpu = osu.cpu;
 var cpuUsage;
@@ -44,8 +44,9 @@ module.exports.execute = (client, message, args) => {
     emojiAmount = client.emojis.cache.size;
 
     // create the embed to send to the channel
-    const embed = new Discord.MessageEmbed()
-        .setColor('RANDOM')
+    const embed = new EmbedBuilder()
+        // set random color
+        .setColor(Math.floor(Math.random() * 16777215).toString(16))
         .setTitle('Bot Information')
         .setDescription(botDescription)
         //set url
@@ -64,7 +65,7 @@ module.exports.execute = (client, message, args) => {
             //{name: 'Uptime', value: `${days} days, ${hours} hours, ${minutes} minutes, ${seconds} seconds`, inline: true},
         )
         .setTimestamp()
-        .setFooter(`Version: ${version} | ${days} days, ${hours} hours, ${minutes} minutes, ${seconds} seconds | Ping: ${botPing}ms`);
+        //.setFooter(`Version: ${version} | ${days} days, ${hours} hours, ${minutes} minutes, ${seconds} seconds | Ping: ${botPing}ms`);
     
     // send the embed to the channel
     message.reply({embeds: [embed]});
