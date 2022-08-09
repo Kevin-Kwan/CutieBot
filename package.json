@@ -21,7 +21,8 @@
     "hh-mm-ss": "latest",
     "jimp": "^0.16.0",
     "node-os-utils": "^1.3.7",
-    "ytdl-core": "latest"
+    "ytdl-core": "latest",
+    "jpeg-js": "latest"
   },
   "devDependencies": {
     "eslint": "^8.7.0"
