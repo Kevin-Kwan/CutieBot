@@ -1,4 +1,4 @@
-const { Client, IntentsBitField, Partials } = require('discord.js');
+const { Client, IntentsBitField, Partials , ActivityType } = require('discord.js');
 const Discord = require('discord.js');
 const fs = require('fs');
 // Importing this allows you to access the environment variables of the running node process
@@ -43,7 +43,7 @@ client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
   storeNumbers();
   // 
-  //client.user.setActivity('<help | Cutie has awoken!', {type: "STREAMING", url: "https://www.twitch.tv/koolkev246"});
+  client.user.setActivity('<help | Cutie has awoken!', { type: ActivityType.Streaming, url: 'https://www.twitch.tv/KoolKev246' });
   setInterval(() => {
     storeNumbers();
     let activities = [
@@ -61,8 +61,7 @@ client.on('ready', () => {
       ];
     const randomIndex = Math.floor(Math.random() * (activities.length - 1) + 1);
     const newActivity = activities[randomIndex];
-    client.user.setActivity(newActivity, {type: "STREAMING",
-    url: "https://www.twitch.tv/koolkev246"});
+    client.user.setActivity(newActivity, {type: ActivityType.Streaming, url: 'https://www.twitch.tv/KoolKev246' });
     //console.log(usernum+" users in "+guildnum+" guilds!");
   }, 120000);
   console.log(usernum+" users in "+guildnum+" guilds!");
