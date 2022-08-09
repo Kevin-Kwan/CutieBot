@@ -1,29 +1,38 @@
-const { Client, Intents } = require('discord.js');
+const { Client, IntentsBitField, Partials } = require('discord.js');
 const Discord = require('discord.js');
 const fs = require('fs');
 // Importing this allows you to access the environment variables of the running node process
 require('dotenv').config();
-const client = new Discord.Client({
-    intents: [
-        "GUILDS",
-        "GUILD_MESSAGES",
-        "DIRECT_MESSAGES",
-        "GUILD_BANS",
-        "GUILD_EMOJIS_AND_STICKERS",
-        "GUILD_INTEGRATIONS",
-        "GUILD_WEBHOOKS",
-        "GUILD_INVITES",
-        "GUILD_PRESENCES",
-        "GUILD_MEMBERS"
-    ],
-    partials: [
-        "CHANNEL",
-        "MESSAGE",
-        "REACTION",
-        "USER",
-        "GUILD_MEMBER"
-    ] 
-})
+const myIntents = new IntentsBitField();
+myIntents.add(
+    IntentsBitField.Flags.Guilds,
+    IntentsBitField.Flags.GuildMembers,
+    IntentsBitField.Flags.GuildBans,
+    IntentsBitField.Flags.GuildEmojisAndStickers,
+    IntentsBitField.Flags.GuildIntegrations,
+    IntentsBitField.Flags.GuildWebhooks,
+    IntentsBitField.Flags.GuildInvites,
+    IntentsBitField.Flags.GuildVoiceStates,
+    IntentsBitField.Flags.GuildPresences,
+    IntentsBitField.Flags.GuildMessages,
+    IntentsBitField.Flags.GuildMessageReactions,
+    IntentsBitField.Flags.GuildMessageTyping,
+    IntentsBitField.Flags.DirectMessages,
+    IntentsBitField.Flags.DirectMessageReactions,
+    IntentsBitField.Flags.DirectMessageTyping,
+    IntentsBitField.Flags.MessageContent,
+    IntentsBitField.Flags.GuildScheduledEvents
+    )
+const client = new Client(
+    { intents: myIntents },
+    { partials: [
+        Partials.Message,
+        Partials.Channel,
+        Partials.Reaction,
+        Partials.User,
+        Partials.GuildMember,
+        Partials.GuildScheduledEvent,
+        Partials.ThreadMember] });
 
 // 'process.env' accesses the environment variables for the running node process
 const prefix = process.env.PREFIX;
@@ -76,14 +85,11 @@ fs.readdir("./src/commands/", function(err, files){
 });
 
 console.log('Commands loaded.');
-
+// todo: log people's dms to bot
 client.on('messageCreate', message =>{
 	if (message.content == "hi"){
         if (message.author.bot) return;
         message.reply("whaddup!")
-    }
-	if(message.channel.type === 'dm'){
-        message.channel.send("Pog");
     }
     if (!message.content.startsWith(prefix)) return;
     const args = message.content.slice(prefix.length).split(/ +/);
