@@ -65,7 +65,7 @@ module.exports.execute = (client, message, args) => {
             //{name: 'Uptime', value: `${days} days, ${hours} hours, ${minutes} minutes, ${seconds} seconds`, inline: true},
         )
         .setTimestamp()
-        //.setFooter(`Version: ${version} | ${days} days, ${hours} hours, ${minutes} minutes, ${seconds} seconds | Ping: ${botPing}ms`);
+        .setFooter({text: `Version: ${version} | ${days} days, ${hours} hours, ${minutes} minutes, ${seconds} seconds | Ping: ${botPing}ms`});
     
     // send the embed to the channel
     message.reply({embeds: [embed]});
