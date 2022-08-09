@@ -13,9 +13,9 @@
   "license": "ISC",
   "description": "A generic multi-purpose Discord bot. Mainly used for coding a bot from scratch.",
   "dependencies": {
-    "@discordjs/builders": "latest",
-    "@discordjs/opus": "latest",
-    "discord.js": "latest",
+    "@discordjs/builders": "^1.1.0",
+    "@discordjs/opus": "^0.8.0",
+    "discord.js": "^14.1.2",
     "dotenv": "latest",
     "ffmpeg": "latest",
     "fluent-ffmpeg": "latest",
