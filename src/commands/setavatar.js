@@ -1,6 +1,6 @@
 module.exports.execute = (client, message, args) => {
     if(args.length < 1){
-        message.reply("No avatar url specified.");
+        message.reply("No avatar URL specified.");
         return;
     }
     client.user.setAvatar(args[0])
