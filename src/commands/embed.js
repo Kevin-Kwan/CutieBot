@@ -1,12 +1,17 @@
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
+const prefix = process.env.PREFIX
 
 module.exports.execute = (client, message, args) => {
     if (message.author.bot) return;
-    const exampleEmbed = new MessageEmbed()
-	.setColor('RANDOM')
-	.setTitle(args.shift())
+	if (args.length < 1) {
+		message.reply("Usage: `" + prefix + "embed {message}` \nYou need to specify a message for the bot to embed!");
+		return;
+	}
+    const exampleEmbed = new EmbedBuilder()
+	.setColor(Math.floor(Math.random() * 16777215).toString(16))
+	//.setTitle(args.shift())
 	//.setURL('https://discord.js.org/')
-	.setAuthor({ name: message.author.username, iconURL: message.author.avatarURL, url: 'https://google.com' })
+	.setAuthor({ name: message.author.username, iconURL: message.author.avatarURL()})
 	.setDescription(args.join(" "))
 	//.setThumbnail('https://i.imgur.com/AfFp7pu.png')
 	// .addFields(
