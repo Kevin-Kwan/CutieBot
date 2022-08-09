@@ -11,8 +11,9 @@ module.exports.execute = (client, message, args) => {
         message.reply("Usage: `" + prefix + "addemote {URL} {Emote Name}` \nPlease provide a valid emote name.");
         return;
     } else {
-        guild.emojis.create(emoteURL, emoteName)
-        .then(emoji => message.reply(`✅ Succesfully Created New Emote: ${emoji.toString()}`)).catch(err => message.reply("Error creating emoji. Check the file's size (no larger than 256.0 KB) or check your command's syntax."));
+        guild.emojis.create({attachment: emoteURL, name: emoteName})
+            .then(emoji => message.reply(`✅ Succesfully Created New Emote: ${emoji.toString()}`))
+            .catch(err => message.reply("Error creating emoji. Check the file's size (no larger than 256.0 KB) or check your command's syntax."));
     }
 };
 
