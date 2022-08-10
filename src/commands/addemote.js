@@ -1,5 +1,6 @@
 const prefix = process.env.PREFIX;
 module.exports.execute = (client, message, args) => {
+    if (message.author.bot) return;
     let guild = message.guild;
     let emoteName = args[1];
     let emoteURL = args[0];
@@ -20,7 +21,7 @@ module.exports.execute = (client, message, args) => {
 module.exports.info = {
     name: "addemote",
     alias: ["emoteadd","newemote", "addemoji" , "newemoji"],
-    permission: "default",
+    permission: "admin",
     category: "communication",
     guildOnly: true,
 	help: "add an emote given a image/gif url"
