@@ -1,6 +1,7 @@
-const { Client, IntentsBitField, Partials , ActivityType } = require('discord.js');
+const { Client, IntentsBitField, PermissionsBitField , Partials , ActivityType } = require('discord.js');
 const Discord = require('discord.js');
 const fs = require('fs');
+
 // Importing this allows you to access the environment variables of the running node process
 require('dotenv').config();
 const myIntents = new IntentsBitField();
@@ -106,7 +107,7 @@ client.on('messageCreate', message =>{
             if(command.info.permission == "owner" && message.author.id != owner){
                 message.reply("sorry lil bro owner only command :^)");
             }
-            if(command.info.permission == "admin" && !message.member.permissionsIn(message.channel).has("ADMINISTRATOR"))
+            if(command.info.permission == "admin" && !message.member.permissionsIn(message.channel).has(PermissionsBitField.Flags.Administrator)){
             {
                 message.reply("sorry lil bro admin only command :^)");
             }
