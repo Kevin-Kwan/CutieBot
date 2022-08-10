@@ -107,7 +107,7 @@ client.on('messageCreate', message =>{
             if(command.info.permission == "owner" && message.author.id != owner){
                 message.reply("sorry lil bro owner only command :^)");
             }
-            if(command.info.permission == "admin" && !message.member.permissionsIn(message.channel).has(PermissionsBitField.Flags.Administrator)){
+            if(command.info.permission == "admin" && !message.member.permissionsIn(message.channel).has(PermissionsBitField.Flags.Administrator))
             {
                 message.reply("sorry lil bro admin only command :^)");
             }
