@@ -1,4 +1,5 @@
-module.exports.execute = (client, message, args) => {
+module.exports = {
+    run: async (client, message, args) => {
 
     //basically the same but pass in id instead of mention
     //todo: implement, this is currently just a copy/paste of the ban command
@@ -41,7 +42,8 @@ module.exports.execute = (client, message, args) => {
         {
             message.reply("You do not have permissions to ban people.");
         }
-}
+    },
+};
 
 module.exports.info = {
     name: "unban",

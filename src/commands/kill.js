@@ -1,8 +1,9 @@
-module.exports.execute = (client, message, args) => {
+module.exports = {
+    run: async (client, message, args) => {
     if (message.author.bot) return;
     message.channel.send('Shutting down the bot...')
     process.exit();
-    
+    },
 };
 
 module.exports.info = {

@@ -2,9 +2,11 @@
     Command that returns the bot's prefix
 */
 
-module.exports.execute = (client, message, args) => {
+module.exports = {
+    run: async (client, message, args) => {
     const prefix = process.env.PREFIX;
     message.channel.send(`Bot's Prefix: \`\`${prefix}\`\``);
+    },
 };
 
 module.exports.info = {

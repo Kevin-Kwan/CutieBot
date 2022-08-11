@@ -1,5 +1,6 @@
 const prefix = process.env.PREFIX;
-module.exports.execute = (client, message, args) => {
+module.exports = {
+    run: async (client, message, args) => {
     if (message.author.bot) return;
     let guild = message.guild;
     let emoteName = args[1];
@@ -16,6 +17,7 @@ module.exports.execute = (client, message, args) => {
             .then(emoji => message.reply(`✅ Succesfully Created New Emote: ${emoji.toString()}`))
             .catch(err => message.reply("Error creating emoji. Check the file's size (no larger than 256.0 KB) or check your command's syntax."));
     }
+},
 };
 
 module.exports.info = {

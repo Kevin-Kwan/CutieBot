@@ -1,4 +1,5 @@
-module.exports.execute = (client, message, args) => {
+module.exports = {
+    run: async (client, message, args) => {
     if (message.author.bot) return;
     message.channel.send('Bot is now resetting...')
     .then((msg) => {
@@ -7,7 +8,7 @@ module.exports.execute = (client, message, args) => {
     message.client.login(process.env.DISCORD_TOKEN);
     msg.edit('Done!')});
     console.log("Bot restarted!");
-    
+    },
 };
 
 module.exports.info = {

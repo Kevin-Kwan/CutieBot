@@ -2,8 +2,10 @@
     First test command
 */
 
-module.exports.execute = (client, message, args) => {
+module.exports = {
+    run: async (client, message, args) => {
     message.channel.send("test command");
+    },
 };
 
 module.exports.info = {

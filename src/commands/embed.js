@@ -1,7 +1,8 @@
 const { EmbedBuilder } = require('discord.js');
 const prefix = process.env.PREFIX
 
-module.exports.execute = (client, message, args) => {
+module.exports = {
+    run: async (client, message, args) => {
     if (message.author.bot) return;
 	if (args.length < 1) {
 		message.reply("Usage: `" + prefix + "embed {message}` \nYou need to specify a message for the bot to embed!");
@@ -32,6 +33,7 @@ module.exports.execute = (client, message, args) => {
 
     // but yea creating an embed does work
 message.channel.send({ embeds: [exampleEmbed] });
+	},
 };
 
 module.exports.info = {

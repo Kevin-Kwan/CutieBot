@@ -3,7 +3,8 @@
 */
 const { EmbedBuilder } = require('discord.js');
 
-module.exports.execute = (client, message, args) => {
+module.exports = {
+    run: async (client, message, args) => {
     let totalSeconds = (client.uptime / 1000);
     let days = Math.floor(totalSeconds / 86400);
     totalSeconds %= 86400;
@@ -21,7 +22,7 @@ module.exports.execute = (client, message, args) => {
     // send the embed to the channel
     message.reply({embeds: [embed]});
 
-    
+    },
 };
 
 module.exports.info = {

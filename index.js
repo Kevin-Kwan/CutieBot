@@ -97,12 +97,12 @@ client.on('messageCreate', message =>{
 	const cmdName = args.shift().toLowerCase();
 	client.commands.forEach(command => {
 		if(cmdName === command.info.name || command.info.alias.includes(cmdName)){
-            //guild or private chat check
-            if(command.info.guildOnly){
-                message.channel.send("This command is unavailable in private chat :^(");
-            }
+            //guild or private chat check (this no longer works? dunno why)
+            // if(command.info.guildOnly){
+            //     message.channel.send("This command is unavailable in private chat :^(");
+            // }
             //admin check
-            else if(command.info.permission == "owner" && message.author.id != owner){
+            if(command.info.permission == "owner" && message.author.id != owner){
                 message.reply("sorry lil bro owner only command :^)");
             }
             else if(command.info.permission == "admin" && !message.member.permissionsIn(message.channel).has(PermissionsBitField.Flags.Administrator))
@@ -118,7 +118,7 @@ client.on('messageCreate', message =>{
                 message.reply({ embeds: [replyEmbed] });
             }
 			else{
-                command.execute(client, message, args);
+                command.run (client, message, args);
             }
         }
     });

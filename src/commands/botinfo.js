@@ -23,7 +23,8 @@ var userAmount;
 var emojiAmount;
 
 var invite = 'https://discord.com/oauth2/authorize?client_id=927315876036898866&permissions=8&scope=bot'
-module.exports.execute = (client, message, args) => {
+module.exports = {
+    run: async (client, message, args) => {
     botName = client.user.username;
     botOwner = client.users.cache.get(owner);
     //botOwnerAvatar = client.users.cache.get(owner).avatarURL();
@@ -70,7 +71,7 @@ module.exports.execute = (client, message, args) => {
     // send the embed to the channel
     message.reply({embeds: [embed]});
 
-    
+        },
 };
 
 module.exports.info = {

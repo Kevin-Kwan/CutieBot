@@ -1,4 +1,5 @@
-module.exports.execute = (client, message, args) => {
+module.exports = {
+    run: async (client, message, args) => {
     let reason = args.slice(1).join(" ");
     function getUserFromMention(mention) {
         if (!mention) return;
@@ -38,6 +39,7 @@ module.exports.execute = (client, message, args) => {
         {
             message.reply("You do not have permissions to ban people.");
         }
+},
 }
 
 module.exports.info = {
