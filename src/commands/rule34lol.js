@@ -5,11 +5,13 @@ const trev = require('trev');
 var delay = 3000;
 var sub = subreddits[Math.round(Math.random() * (subreddits.length - 1))];
 
-module.exports.execute = (client, message, args) => {
+module.exports = {
+    run: async (client, message, args) => {
     if (message.author.bot) return;
     getImage(message, sub).catch(e => getImage(message, sub)); 
     setTimeout(() => message.delete(), delay)
-    }
+    },
+};
 
 
 async function getImage(givenMessage, subredditName)

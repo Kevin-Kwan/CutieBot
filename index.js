@@ -98,8 +98,8 @@ client.on('messageCreate', message =>{
 	client.commands.forEach(command => {
 		if(cmdName === command.info.name || command.info.alias.includes(cmdName)){
             //guild or private chat check
-            if(command.info.guildOnly && message.channel.type === 'dm'){
-                message.channel.send("This command unavailable in private chat :^(");
+            if(command.info.guildOnly){
+                message.channel.send("This command is unavailable in private chat :^(");
             }
             //admin check
             else if(command.info.permission == "owner" && message.author.id != owner){

@@ -1,9 +1,10 @@
 const { EmbedBuilder } = require('discord.js');
 const prefix = process.env.PREFIX
 
-module.exports.execute = (client, message, args) => {
+module.exports = {
+    run: async (client, message, args) => {
     if (message.author.bot) return;
-    
+    },
 };
 
 module.exports.info = {
