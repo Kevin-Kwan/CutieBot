@@ -7,19 +7,7 @@ var sub = subreddits[Math.round(Math.random() * (subreddits.length - 1))];
 
 module.exports.execute = (client, message, args) => {
     if (message.author.bot) return;
-    //nsfw command
-    // check if channel is nsfw
-    if (message.channel.nsfw) {
-        getImage(message, sub)
- 
-        
-    } else {
-        const replyEmbed = new EmbedBuilder()
-            .setColor(Math.floor(Math.random() * 16777215).toString(16))
-            .setTitle('Error Retrieving Image!')
-            .setDescription('This command can only be used in an nsfw channel!')
-        message.reply({ embeds: [replyEmbed] });
-    }
+    getImage(message, sub).catch(e => getImage(message, sub)); 
     setTimeout(() => message.delete(), delay)
     }
 

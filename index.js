@@ -1,4 +1,4 @@
-const { Client, IntentsBitField, PermissionsBitField , Partials , ActivityType } = require('discord.js');
+const { Client, IntentsBitField, PermissionsBitField, EmbedBuilder, Partials , ActivityType } = require('discord.js');
 const Discord = require('discord.js');
 const fs = require('fs');
 
@@ -100,16 +100,22 @@ client.on('messageCreate', message =>{
             //guild or private chat check
             if(command.info.guildOnly && message.channel.type === 'dm'){
                 message.channel.send("This command unavailable in private chat :^(");
-                return;
             }
-
             //admin check
-            if(command.info.permission == "owner" && message.author.id != owner){
+            else if(command.info.permission == "owner" && message.author.id != owner){
                 message.reply("sorry lil bro owner only command :^)");
             }
-            if(command.info.permission == "admin" && !message.member.permissionsIn(message.channel).has(PermissionsBitField.Flags.Administrator))
+            else if(command.info.permission == "admin" && !message.member.permissionsIn(message.channel).has(PermissionsBitField.Flags.Administrator))
             {
                 message.reply("sorry lil bro admin only command :^)");
+            }
+            else if(command.info.category == "NSFW" && !message.channel.nsfw)
+            {
+                const replyEmbed = new EmbedBuilder()
+                    .setColor(Math.floor(Math.random() * 16777215).toString(16))
+                    .setTitle('Error Retrieving Image!')
+                    .setDescription('This command can only be used in an nsfw channel!')
+                message.reply({ embeds: [replyEmbed] });
             }
 			else{
                 command.execute(client, message, args);
