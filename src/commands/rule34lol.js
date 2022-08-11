@@ -19,6 +19,7 @@ module.exports.execute = (client, message, args) => {
             .setDescription('This command can only be used in an nsfw channel!')
         message.reply({ embeds: [replyEmbed] });
     }
+    message.delete(5000).catch(console.error);
 };
 
 
@@ -29,7 +30,7 @@ async function getImage(givenMessage, subredditName)
         const replyEmbed = new EmbedBuilder()
             .setColor(Math.floor(Math.random() * 16777215).toString(16))
             .setTitle('Error Retrieving Image!')
-            .setDescription('This subreddit is broken and media cannot be retrieved! Please try another subreddit!')
+            .setDescription('This subreddit, ``' + sub + '``, is broken and media cannot be retrieved! Please try another subreddit!')
         givenMessage.reply({ embeds: [replyEmbed] });
         return;
     }
@@ -38,7 +39,7 @@ async function getImage(givenMessage, subredditName)
         const replyEmbed = new EmbedBuilder()
             .setColor(Math.floor(Math.random() * 16777215).toString(16))
             .setTitle('Error Retrieving Image!')
-            .setDescription('This subreddit has no media!')
+            .setDescription('Failed to retrieve media from subreddit: ``' + sub + '``!')
         givenMessage.reply({ embeds: [replyEmbed] });
         return;
     }
@@ -54,6 +55,7 @@ async function getImage(givenMessage, subredditName)
     } else {
         getImage(givenMessage, sub);
     }
+    givenMessage.delete(5000).catch(console.error);
 
 }
 
