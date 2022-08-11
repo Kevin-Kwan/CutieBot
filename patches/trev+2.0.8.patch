@@ -1,0 +1,13 @@
+diff --git a/node_modules/trev/index.js b/node_modules/trev/index.js
+index a3e9e94..6196172 100644
+--- a/node_modules/trev/index.js
++++ b/node_modules/trev/index.js
+@@ -202,7 +202,7 @@ class Trev {
+     let r = await this.getSubreddit(subreddit);
+     let tentatives = 0;
+     while (r[0] === undefined && tentatives < 5) {
+-      let r = await getsubreddit(subreddit);
++      let r = await this.getSubreddit(subreddit);
+       tentatives++;
+     }
+     if (tentatives >= 5) {
