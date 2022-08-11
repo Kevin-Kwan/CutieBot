@@ -10,7 +10,7 @@ module.exports.execute = (client, message, args) => {
     //nsfw command
     // check if channel is nsfw
     if (message.channel.nsfw) {
-        getImage(message, sub)
+        getImage(message, sub).catch(e => getImage(message, sub));
  
         
     } else {
@@ -41,7 +41,7 @@ async function getImage(givenMessage, subredditName)
             .setImage(image);
         givenMessage.reply({ embeds: [imageEmbed] });
     } else {
-        getImage(givenMessage, sub);
+        getImage(givenMessage, sub).catch(e => getImage(givenMessage, sub));
     }
     //givenMessage.delete({timeout: delay}).catch(console.error);
 
