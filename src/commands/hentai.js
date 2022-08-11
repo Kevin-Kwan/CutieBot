@@ -2,6 +2,7 @@ const { EmbedBuilder } = require('discord.js');
 const prefix = process.env.PREFIX
 var subreddits = ['hentai']
 const trev = require('trev');
+var delay = 3000;
 var sub = subreddits[Math.round(Math.random() * (subreddits.length - 1))];
 
 module.exports.execute = (client, message, args) => {
@@ -19,7 +20,7 @@ module.exports.execute = (client, message, args) => {
             .setDescription('This command can only be used in an nsfw channel!')
         message.reply({ embeds: [replyEmbed] });
     }
-    message.delete(5000).catch(console.error);
+    message.delete({timeout: delay}).catch(console.error);
 };
 
 
@@ -55,7 +56,7 @@ async function getImage(givenMessage, subredditName)
     } else {
         getImage(givenMessage, sub);
     }
-    givenMessage.delete(5000).catch(console.error);
+    //givenMessage.delete({timeout: delay}).catch(console.error);
 
 }
 
