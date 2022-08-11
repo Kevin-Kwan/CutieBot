@@ -20,8 +20,8 @@ module.exports.execute = (client, message, args) => {
             .setDescription('This command can only be used in an nsfw channel!')
         message.reply({ embeds: [replyEmbed] });
     }
-    message.delete({timeout: delay}).catch(console.error);
-};
+    setTimeout(() => message.delete(), delay)
+    }
 
 
 async function getImage(givenMessage, subredditName)
