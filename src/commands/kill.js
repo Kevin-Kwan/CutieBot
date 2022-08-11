@@ -10,7 +10,7 @@ module.exports.info = {
     name: "kill",
     alias: ["","",""],
     permission: "owner",
-    category: "communication",
+    category: "danger",
     guildOnly: false,
-	help: "make the bot say something"
+	help: "shut down the bot"
 };
