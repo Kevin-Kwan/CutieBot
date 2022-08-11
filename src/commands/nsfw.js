@@ -1,6 +1,6 @@
 const { EmbedBuilder } = require('discord.js');
 const prefix = process.env.PREFIX
-var subreddits = ['hentai', 'rule34lol', 'ecchi', 'pantsu', 'HoloLewd', 'GenshinImpactNSFW', 'GenshinImpactHentai']
+var subreddits = ['hentai', 'rule34lol', 'HoloLewd', 'GenshinImpactNSFW', 'GenshinImpactHentai']
 const trev = require('trev');
 var delay = 3000;
 var sub = subreddits[Math.round(Math.random() * (subreddits.length - 1))];
