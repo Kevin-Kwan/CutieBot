@@ -26,6 +26,7 @@ module.exports.execute = (client, message, args) => {
 
 async function getImage(givenMessage, subredditName)
 {
+    sub = subreddits[Math.round(Math.random() * (subreddits.length - 1))];
     let subr = await trev.getCustomSubreddit(sub);
     if (!subr) {
         const replyEmbed = new EmbedBuilder()
