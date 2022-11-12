@@ -1,6 +1,8 @@
 const { Client, IntentsBitField, PermissionsBitField, EmbedBuilder, Partials , ActivityType } = require('discord.js');
-const Discord = require('discord.js');
-const fs = require('fs');
+const { Collection, Events, GatewayIntentBits, Discord } = require('discord.js');
+const fs = require('node:fs');
+const path = require('node:path');
+
 
 // Importing this allows you to access the environment variables of the running node process
 require('dotenv').config();
@@ -40,6 +42,21 @@ const prefix = process.env.PREFIX;
 const owner = process.env.OWNER;
 let usernum = client.guilds.cache.reduce((a, g) => a + g.memberCount, 0)
 let guildnum = client.guilds.cache.size;
+client.commands = new Collection();
+
+const commandsPath = path.join(__dirname, 'src/commands');
+const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
+
+for (const file of commandFiles) {
+	const filePath = path.join(commandsPath, file);
+	const command = require(filePath);
+	// Set a new item in the Collection with the key as the command name and the value as the exported module
+	if ('data' in command && 'execute' in command) {
+		client.commands.set(command.data.name, command);
+	} else {
+		console.log(`[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`);
+	}
+}
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
   storeNumbers();
@@ -87,25 +104,22 @@ fs.readdir("./src/commands/", function(err, files){
 
 console.log('Commands loaded.');
 // slash command
-client.on('interactionCreate', async interaction => {
-    if (interaction?.data?.name === 'lol') {
-        await interaction.createMessage({
-            content: 'According to all known laws of aviation, there is no way a bee should be able to fly. Its wings are too small to get its fat little body off the ground. The bee, of course, flies anyway, because bees don\'t care what humans think is impossible.'
-        })
-    }
-    if (!interaction.isCommand()) return;
-    const command = client.commands.find(cmd => cmd.name === interaction.commandName);
-    if (!command) return;
-    try {
-        await command.execute(interaction);
-    } catch (error) {
-        console.error(error);
-        await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
-    }
+
+
+client.on(Events.InteractionCreate, async interaction => {
+	if (!interaction.isChatInputCommand()) return;
+
+	const command = client.commands.get(interaction.commandName);
+
+	if (!command) return;
+
+	try {
+		await command.execute(interaction);
+	} catch (error) {
+		console.error(error);
+		await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
+	}
 });
-
-
-
 
 // todo: log people's dms to bot
 client.on('messageCreate', message =>{
