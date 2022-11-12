@@ -86,6 +86,27 @@ fs.readdir("./src/commands/", function(err, files){
 });
 
 console.log('Commands loaded.');
+// slash command
+client.on('interactionCreate', async interaction => {
+    if (interaction?.data?.name === 'lol') {
+        await interaction.createMessage({
+            content: 'According to all known laws of aviation, there is no way a bee should be able to fly. Its wings are too small to get its fat little body off the ground. The bee, of course, flies anyway, because bees don\'t care what humans think is impossible.'
+        })
+    }
+    if (!interaction.isCommand()) return;
+    const command = client.commands.find(cmd => cmd.name === interaction.commandName);
+    if (!command) return;
+    try {
+        await command.execute(interaction);
+    } catch (error) {
+        console.error(error);
+        await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
+    }
+});
+
+
+
+
 // todo: log people's dms to bot
 client.on('messageCreate', message =>{
 	if (message.content == "hi"){
