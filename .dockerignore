@@ -1,7 +1,4 @@
-.git
-*Dockerfile*
-*docker-compose*
+Dockerfile
+.dockerignore
 node_modules
-.gitignore
-.gitmodules
-README.md
+.git
