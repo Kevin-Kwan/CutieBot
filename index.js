@@ -103,7 +103,6 @@ fs.readdir("./src/commands/", function(err, files){
 });
 
 console.log('Commands loaded.');
-// slash command
 
 
 client.on(Events.InteractionCreate, async interaction => {
