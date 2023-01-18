@@ -1,4 +1,12 @@
+const { SlashCommandBuilder } = require('discord.js');
+
 module.exports = {
+    data: new SlashCommandBuilder()
+        .setName('restart')
+        .setDescription('Restart the bot'),
+        async execute(interaction) {
+            await interaction.reply('Pong!');
+        },
     run: async (client, message, args) => {
     if (message.author.bot) return;
     message.channel.send('Bot is now resetting...')

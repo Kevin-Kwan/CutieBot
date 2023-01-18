@@ -8,6 +8,10 @@ const path = require('node:path');
 require('dotenv').config();
 const myIntents = new IntentsBitField();
 myIntents.add(
+    GatewayIntentBits.Guilds,
+    GatewayIntentBits.GuildMessages,
+    GatewayIntentBits.MessageContent,
+    GatewayIntentBits.GuildMembers,
     IntentsBitField.Flags.Guilds,
     IntentsBitField.Flags.GuildMembers,
     IntentsBitField.Flags.GuildBans,
@@ -53,6 +57,7 @@ for (const file of commandFiles) {
 	// Set a new item in the Collection with the key as the command name and the value as the exported module
 	if ('data' in command && 'execute' in command) {
 		client.commands.set(command.data.name, command);
+        console.log(`[INFO] Loaded command ${command.data.name} from ${filePath}.`)
 	} else {
 		console.log(`[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`);
 	}
@@ -85,22 +90,22 @@ client.on('ready', () => {
   console.log(usernum+" users in "+guildnum+" guilds!");
 });
 
-exports.commands = () => {
-    return client.commands;
-}
+// exports.commands = () => {
+//     return client.commands;
+// }
 
-// add all commands
-// todo: add error checking
-// todo: add subfolder search support
-let success = 0;
-let fail = 0;
-client.commands = [];
-fs.readdir("./src/commands/", function(err, files){
-    files.forEach(f => {
-        const cmd = require(`./src/commands/${f}`);
-        client.commands.push(cmd) ? success++ : fail++;
-    });
-});
+// // add all commands
+// // todo: add error checking
+// // todo: add subfolder search support
+// let success = 0;
+// let fail = 0;
+// client.commands = [];
+// fs.readdir("./src/commands/", function(err, files){
+//     files.forEach(f => {
+//         const cmd = require(`./src/commands/${f}`);
+//         client.commands.push(cmd) ? success++ : fail++;
+//     });
+// });
 
 console.log('Commands loaded.');
 

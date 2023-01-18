@@ -7,19 +7,26 @@ module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('ping')
 		.setDescription('Replies with Pong!'),
-	async execute(interaction) {
-		await interaction.reply('Pong!');
-	},
+  execute: async (interaction) => {
+    await interaction.reply({ content: 'Pinging...', fetchReply: true });
+    await interaction.editReply(`Pong! ${interaction.client.ws.ping}ms`);
+  },
+  run: async (client, message, args) => {
+    	message.channel.send("Pinging ...")
+          .then((msg) => {
+            msg.edit(`${client.ws.ping} ms`)
+          });
+        },
 };
 
-module.exports = {
-  run: async (client, message, args) => {
-	message.channel.send("Pinging ...")
-      .then((msg) => {
-        msg.edit(`${client.ws.ping} ms`)
-      });
-    },
-};
+// module.exports = {
+//   run: async (client, message, args) => {
+// 	message.channel.send("Pinging ...")
+//       .then((msg) => {
+//         msg.edit(`${client.ws.ping} ms`)
+//       });
+//     },
+// };
 
 
 module.exports.info = {
