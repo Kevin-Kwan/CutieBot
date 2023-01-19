@@ -8,6 +8,10 @@ const path = require('node:path');
 require('dotenv').config();
 const myIntents = new IntentsBitField();
 myIntents.add(
+    GatewayIntentBits.Guilds,
+    GatewayIntentBits.GuildMessages,
+    GatewayIntentBits.MessageContent,
+    GatewayIntentBits.GuildMembers,
     IntentsBitField.Flags.Guilds,
     IntentsBitField.Flags.GuildMembers,
     IntentsBitField.Flags.GuildBans,
@@ -42,21 +46,33 @@ const prefix = process.env.PREFIX;
 const owner = process.env.OWNER;
 let usernum = client.guilds.cache.reduce((a, g) => a + g.memberCount, 0)
 let guildnum = client.guilds.cache.size;
-client.commands = new Collection();
+client.slashcommands = new Collection();
+client.commands = [];
 
 const commandsPath = path.join(__dirname, 'src/commands');
+const slashCommandsPath = path.join(__dirname, 'src/slash-commands');
+const slashCommandFiles = fs.readdirSync(slashCommandsPath).filter(file => file.endsWith('.js'));
 const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
 
 for (const file of commandFiles) {
 	const filePath = path.join(commandsPath, file);
 	const command = require(filePath);
-	// Set a new item in the Collection with the key as the command name and the value as the exported module
-	if ('data' in command && 'execute' in command) {
-		client.commands.set(command.data.name, command);
-	} else {
-		console.log(`[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`);
-	}
+	// add the command to the collection
+    client.commands.push(command);
 }
+
+for (const file of slashCommandFiles) {
+    const filePath = path.join(slashCommandsPath, file);
+    const command = require(filePath);
+    // Set a new item in the Collection with the key as the command name and the value as the exported module
+    if ('data' in command && 'execute' in command) {
+        client.slashcommands.set(command.data.name, command);
+        console.log(`[INFO] Loaded slash command ${command.data.name} from ${filePath}.`)
+    } else {
+        console.log(`[WARNING] The slash command at ${filePath} is missing a required "data" or "execute" property.`);
+    }
+}
+
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
   storeNumbers();
@@ -85,22 +101,22 @@ client.on('ready', () => {
   console.log(usernum+" users in "+guildnum+" guilds!");
 });
 
-exports.commands = () => {
-    return client.commands;
-}
+// exports.commands = () => {
+//     return client.commands;
+// }
 
-// add all commands
-// todo: add error checking
-// todo: add subfolder search support
-let success = 0;
-let fail = 0;
-client.commands = [];
-fs.readdir("./src/commands/", function(err, files){
-    files.forEach(f => {
-        const cmd = require(`./src/commands/${f}`);
-        client.commands.push(cmd) ? success++ : fail++;
-    });
-});
+// // add all commands
+// // todo: add error checking
+// // todo: add subfolder search support
+// let success = 0;
+// let fail = 0;
+// client.commands = [];
+// fs.readdir("./src/commands/", function(err, files){
+//     files.forEach(f => {
+//         const cmd = require(`./src/commands/${f}`);
+//         client.commands.push(cmd) ? success++ : fail++;
+//     });
+// });
 
 console.log('Commands loaded.');
 
@@ -108,7 +124,7 @@ console.log('Commands loaded.');
 client.on(Events.InteractionCreate, async interaction => {
 	if (!interaction.isChatInputCommand()) return;
 
-	const command = client.commands.get(interaction.commandName);
+	const command = client.slashcommands.get(interaction.commandName);
 
 	if (!command) return;
 
