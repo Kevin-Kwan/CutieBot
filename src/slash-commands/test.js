@@ -1,8 +1,15 @@
 /*
     First test command
 */
+const { SlashCommandBuilder } = require('discord.js');
 
 module.exports = {
+    data: new SlashCommandBuilder()
+        .setName('test')
+        .setDescription('Test command'),
+        async execute(interaction) {
+            await interaction.reply('Pong!');
+        },
     run: async (client, message, args) => {
     message.channel.send("test command");
     },

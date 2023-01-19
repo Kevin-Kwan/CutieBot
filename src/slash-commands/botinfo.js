@@ -1,7 +1,7 @@
 /*
     Command that returns the bot's information
 */
-const { EmbedBuilder } = require('discord.js');
+const { EmbedBuilder,SlashCommandBuilder } = require('discord.js');
 const osu = require('node-os-utils');
 const cpu = osu.cpu;
 var cpuUsage;
@@ -24,6 +24,12 @@ var emojiAmount;
 
 var invite = 'https://discord.com/oauth2/authorize?client_id=927315876036898866&permissions=8&scope=bot'
 module.exports = {
+    data: new SlashCommandBuilder()
+        .setName('botinfo')
+        .setDescription('Get the bot\'s information'),
+        async execute(interaction) {
+            await interaction.reply('Pong!');
+        },
     run: async (client, message, args) => {
     botName = client.user.username;
     botOwner = client.users.cache.get(owner);

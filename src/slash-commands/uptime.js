@@ -1,9 +1,15 @@
 /*
     Command that returns the bot's uptime
 */
-const { EmbedBuilder } = require('discord.js');
+const { EmbedBuilder, SlashCommandBuilder } = require('discord.js');
 
 module.exports = {
+    data: new SlashCommandBuilder()
+        .setName('uptime')
+        .setDescription('Get the bot\'s uptime'),
+        async execute(interaction) {
+            await interaction.reply('Pong!');
+        },
     run: async (client, message, args) => {
     let totalSeconds = (client.uptime / 1000);
     let days = Math.floor(totalSeconds / 86400);

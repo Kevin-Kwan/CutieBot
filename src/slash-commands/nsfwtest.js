@@ -1,14 +1,20 @@
-const { EmbedBuilder } = require('discord.js');
+const { EmbedBuilder, SlashCommandBuilder } = require('discord.js');
 const prefix = process.env.PREFIX
-var subreddits = ['rule34lol']
+var subreddits = ['SFMcompileclub']
 const trev = require('trev');
 var delay = 3000;
 var sub = subreddits[Math.round(Math.random() * (subreddits.length - 1))];
 
 module.exports = {
+    data: new SlashCommandBuilder()
+        .setName('nsfwtest')
+        .setDescription('make the bot post lewd images from this subreddit ;)'),
+    async execute(interaction) {
+        await interaction.reply('Pong!');
+    },
     run: async (client, message, args) => {
     if (message.author.bot) return;
-    getImage(message, sub).catch(e => getImage(message, sub)); 
+    getImage(message, sub).catch(e => getImage(message, sub));
     setTimeout(() => message.delete(), delay)
     },
 };
@@ -52,9 +58,9 @@ async function getImage(givenMessage, subredditName)
 }
 
 module.exports.info = {
-    name: "rule34lol",
-    alias: ["rule34lol"],
-    permission: "default",
+    name: "nsfwtest",
+    alias: ["nsfwtest", "testnsfw"],
+    permission: "owner",
     category: "NSFW",
     guildOnly: false,
 	help: "make the bot post lewd images from this subreddit ;)"

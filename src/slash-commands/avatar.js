@@ -1,6 +1,13 @@
-const { EmbedBuilder } = require('discord.js');
+const { EmbedBuilder, SlashCommandBuilder } = require('discord.js');
+
 
 module.exports = {
+    data: new SlashCommandBuilder()
+        .setName('avatar')
+        .setDescription('Get your avatar or someone else\'s avatar'),
+    async execute(interaction) {
+        await interaction.reply('Pong!');
+    },
     run: async (client, message, args) => {
     if (message.author.bot) return;
     const user = message.mentions.users.first() || message.author;

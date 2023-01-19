@@ -1,4 +1,11 @@
+const { SlashCommandBuilder } = require('discord.js');
 module.exports = {
+    data: new SlashCommandBuilder()
+        .setName('ban')
+        .setDescription('Ban someone in the guild'),
+    async execute(interaction) {
+        await interaction.reply('Pong!');
+    },
     run: async (client, message, args) => {
     let reason = args.slice(1).join(" ");
     function getUserFromMention(mention) {

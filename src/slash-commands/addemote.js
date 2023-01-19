@@ -1,5 +1,13 @@
 const prefix = process.env.PREFIX;
+const { SlashCommandBuilder } = require('discord.js');
+
 module.exports = {
+    data: new SlashCommandBuilder()
+        .setName('addemote')
+        .setDescription('Add a new emote to the server'),
+    async execute(interaction) {
+        await interaction.reply('Pong!');
+    },
     run: async (client, message, args) => {
     if (message.author.bot) return;
     let guild = message.guild;

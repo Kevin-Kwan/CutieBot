@@ -1,7 +1,13 @@
-const { EmbedBuilder } = require('discord.js');
+const { EmbedBuilder, SlashCommandBuilder } = require('discord.js');
 const prefix = process.env.PREFIX
 
 module.exports = {
+	data: new SlashCommandBuilder()
+		.setName('embed')
+		.setDescription('Create an embed'),
+	async execute(interaction) {
+		await interaction.reply('Pong!');
+	},
     run: async (client, message, args) => {
     if (message.author.bot) return;
 	if (args.length < 1) {

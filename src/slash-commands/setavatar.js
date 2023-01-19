@@ -1,4 +1,12 @@
+const { SlashCommandBuilder } = require('discord.js');
+
 module.exports = {
+    data: new SlashCommandBuilder()
+        .setName('setavatar')
+        .setDescription('Set the bot\'s avatar'),
+        async execute(interaction) {
+            await interaction.reply('Pong!');
+        },
     run: async (client, message, args) => {
     if(args.length < 1){
         message.reply("No avatar URL specified.");

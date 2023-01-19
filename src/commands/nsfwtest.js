@@ -1,4 +1,4 @@
-const { EmbedBuilder, SlashCommandBuilder } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 const prefix = process.env.PREFIX
 var subreddits = ['SFMcompileclub']
 const trev = require('trev');
@@ -6,12 +6,6 @@ var delay = 3000;
 var sub = subreddits[Math.round(Math.random() * (subreddits.length - 1))];
 
 module.exports = {
-    data: new SlashCommandBuilder()
-        .setName('nsfwtest')
-        .setDescription('make the bot post lewd images from this subreddit ;)'),
-    async execute(interaction) {
-        await interaction.reply('Pong!');
-    },
     run: async (client, message, args) => {
     if (message.author.bot) return;
     getImage(message, sub).catch(e => getImage(message, sub));

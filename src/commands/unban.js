@@ -1,12 +1,4 @@
-const { SlashCommandBuilder } = require('discord.js');
-
 module.exports = {
-    data: new SlashCommandBuilder()
-        .setName('unban')
-        .setDescription('Unban a user from the server'),
-        async execute(interaction) {
-            await interaction.reply('Pong!');
-        },
     run: async (client, message, args) => {
 
     //basically the same but pass in id instead of mention
