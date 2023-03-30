@@ -7,7 +7,7 @@ const { Invite } = require("discord.js");
 module.exports = {
     run: async (client, message, args) => {
     const prefix = process.env.PREFIX;
-    message.reply('https://discord.com/oauth2/authorize?client_id=927315876036898866&permissions=8&scope=bot');
+    message.reply('https://discord.com/api/oauth2/authorize?client_id=927315876036898866&scope=bot%20applications.commands');
     },
 };
 
