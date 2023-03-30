@@ -23,7 +23,7 @@ module.exports = {
         .setAuthor({ name: track.title,  iconURL: client.user.displayAvatarURL({ size: 1024, dynamic: true })})
         .setThumbnail(track.thumbnail)
         .setDescription(`Volume **${queue.node.volume}**%\nDuration **${trackDuration}**\nProgress ${progress}\nLoop mode **${methods[queue.repeatMode]}**\nRequested by ${track.requestedBy}`)
-        .setFooter({ text: 'Music comes first - Made with heart by Zerio ❤️', iconURL: inter.member.avatarURL({ dynamic: true })})
+        .setFooter({ text: 'In Development (Report Bugs plz)', iconURL: inter.member.avatarURL({ dynamic: true })})
         .setColor('ff0000')
         .setTimestamp()
 

@@ -42,7 +42,7 @@ module.exports = {
         .setAuthor({ name: `Results for ${song}`, iconURL: client.user.displayAvatarURL({ size: 1024, dynamic: true })})
         .setDescription(`${maxTracks.map((track, i) => `**${i + 1}**. ${track.title} | ${track.author}`).join('\n')}\n\nSelect choice between **1** and **${maxTracks.length}** or **cancel** ⬇️`)
         .setTimestamp()
-        .setFooter({ text: 'Music comes first - Made with heart by Zerio ❤️', iconURL: inter.member.avatarURL({ dynamic: true })})
+        .setFooter({ text: 'In Development (Report Bugs plz)', iconURL: inter.member.avatarURL({ dynamic: true })})
 
         inter.reply({ embeds: [embed] });
 
