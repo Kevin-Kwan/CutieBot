@@ -43,20 +43,20 @@ readdirSync('./src/slash-commands/').forEach(dirs => {
 });
 
 client.on('ready', (client) => {
-    // reset all guild and global commands
-    client.application.commands.set([])
-    console.log("Slash commands reset!")
-    for (const GID of guildIds) {
-        client.guilds.cache.get(GID).commands.set([])
-    }
     console.log("Slash commands reset for guilds: " + guildIds.join(","))
- if (client.config.app.global) {
-    client.application.commands.set(CommandsArray)
-    console.log("Slash commands set globally!")
-}  else {
-    for (const GID of guildIds) {
-        client.guilds.cache.get(GID).commands.set(CommandsArray)
-    }
-    console.log("Slash commands set for guilds: " + guildIds.join(","))
+    if (client.config.app.global) {
+        if (client.application.commands.cache.size > 0) {
+            client.application.commands.set([])
+            console.log("Global slash commands reset!")
+        }
+        client.application.commands.set(CommandsArray)
+        console.log("Slash commands set globally!")
+    }  else {
+        const guilds = guildIds
+        guilds.forEach(guild => {
+            client.guilds.cache.get(guild).commands.set([])
+            client.guilds.cache.get(guild).commands.set(CommandsArray)
+        })
+        console.log("Slash commands set for guilds: " + guildIds.join(","))
   }
 })
