@@ -1,5 +1,9 @@
 const { readdirSync } = require('fs');
 const { Collection } = require('discord.js');
+require('dotenv').config();
+const guildId = String(process.env.GUILD_ID);
+const guildIds = guildId.split(',');
+console.log(guildIds)
 
 client.slashcommands = new Collection();
 CommandsArray = [];
@@ -39,10 +43,20 @@ readdirSync('./src/slash-commands/').forEach(dirs => {
 });
 
 client.on('ready', (client) => {
+    // reset all guild and global commands
+    client.application.commands.set([])
+    console.log("Slash commands reset!")
+    for (const GID of guildIds) {
+        client.guilds.cache.get(GID).commands.set([])
+    }
+    console.log("Slash commands reset for guilds: " + guildIds.join(","))
  if (client.config.app.global) {
     client.application.commands.set(CommandsArray)
     console.log("Slash commands set globally!")
 }  else {
-    client.guilds.cache.get(client.config.app.guild).commands.set(CommandsArray)
+    for (const GID of guildIds) {
+        client.guilds.cache.get(GID).commands.set(CommandsArray)
+    }
+    console.log("Slash commands set for guilds: " + guildIds.join(","))
   }
 })

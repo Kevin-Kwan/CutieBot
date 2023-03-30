@@ -52,7 +52,7 @@ const prefix = process.env.PREFIX;
 const owner = process.env.OWNER;
 let usernum = client.guilds.cache.reduce((a, g) => a + g.memberCount, 0)
 let guildnum = client.guilds.cache.size;
-client.slashcommands = new Collection();
+//client.slashcommands = new Collection();
 const port = process.env.PORT;
 client.commands = [];
 const configuration = new Configuration({
@@ -61,8 +61,8 @@ const configuration = new Configuration({
 const openai = new OpenAIApi(configuration);
 
 const commandsPath = path.join(__dirname, 'src/commands');
-const slashCommandsPath = path.join(__dirname, 'src/slash-commands');
-const slashCommandFiles = fs.readdirSync(slashCommandsPath).filter(file => file.endsWith('.js'));
+// const slashCommandsPath = path.join(__dirname, 'src/slash-commands');
+// const slashCommandFiles = fs.readdirSync(slashCommandsPath).filter(file => file.endsWith('.js'));
 const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
 
 for (const file of commandFiles) {
@@ -72,17 +72,17 @@ for (const file of commandFiles) {
     client.commands.push(command);
 }
 
-for (const file of slashCommandFiles) {
-    const filePath = path.join(slashCommandsPath, file);
-    const command = require(filePath);
-    // Set a new item in the Collection with the key as the command name and the value as the exported module
-    if ('data' in command && 'execute' in command) {
-        client.slashcommands.set(command.data.name, command);
-        console.log(`[INFO] Loaded slash command ${command.data.name} from ${filePath}.`)
-    } else {
-        console.log(`[WARNING] The slash command at ${filePath} is missing a required "data" or "execute" property.`);
-    }
-}
+// for (const file of slashCommandFiles) {
+//     const filePath = path.join(slashCommandsPath, file);
+//     const command = require(filePath);
+//     // Set a new item in the Collection with the key as the command name and the value as the exported module
+//     if ('data' in command && 'execute' in command) {
+//         client.slashcommands.set(command.data.name, command);
+//         console.log(`[INFO] Loaded slash command ${command.data.name} from ${filePath}.`)
+//     } else {
+//         console.log(`[WARNING] The slash command at ${filePath} is missing a required "data" or "execute" property.`);
+//     }
+// }
 
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
