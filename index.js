@@ -4,6 +4,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const { Configuration, OpenAIApi } = require("openai");
 
+
 var history, mainChannel, testChannel, ai, txt
 var historyLen = 2000
 
@@ -51,6 +52,7 @@ const owner = process.env.OWNER;
 let usernum = client.guilds.cache.reduce((a, g) => a + g.memberCount, 0)
 let guildnum = client.guilds.cache.size;
 client.slashcommands = new Collection();
+const port = process.env.PORT;
 client.commands = [];
 const configuration = new Configuration({
 	apiKey: process.env.OPENAI_API_KEY, //openai
