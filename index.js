@@ -93,7 +93,7 @@ client.on('ready', () => {
     storeNumbers();
     let activities = [
         //"<help | discord.koolkev246.com",
-        "<help | koolkev246.com",
+        "<help | koolkev246.net",
         //"<help | invite.gg/GSMST",
         "" + prefix + "help | Managing " + guildnum + " guilds!",
         "" + guildnum + " servers | " + usernum +" users",
@@ -101,7 +101,7 @@ client.on('ready', () => {
         "" + prefix + "help | " + process.env.TWITCH,
         //"<help | discord.gg/uE2Enuv",
         "" + process.env.TWITCH,
-        "" + process.env.INSTAGRAM,
+        //"" + process.env.INSTAGRAM,
         "" + process.env.TWITTER
       ];
     const randomIndex = Math.floor(Math.random() * (activities.length - 1) + 1);
