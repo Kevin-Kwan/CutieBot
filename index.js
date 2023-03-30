@@ -222,10 +222,6 @@ client.on('messageCreate', async (message) =>{
                 message.reply('i kinda feel funy ;o')
                 return false
             }
-            if(message.content.toLowerCase().includes('check chat history' || 'check history' || 'show chat history' || 'show history')){
-                message.reply(messages)
-                return false
-            }
 
             if(message.author.id.includes('436084153503711232')){
                 //console.log('self')
