@@ -1,3 +1,4 @@
+const { Player } = require('discord-player');
 const { Client, IntentsBitField, PermissionsBitField, EmbedBuilder, Partials , ActivityType } = require('discord.js');
 const { Collection, Events, GatewayIntentBits, Discord } = require('discord.js');
 const fs = require('node:fs');
@@ -35,7 +36,7 @@ myIntents.add(
     IntentsBitField.Flags.MessageContent,
     IntentsBitField.Flags.GuildScheduledEvents
     )
-const client = new Client(
+global.client = new Client(
     { intents: myIntents },
     { partials: [
         Partials.Message,
@@ -149,24 +150,30 @@ function splitTextIntoChunks(text, maxLength = 2000) {
 //         client.commands.push(cmd) ? success++ : fail++;
 //     });
 // });
+client.config = require('./config');
+
+global.player = new Player(client, client.config.opt.discordPlayer);
+
+require('./src/loader');
+require('./src/events');
 
 console.log('Commands loaded.');
 
+// commented out because interactions are now handled differently through interactionCreate.js
+// client.on(Events.InteractionCreate, async interaction => {
+// 	if (!interaction.isChatInputCommand()) return;
 
-client.on(Events.InteractionCreate, async interaction => {
-	if (!interaction.isChatInputCommand()) return;
+// 	const command = client.slashcommands.get(interaction.commandName);
 
-	const command = client.slashcommands.get(interaction.commandName);
+// 	if (!command) return;
 
-	if (!command) return;
-
-	try {
-		await command.execute(interaction);
-	} catch (error) {
-		console.error(error);
-		await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
-	}
-});
+// 	try {
+// 		await command.execute(interaction);
+// 	} catch (error) {
+// 		console.error(error);
+// 		await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
+// 	}
+// });
 
 // todo: log people's dms to bot
 var messages =  []
@@ -178,10 +185,15 @@ client.on('messageCreate', async (message) =>{
         message.reply("whaddup!")
     }
     if (message.content.startsWith(prefix)) {
+        //console.log("command detected")
         const args = message.content.slice(prefix.length).split(/ +/);
         const cmdName = args.shift().toLowerCase();
+        //console.log(cmdName)
+        //console.log(client.commands)
         client.commands.forEach(command => {
+            //console.log(command.info.name)
 		if(cmdName === command.info.name || command.info.alias.includes(cmdName)){
+            //console.log("command detected")
             //guild or private chat check (this no longer works? dunno why)
             // if(command.info.guildOnly){
             //     message.channel.send("This command is unavailable in private chat :^(");
@@ -307,6 +319,7 @@ function getUserFromMention(mention) {
 		return client.users.cache.get(mention);
 	}
 }
+
 
 // attempts to login the bot with the environment variable you set for your bot token (either 'CLIENT_TOKEN' or 'DISCORD_TOKEN')
 client.login();
