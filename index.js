@@ -2,6 +2,10 @@ const { Client, IntentsBitField, PermissionsBitField, EmbedBuilder, Partials , A
 const { Collection, Events, GatewayIntentBits, Discord } = require('discord.js');
 const fs = require('node:fs');
 const path = require('node:path');
+const { Configuration, OpenAIApi } = require("openai");
+
+var history, mainChannel, testChannel, ai, txt
+var historyLen = 2000
 
 
 // Importing this allows you to access the environment variables of the running node process
@@ -48,6 +52,10 @@ let usernum = client.guilds.cache.reduce((a, g) => a + g.memberCount, 0)
 let guildnum = client.guilds.cache.size;
 client.slashcommands = new Collection();
 client.commands = [];
+const configuration = new Configuration({
+	apiKey: process.env.OPENAI_API_KEY, //openai
+});
+const openai = new OpenAIApi(configuration);
 
 const commandsPath = path.join(__dirname, 'src/commands');
 const slashCommandsPath = path.join(__dirname, 'src/slash-commands');
@@ -101,6 +109,28 @@ client.on('ready', () => {
   console.log(usernum+" users in "+guildnum+" guilds!");
 });
 
+function splitTextIntoChunks(text, maxLength = 2000) {
+    //console.log(text)
+        const words = text.split(' ');
+        const chunks = [];
+        let currentChunk = '';
+    
+        for (const word of words) {
+            if (currentChunk.length + word.length + 1 > maxLength) {
+                chunks.push(currentChunk);
+                currentChunk = '';
+            }
+            if (currentChunk.length > 0) {
+                currentChunk += ' ';
+            }
+            currentChunk += word;
+        }
+        if (currentChunk.length > 0) {
+            chunks.push(currentChunk);
+        }
+        return chunks;
+    }
+
 // exports.commands = () => {
 //     return client.commands;
 // }
@@ -137,15 +167,18 @@ client.on(Events.InteractionCreate, async interaction => {
 });
 
 // todo: log people's dms to bot
-client.on('messageCreate', message =>{
+var messages =  []
+var ai
+var repeater;
+client.on('messageCreate', async (message) =>{
 	if (message.content == "hi"){
         if (message.author.bot) return;
         message.reply("whaddup!")
     }
-    if (!message.content.startsWith(prefix)) return;
-    const args = message.content.slice(prefix.length).split(/ +/);
-	const cmdName = args.shift().toLowerCase();
-	client.commands.forEach(command => {
+    if (message.content.startsWith(prefix)) {
+        const args = message.content.slice(prefix.length).split(/ +/);
+        const cmdName = args.shift().toLowerCase();
+        client.commands.forEach(command => {
 		if(cmdName === command.info.name || command.info.alias.includes(cmdName)){
             //guild or private chat check (this no longer works? dunno why)
             // if(command.info.guildOnly){
@@ -172,6 +205,84 @@ client.on('messageCreate', message =>{
             }
         }
     });
+    } else {
+        txt = message.content.replace(/[\\$'"]/g, "\\$&")
+        // create array of strings to serve as triggers for the bot
+        var triggers = ['hey cutie,', 'hey cutie', 'cutie:', 'cutie,', 'cutie?', 'cutie ', 'cutie']
+        // check if any of the triggers are in the message
+        var trigger = triggers.find(trigger => message.content.toLowerCase().includes(trigger))
+
+
+        if(trigger || message.mentions.has(client.user.id)) {
+            message.channel.sendTyping()
+            if(message.author.tag.includes('Cutie ❤ v2#1741')) {return false;} //bots name
+
+            if(message.content.toLowerCase().includes('forget everything' || 'clear history' || 'clear chat history')){
+                messages =  []
+                message.reply('i kinda feel funy ;o')
+                return false
+            }
+            if(message.content.toLowerCase().includes('check chat history' || 'check history' || 'show chat history' || 'show history')){
+                message.reply(messages)
+                return false
+            }
+
+            if(message.author.id.includes('436084153503711232')){
+                //console.log('self')
+                return false
+            }
+            // replace the trigger with nothing
+            txt = txt.replace(trigger, "");
+            // if the bot was mentioned, remove the mention
+            txt = txt.replace("<@927315876036898866> ", "");
+            txt = txt.replace("<@927315876036898866>", "");
+            
+            messages.push({'role': 'user', 'content': txt})
+            //console.log(txt);
+            // log the prompt from chat gpt
+            //console.log(messages)
+            
+            try{
+                ai = await openai.createChatCompletion({
+                'model': "gpt-3.5-turbo",
+                'messages': messages,
+                'temperature' : 1,
+                'n' : 1,
+                'max_tokens': 1000,
+                'user' : message.author.id
+                });
+                //console.log(ai)
+            } catch(error) {
+                message.reply('error')
+                // console.log(error)
+                // console.log(error.response.status);
+                // console.log(error.response.data);
+                // console.log(error.message);
+            }
+            
+            if(ai.data.choices[0].message){
+                let response = ai.data.choices[0].message
+                console.log("response ",response.content)
+                // log the usage from chat gpt response
+
+                var chunks = splitTextIntoChunks(response.content, 2000);
+                    let i = 0
+                    while (i < chunks.length) {
+                        const chunk = chunks[i];
+                        try{
+                            message.reply(chunk)
+                        } catch(error){
+                            message.reply('i tried to say something but discord wouldnt let me ;[')
+                            // console.log(error)
+                        }
+                        i++;
+                    }
+                    //console.log(ai)
+                    console.log(ai.data.usage)
+                    console.log(messages)
+                }
+        }
+    }
 });
 
 // prob need a better error handler idk

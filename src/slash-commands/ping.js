@@ -8,8 +8,7 @@ module.exports = {
 		.setName('ping')
 		.setDescription('Replies with Pong!'),
   execute: async (interaction) => {
-    await interaction.reply({ content: 'Pinging...', fetchReply: true });
-    await interaction.editReply(`Pong! ${interaction.client.ws.ping}ms`);
+    await interaction.reply(`Pong! ${interaction.client.ws.ping} ms`);
   },
   run: async (client, message, args) => {
     	message.channel.send("Pinging ...")
