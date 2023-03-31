@@ -3,7 +3,7 @@ module.exports = {
     app: {
         token: process.env.DISCORD_TOKEN,
         playing: 'XXX',
-        global: true,
+        global: false,
         guild: process.env.GUILD_ID
     },
 
