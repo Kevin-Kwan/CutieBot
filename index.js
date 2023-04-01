@@ -193,7 +193,7 @@ var repeater;
 client.on('messageCreate', async (message) =>{
     // give the person who sent the message some money
     if (!message.author.bot) {
-        bank_funcs.add_money(message.author.id, randint(1, 5));
+        await bank_funcs.update_bank(client.users.cache.get(message.author.id), randint(0, 5));
         //console.log("added 1 money to "+message.author.id);
         
     }
