@@ -18,8 +18,9 @@ module.exports = {
         ],
     }
     ],
-    execute({ inter }) {
+    async execute({ inter }) {
         const queue = player.nodes.get(inter.guildId);
+        await inter.deferReply();
 
         if (!queue || !queue.isPlaying()) return inter.reply({ content: `No music currently playing ${inter.member}... try again ? ❌`, ephemeral: true });
         switch (inter.options._hoistedOptions.map(x => x.value).toString()) {

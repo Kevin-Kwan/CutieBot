@@ -4,7 +4,9 @@ const { Collection, Events, GatewayIntentBits, Discord } = require('discord.js')
 const fs = require('node:fs');
 const path = require('node:path');
 const { Configuration, OpenAIApi } = require("openai");
-
+const { time_convertor } = require("./base.js");
+const bank_funcs = require("./modules/bank_funcs.js");
+const inventory_funcs = require("./modules/inventory_funcs.js");
 
 var history, mainChannel, testChannel, ai, txt
 var historyLen = 2000
@@ -55,6 +57,9 @@ let guildnum = client.guilds.cache.size;
 //client.slashcommands = new Collection();
 const port = process.env.PORT;
 client.commands = [];
+client.slashcommands = new Collection();
+client.ecocommands = new Collection();
+client.cooldowns = new Collection();
 const configuration = new Configuration({
 	apiKey: process.env.OPENAI_API_KEY, //openai
 });
@@ -71,6 +76,17 @@ for (const file of commandFiles) {
 	// add the command to the collection
     client.commands.push(command);
 }
+// economy
+const ecoCommandsPath = path.join(__dirname, "cogs");
+const ecoCommandFiles = fs
+    .readdirSync(ecoCommandsPath)
+    .filter((file) => file.endsWith(".js"));
+
+console.log("Loading cogs:");
+for (let file of ecoCommandFiles) {
+    let filePath = path.join(ecoCommandsPath, file);
+    require(filePath).setup();
+}
 
 // for (const file of slashCommandFiles) {
 //     const filePath = path.join(slashCommandsPath, file);
@@ -84,7 +100,7 @@ for (const file of commandFiles) {
 //     }
 // }
 
-client.on('ready', () => {
+client.on('ready', async () => {
   console.log(`Logged in as ${client.user.tag}!`);
   storeNumbers();
   // 
@@ -110,6 +126,9 @@ client.on('ready', () => {
     //console.log(usernum+" users in "+guildnum+" guilds!");
   }, 120000);
   console.log(usernum+" users in "+guildnum+" guilds!");
+  await bank_funcs.create_table();
+  await inventory_funcs.create_table();
+  console.log("Database tables updated!");
 });
 
 function splitTextIntoChunks(text, maxLength = 2000) {
@@ -150,15 +169,6 @@ function splitTextIntoChunks(text, maxLength = 2000) {
 //         client.commands.push(cmd) ? success++ : fail++;
 //     });
 // });
-client.config = require('./config');
-
-global.player = new Player(client, client.config.opt.discordPlayer);
-
-require('./src/loader');
-require('./src/events');
-
-console.log('Commands loaded.');
-
 // commented out because interactions are now handled differently through interactionCreate.js
 // client.on(Events.InteractionCreate, async interaction => {
 // 	if (!interaction.isChatInputCommand()) return;
@@ -294,7 +304,60 @@ client.on('messageCreate', async (message) =>{
         }
     }
 });
+// client.on(Events.InteractionCreate, async (interaction) => {
+//     if (!interaction.isChatInputCommand()) return;
+//     const command_name = interaction.commandName;
+//     const user = interaction.user;
 
+//     const command = interaction.client.slashcommands.get(command_name);
+//     if (!command) {
+//         console.error(`Slash command Not Found: ${command_name}`);
+//         return;
+//     }
+
+//     try {
+//         // check command cooldown
+//         let userCD;
+//         const cooldowns = client.cooldowns.get(command_name);
+//         if (cooldowns) {
+//             userCD = cooldowns.filter((cd) => cd.userID === user.id);
+//             if (userCD.length == 1) {
+//                 userCD = userCD[0];
+//                 const cur_time = new Date();
+//                 const cmd_time = userCD.per;
+//                 if (cur_time.getTime() <= cmd_time.getTime()) {
+//                     return await interaction.reply(
+//                         `command on cooldown, retry after ` +
+//                             `\`${time_convertor(cmd_time - cur_time)}\``
+//                     );
+//                 } else
+//                     delete cooldowns[
+//                         cooldowns.findIndex((cd) => cd.userID === user.id)
+//                     ];
+//             }
+//         }
+
+//         await command.execute({client, interaction});
+
+//         // create command cooldown
+//         if (cooldowns) {
+//             userCD = cooldowns.filter((cd) => cd.userID === user.id);
+//             if (userCD.length == 0) {
+//                 const new_date = new Date();
+//                 new_date.setSeconds(new_date.getSeconds() + command.per);
+//                 cooldowns.push({ userID: user.id, per: new_date });
+//             }
+//         }
+//     } catch (error) {
+//         console.error(error);
+//         const err_msg = {
+//             content: "something went wrong, try again later",
+//             ephemeral: true,
+//         };
+//         if (interaction.deferred) await interaction.followUp(err_msg);
+//         else await interaction.reply(err_msg);
+//     }
+// });
 // prob need a better error handler idk
 process.on('unhandledRejection', error => {
 	console.error('Unhandled promise rejection:', error);
@@ -319,7 +382,34 @@ function getUserFromMention(mention) {
 		return client.users.cache.get(mention);
 	}
 }
+// process.on("exit", (code) => {
+//     console.error(
+//         `\nProcess ${process.pid} has been interrupted\n` +
+//             `${client.user.username || "bot"}'s logging out...`
+//     );
 
+//     // disconnecting from discord.Client and Database
+//     client.destroy();
+//     bank_funcs.DB.destroy();
+
+//     process.exit(code);
+// });
+process.on("SIGTERM", (signal) => {
+    process.exit(0);
+});
+process.on("SIGINT", (signal) => {
+    process.exit(0);
+});
+
+//register_commands(client.ecocommands, false);
+client.config = require('./config');
+
+global.player = new Player(client, client.config.opt.discordPlayer);
+
+require('./src/loader');
+require('./src/events');
+
+console.log('Commands loaded.');
 
 // attempts to login the bot with the environment variable you set for your bot token (either 'CLIENT_TOKEN' or 'DISCORD_TOKEN')
 client.login();

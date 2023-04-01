@@ -3,9 +3,9 @@ module.exports = {
     description: 'Play the track',
     voiceChannel: true,
 
-    execute({ inter }) {
+    async execute({ inter }) {
         const queue = player.nodes.get(inter.guildId);
-
+        await inter.deferReply();
         if (!queue) return inter.reply({ content: `No music currently playing ${inter.member}... try again ? ❌`, ephemeral: true });
         
 

@@ -1,11 +1,10 @@
 const { readdirSync } = require('fs');
-const { Collection } = require('discord.js');
+const { Collection, REST, Routes } = require('discord.js');
 require('dotenv').config();
 const guildId = String(process.env.GUILD_ID);
 const guildIds = guildId.split(',');
 console.log(guildIds)
 
-client.slashcommands = new Collection();
 CommandsArray = [];
 
 
@@ -22,6 +21,11 @@ for (const file of events) {
 };
 
 console.log(`Loading commands...`);
+for (const command of client.slashcommands.values()) {
+    CommandsArray.push(command.toJSON());
+    client.slashcommands.set(command.name.toLowerCase(), command);
+    console.log(`-> [Loaded Command] ${command.name.toLowerCase()}`);
+}
 // load from slash-commands
 readdirSync('./src/slash-commands/').forEach(dirs => {
     const commands = readdirSync(`./src/slash-commands/${dirs}`).filter(files => files.endsWith('.js'));
@@ -41,8 +45,15 @@ readdirSync('./src/slash-commands/').forEach(dirs => {
         }
     };
 });
-
-client.on('ready', (client) => {
+const rest = new REST({ version: '10' }).setToken(process.env.DISCORD_TOKEN);
+client.on('ready', async (client) => {
+    try {
+        await rest
+                .put(Routes.applicationCommands(process.env.CLIENT_ID), { body: [] })
+    } catch (error) {
+        console.error(error);
+    }
+//     //console.log(CommandsArray)
     if (client.config.app.global) {
         if (client.application.commands.cache.size > 0) {
             client.application.commands.set([])
