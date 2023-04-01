@@ -6,7 +6,7 @@ const {
     get_networth_lb,
 } = require("../modules/bank_funcs.js");
 
-const { EmbedBuilder, userMention } = require("discord.js");
+const { EmbedBuilder, userMention, BitField, PermissionFlagsBits } = require("discord.js");
 
 const balance = new SlashCommand()
     .setName("balance")
@@ -201,6 +201,62 @@ leaderboard.callback(async ({inter}) => {
         .setTimestamp()
         .setFooter({ text: `GLOBAL - ${guild.name}` });
     await inter.followUp({ embeds: [em] });
+});
+const add_money = new SlashCommand()
+    .setName("add-money")
+    .setDefaultMemberPermissions(PermissionFlagsBits.ManageGuild)
+    .setDescription("add money to a member")
+    .addUserOption((option) =>
+        option
+            .setName("member")
+            .setDescription("target @member")
+            .setRequired(true)
+    )
+    .addIntegerOption((option) =>
+        option
+            .setName("amount")
+            .setDescription("enter a positive integer")
+            .setMinValue(1)
+            .setRequired(true)
+    )
+    .setDMPermission(false);
+add_money.callback(async ({inter}) => {
+    await inter.deferReply();
+    const member = inter.options.getUser("member", true);
+    const amount = inter.options.getInteger("amount", true);
+    // give money to member
+    await update_bank(member, +amount);
+    await inter.followUp(
+        `Added $ ${amount} to ${userMention(member.id)}`
+    );
+});
+const remove_money = new SlashCommand()
+    .setName("remove-money")
+    .setDefaultMemberPermissions(PermissionFlagsBits.ManageGuild)
+    .setDescription("remove money from a member")
+    .addUserOption((option) =>
+        option
+            .setName("member")
+            .setDescription("target @member")
+            .setRequired(true)
+    )
+    .addIntegerOption((option) =>
+        option
+            .setName("amount")
+            .setDescription("enter a positive integer to remove")
+            .setMinValue(1)
+            .setRequired(true)
+    )
+    .setDMPermission(false);
+remove_money.callback(async ({inter}) => {
+    await inter.deferReply();
+    const member = inter.options.getUser("member", true);
+    const amount = inter.options.getInteger("amount", true);
+    // remove money from member
+    await update_bank(member, -amount);
+    await inter.followUp(
+        `Removed $ ${amount} from ${userMention(member.id)}`
+    );
 });
 
 module.exports = {

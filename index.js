@@ -4,9 +4,10 @@ const { Collection, Events, GatewayIntentBits, Discord } = require('discord.js')
 const fs = require('node:fs');
 const path = require('node:path');
 const { Configuration, OpenAIApi } = require("openai");
-const { time_convertor } = require("./base.js");
+const { time_convertor, randint } = require("./base.js");
 const bank_funcs = require("./modules/bank_funcs.js");
 const inventory_funcs = require("./modules/inventory_funcs.js");
+const { randomInt } = require('mathjs');
 
 var history, mainChannel, testChannel, ai, txt
 var historyLen = 2000
@@ -190,6 +191,12 @@ var messages =  []
 var ai
 var repeater;
 client.on('messageCreate', async (message) =>{
+    // give the person who sent the message some money
+    if (!message.author.bot) {
+        bank_funcs.add_money(message.author.id, randint(1, 5));
+        //console.log("added 1 money to "+message.author.id);
+        
+    }
 	if (message.content == "hi"){
         if (message.author.bot) return;
         message.reply("whaddup!")

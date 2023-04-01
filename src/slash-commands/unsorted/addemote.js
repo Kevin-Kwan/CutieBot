@@ -15,7 +15,7 @@ module.exports = {
                         .setName('name')
                         .setDescription('The name of the emote')
                         .setRequired(true))
-        .setDefaultMemberPermissions(PermissionFlagsBits.MANAGE_EMOJIS_AND_STICKERS),
+        .setDefaultMemberPermissions(PermissionFlagsBits.ManageEmojisAndStickers),
     async execute({ client, inter }) {
         const url = inter.options.getString('url');
         const name = inter.options.getString('name');
