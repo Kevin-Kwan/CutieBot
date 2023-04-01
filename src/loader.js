@@ -40,19 +40,13 @@ readdirSync('./src/slash-commands/').forEach(dirs => {
         } else {
             CommandsArray.push(command.data.toJSON());
             client.slashcommands.set(command.data.name.toLowerCase(), command);
-            console.log(`-> [Loaded Command] ${command.data.name.toLowerCase()}`);
-            delete require.cache[require.resolve(`../src/slash-commands/${dirs}/${file}`)];
+            console.log(`-> [Old Command] ${command.data.name.toLowerCase()}`);
+            //delete require.cache[require.resolve(`../src/slash-commands/${dirs}/${file}`)];
         }
     };
 });
 const rest = new REST({ version: '10' }).setToken(process.env.DISCORD_TOKEN);
 client.on('ready', async (client) => {
-    try {
-        await rest
-                .put(Routes.applicationCommands(process.env.CLIENT_ID), { body: [] })
-    } catch (error) {
-        console.error(error);
-    }
 //     //console.log(CommandsArray)
     if (client.config.app.global) {
         if (client.application.commands.cache.size > 0) {

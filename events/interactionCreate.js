@@ -62,7 +62,7 @@ module.exports = async(client, inter) => {
         }
     }
 }
-        //command.execute({ inter, client });
+    command.execute({ inter, client });
     }
     
     // check if command is not of type SlashCommand that extends SlashCommandBuilder
@@ -78,7 +78,16 @@ module.exports = async(client, inter) => {
             if (button) return button({ client, inter, customId, queue });
         }
     } catch (error) {
-
+        console.error(error);
+        const err_msg = {
+            content: "something went wrong, try again later",
+            ephemeral: true,
+        };
+        if (inter.deferred) await inter.followUp(err_msg);
+        else {
+            await inter.deferReply();
+            await inter.reply(err_msg);
+        }
     }
     }
 };
