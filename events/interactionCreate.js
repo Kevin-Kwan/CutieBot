@@ -38,7 +38,6 @@ module.exports = async(client, inter) => {
                     ];
             }
         }
-        await inter.deferReply();
         await command.execute({ inter, client })
 
         // create command cooldown
