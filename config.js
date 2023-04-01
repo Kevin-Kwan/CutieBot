@@ -4,9 +4,9 @@ module.exports = {
         token: process.env.DISCORD_TOKEN,
         playing: 'XXX',
         global: false,
-        guild: process.env.GUILD_ID
+        guild: process.env.GUILD_ID,
+        ChatGPTJailbreak: false,
     },
-
     opt: {
         DJ: {
             enabled: false,
