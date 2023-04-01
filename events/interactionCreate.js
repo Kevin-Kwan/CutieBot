@@ -38,7 +38,7 @@ module.exports = async(client, inter) => {
                     ];
             }
         }
-
+        await inter.deferReply();
         await command.execute({ inter, client })
 
         // create command cooldown
@@ -57,7 +57,10 @@ module.exports = async(client, inter) => {
             ephemeral: true,
         };
         if (inter.deferred) await inter.followUp(err_msg);
-        else await inter.reply(err_msg);
+        else {
+            await inter.deferReply();
+            await inter.reply(err_msg);
+        }
     }
 }
         //command.execute({ inter, client });
