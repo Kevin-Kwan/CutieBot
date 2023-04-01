@@ -33,9 +33,9 @@ balance.callback(async ({inter}) => {
     const em = new EmbedBuilder()
         .setAuthor({ name: user.username, iconURL: user.displayAvatarURL() })
         .setDescription(
-            `Wallet: ${wallet_amt}\n` +
-                `Bank: ${bank_amt}\n` +
-                `Net: ${net_amt}`
+            `Wallet: $${wallet_amt}\n` +
+                `Bank: $${bank_amt}\n` +
+                `Net: $${net_amt}`
         )
         .setColor(0x00ff00);
 
