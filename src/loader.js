@@ -48,7 +48,11 @@ readdirSync('./src/slash-commands/').forEach(dirs => {
 const rest = new REST({ version: '10' }).setToken(process.env.DISCORD_TOKEN);
 client.on('ready', async (client) => {
 //     //console.log(CommandsArray)
+
     if (client.config.app.global) {
+        if (client.guilds.cache.get(guild).commands.cache.size > 0) {
+            client.guilds.cache.get(guild).commands.set([])
+        }
         if (client.application.commands.cache.size > 0) {
             client.application.commands.set([])
             console.log("Global slash commands reset!")
@@ -57,6 +61,10 @@ client.on('ready', async (client) => {
         console.log("Slash commands set globally!")
     }  else {
         const guilds = guildIds
+        if (client.application.commands.cache.size > 0) {
+            client.application.commands.set([])
+            console.log("Global slash commands reset!")
+        }
         guilds.forEach(guild => {
             if (client.guilds.cache.get(guild).commands.cache.size > 0) {
                 client.guilds.cache.get(guild).commands.set([])
