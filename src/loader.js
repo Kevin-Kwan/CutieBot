@@ -50,6 +50,7 @@ client.on('ready', async (client) => {
 //     //console.log(CommandsArray)
 
     if (client.config.app.global) {
+        const guilds = guildIds
         guilds.forEach(guild => {
             if (client.guilds.cache.get(guild).commands.cache.size > 0) {
                 client.guilds.cache.get(guild).commands.set([])
