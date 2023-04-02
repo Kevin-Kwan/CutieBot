@@ -50,9 +50,11 @@ client.on('ready', async (client) => {
 //     //console.log(CommandsArray)
 
     if (client.config.app.global) {
-        if (client.guilds.cache.get(guild).commands.cache.size > 0) {
-            client.guilds.cache.get(guild).commands.set([])
-        }
+        guilds.forEach(guild => {
+            if (client.guilds.cache.get(guild).commands.cache.size > 0) {
+                client.guilds.cache.get(guild).commands.set([])
+            }
+        })
         if (client.application.commands.cache.size > 0) {
             client.application.commands.set([])
             console.log("Global slash commands reset!")
