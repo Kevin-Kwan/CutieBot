@@ -48,6 +48,11 @@ readdirSync('./src/slash-commands/').forEach(dirs => {
 const rest = new REST({ version: '10' }).setToken(process.env.DISCORD_TOKEN);
 client.on('ready', async (client) => {
 //     //console.log(CommandsArray)
+// clear all slash commands from global and guilds
+    client.application.commands.set([])
+    guildIds.forEach(guild => {
+        client.guilds.cache.get(guild).commands.set([])
+    })
 
     if (client.config.app.global) {
         const guilds = guildIds
