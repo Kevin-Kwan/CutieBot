@@ -286,7 +286,7 @@ client.on('messageCreate', async (message) =>{
             
             try{
                 ai = await openai.createChatCompletion({
-                'model': "gpt-3.5-turbo",
+                'model': "gpt-4",
                 'messages': messages,
                 'temperature' : 1,
                 'n' : 1,
