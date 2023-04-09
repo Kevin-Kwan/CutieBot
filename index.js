@@ -63,6 +63,7 @@ client.ecocommands = new Collection();
 client.cooldowns = new Collection();
 const configuration = new Configuration({
 	apiKey: process.env.OPENAI_API_KEY, //openai
+    organization: process.env.OPENAI_GROUP_ID,
 });
 const openai = new OpenAIApi(configuration);
 
