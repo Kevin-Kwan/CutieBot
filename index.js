@@ -291,7 +291,7 @@ client.on('messageCreate', async (message) =>{
                 'messages': messages,
                 'temperature' : 1,
                 'n' : 1,
-                'max_tokens': 250,
+                'max_tokens': 1000,
                 'user' : message.author.id
                 });
                 //console.log(ai)
@@ -417,12 +417,12 @@ function getUserFromMention(mention) {
 
 //     process.exit(code);
 // });
-process.on("SIGTERM", (signal) => {
-    process.exit(0);
-});
-process.on("SIGINT", (signal) => {
-    process.exit(0);
-});
+// process.on("SIGTERM", (signal) => {
+//     process.exit(0);
+// });
+// process.on("SIGINT", (signal) => {
+//     process.exit(0);
+// });
 
 //register_commands(client.ecocommands, false);
 
