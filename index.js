@@ -291,7 +291,7 @@ client.on('messageCreate', async (message) =>{
                 'messages': messages,
                 'temperature' : 1,
                 'n' : 1,
-                'max_tokens': 1000,
+                'max_tokens': 250,
                 'user' : message.author.id
                 });
                 //console.log(ai)

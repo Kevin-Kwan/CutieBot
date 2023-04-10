@@ -1,3 +1,5 @@
+// This file handles loading for slash commands.
+
 const { readdirSync } = require('fs');
 const { Collection, REST, Routes } = require('discord.js');
 require('dotenv').config();
@@ -49,36 +51,22 @@ const rest = new REST({ version: '10' }).setToken(process.env.DISCORD_TOKEN);
 client.on('ready', async (client) => {
 //     //console.log(CommandsArray)
 // clear all slash commands from global and guilds
-    client.application.commands.set([])
+    if (client.application.commands.cache.size > 0) {
+        client.application.commands.set([])
+    }
     guildIds.forEach(guild => {
-        client.guilds.cache.get(guild).commands.set([])
+        if (client.guilds.cache.get(guild).commands.cache.size > 0) {
+            client.guilds.cache.get(guild).commands.set([])
+        }
     })
 
     if (client.config.app.global) {
-        const guilds = guildIds
-        guilds.forEach(guild => {
-            if (client.guilds.cache.get(guild).commands.cache.size > 0) {
-                client.guilds.cache.get(guild).commands.set([])
-            }
-        })
-        if (client.application.commands.cache.size > 0) {
-            client.application.commands.set([])
-            console.log("Global slash commands reset!")
-        }
         client.application.commands.set(CommandsArray)
         console.log("Slash commands set globally!")
     }  else {
-        const guilds = guildIds
-        if (client.application.commands.cache.size > 0) {
-            client.application.commands.set([])
-            console.log("Global slash commands reset!")
-        }
         guilds.forEach(guild => {
-            if (client.guilds.cache.get(guild).commands.cache.size > 0) {
-                client.guilds.cache.get(guild).commands.set([])
-            }
             client.guilds.cache.get(guild).commands.set(CommandsArray)
         })
         console.log("Slash commands set for guilds: " + guildIds.join(","))
-  }
+    }
 })
