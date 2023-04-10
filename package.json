@@ -24,7 +24,7 @@
     "fluent-ffmpeg": "latest",
     "fs": "latest",
     "hh-mm-ss": "latest",
-    "jimp": "^0.16.0",
+    "jimp": "^0.22.7",
     "jpeg-js": "^0.4.4",
     "mathjs": "^11.7.0",
     "mongodb": "^5.1.0",
@@ -33,7 +33,7 @@
     "opusscript": "^0.0.8",
     "patch-package": "^6.4.7",
     "trev": "^2.0.8",
-    "ytdl-core": "^4.11.3"
+    "ytdl-core": "^4.9.1"
   },
   "devDependencies": {
     "eslint": "^8.7.0"
