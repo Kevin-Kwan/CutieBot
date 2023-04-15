@@ -55,7 +55,8 @@ client.on('ready', async (client) => {
         client.application.commands.set([])
     }
     guildIds.forEach(guild => {
-        if (client.guilds.cache.get(guild).commands.cache.size > 0) {
+        // check if client.guilds.cache.get(guild) is undefined
+        if (client.guilds.cache.get(guild) && client.guilds.cache.get(guild).commands.cache.size > 0 ) {
             client.guilds.cache.get(guild).commands.set([])
         }
     })
