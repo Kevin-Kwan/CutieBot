@@ -33,7 +33,7 @@
     "opusscript": "latest",
     "patch-package": "latest",
     "trev": "latest",
-    "ytdl-core": "latest"
+    "ytdl-core": "^4.11.4"
   },
   "devDependencies": {
     "eslint": "^8.7.0"
