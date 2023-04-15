@@ -23,7 +23,7 @@
     "fluent-ffmpeg": "latest",
     "fs": "latest",
     "hh-mm-ss": "latest",
-    "jimp": "latest",
+    "jimp": "^0.22.7",
     "jpeg-js": "latest",
     "latest": "latest",
     "mathjs": "latest",
