@@ -1,15 +1,36 @@
-# Use the official Node.js image as the base image
-FROM node:18
-EXPOSE 8080/tcp
+FROM debian:bullseye as builder
 
-# Set the working directory in the container
+ARG NODE_VERSION=18.13.0
+
+RUN apt-get update; apt install -y curl
+RUN curl https://get.volta.sh | bash
+ENV VOLTA_HOME /root/.volta
+ENV PATH /root/.volta/bin:$PATH
+RUN volta install node@${NODE_VERSION}
+
+#######################################################################
+
+RUN mkdir /app
 WORKDIR /app
 
-# Copy the application files into the working directory
-COPY . /app
+# NPM will not install any package listed in "devDependencies" when NODE_ENV is set to "production",
+# to install all modules: "npm install --production=false".
+# Ref: https://docs.npmjs.com/cli/v9/commands/npm-install#description
 
-# Install the application dependencies
+ENV NODE_ENV production
+
+COPY . .
+
 RUN npm install
+FROM debian:bullseye
 
-# Define the entry point for the container
-CMD ["npm", "run", "start"]
+LABEL fly_launch_runtime="nodejs"
+
+COPY --from=builder /root/.volta /root/.volta
+COPY --from=builder /app /app
+
+WORKDIR /app
+ENV NODE_ENV production
+ENV PATH /root/.volta/bin:$PATH
+
+CMD [ "npm", "run", "start" ]

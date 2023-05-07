@@ -62,7 +62,9 @@ module.exports = async(client, inter) => {
         }
     }
 }
-    //command.execute({ inter, client });
+else {
+    await command.execute({ inter, client });
+}
     }
     
     // check if command is not of type SlashCommand that extends SlashCommandBuilder
