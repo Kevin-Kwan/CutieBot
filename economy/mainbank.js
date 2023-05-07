@@ -171,17 +171,25 @@ const leaderboard = new SlashCommand()
     .setDescription("get the top members' net worth");
 leaderboard.callback(async ({inter}) => {
     await inter.deferReply();
-
     const guild = inter.guild;
     const users = await get_networth_lb();
     let data = [];
     let index = 1;
     for (const member of users) {
         if (index > 10) break;
-
-        const member_name = (
+        // get user's tag without it being undefined
+        const memberDetails = (
             await inter.client.users.cache.find((u) => u.id == member[0])
-        ).tag;
+        );
+
+        // make sure that tag is not undefined
+        if (!memberDetails) continue;
+        const member_name = memberDetails.tag;
+
+
+
+
+        
         const member_amt = member[1] + member[2];
         if (index == 1) data.push(`**🥇 \`${member_name}\` -- $ ${member_amt}**`);
         if (index == 2) data.push(`**🥈 \`${member_name}\` -- $ ${member_amt}**`);
@@ -193,14 +201,14 @@ leaderboard.callback(async ({inter}) => {
 
     msg = data.join("\n");
     const em = new EmbedBuilder()
-        .setTitle(`Top ${index} Richest Users - Leaderboard`)
+        .setTitle(`Top ${index-1} Richest Users - Leaderboard`)
         .setDescription(
             "Based on Net Worth (wallet + bank) of Global Users\n\n" + msg
         )
         .setColor(0x00ff00)
         .setTimestamp()
         .setFooter({ text: `GLOBAL - ${guild.name}` });
-    await inter.deferReply({ embeds: [em] });
+    await inter.editReply({ embeds: [em] });
 });
 const add_money = new SlashCommand()
     .setName("add-money")
