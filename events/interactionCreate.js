@@ -63,7 +63,7 @@ module.exports = async(client, inter) => {
     }
 }
 else {
-    await command.execute({ inter, client });
+    command.execute({ inter, client });
 }
     }
     
