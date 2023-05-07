@@ -79,12 +79,12 @@ for (const file of commandFiles) {
     client.commands.push(command);
 }
 // economy
-const ecoCommandsPath = path.join(__dirname, "cogs");
+const ecoCommandsPath = path.join(__dirname, "economy");
 const ecoCommandFiles = fs
     .readdirSync(ecoCommandsPath)
     .filter((file) => file.endsWith(".js"));
 
-console.log("Loading cogs:");
+console.log("Loading Economy:");
 for (let file of ecoCommandFiles) {
     let filePath = path.join(ecoCommandsPath, file);
     require(filePath).setup();
