@@ -57,8 +57,8 @@ module.exports = async(client, inter) => {
         };
         if (inter.deferred) await inter.followUp(err_msg);
         else {
-            await inter.deferReply();
-            await inter.reply(err_msg);
+            //await inter.deferReply();
+            await inter.deferReply(err_msg);
         }
     }
 }

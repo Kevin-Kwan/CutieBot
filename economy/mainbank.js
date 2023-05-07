@@ -168,7 +168,7 @@ send.callback(async ({inter}) => {
 
 const leaderboard = new SlashCommand()
     .setName("leaderboard")
-    .setDescription("get the top members w.r.t net worth");
+    .setDescription("get the top members' net worth");
 leaderboard.callback(async ({inter}) => {
     await inter.deferReply();
 
@@ -200,7 +200,7 @@ leaderboard.callback(async ({inter}) => {
         .setColor(0x00ff00)
         .setTimestamp()
         .setFooter({ text: `GLOBAL - ${guild.name}` });
-    await inter.followUp({ embeds: [em] });
+    await inter.deferReply({ embeds: [em] });
 });
 const add_money = new SlashCommand()
     .setName("add-money")
