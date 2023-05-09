@@ -29,7 +29,7 @@ module.exports = async(client, inter) => {
                 const cmd_time = userCD.per;
                 if (cur_time.getTime() <= cmd_time.getTime()) {
                     return await inter.reply(
-                        `command on cooldown, retry after ` +
+                        `Command is on cooldown, please retry after ` +
                             `\`${time_convertor(cmd_time - cur_time)}\``
                     );
                 } else
@@ -49,25 +49,22 @@ module.exports = async(client, inter) => {
                 cooldowns.push({ userID: user.id, per: new_date });
             }
         }
-    } catch (error) {
-        console.error(error);
-        const err_msg = {
-            content: "something went wrong, try again later",
-            ephemeral: true,
-        };
-        if (inter.deferred) await inter.followUp(err_msg);
-        else {
-            await inter.deferReply();
-            await inter.reply(err_msg);
+        } catch (error) {
+            console.error(error);
+            const err_msg = {
+                content: "Something went wrong, please report this to the dev and try again later.",
+                ephemeral: true,
+            };
+            if (inter.deferred) await inter.followUp(err_msg);
+            else {
+                await inter.deferReply();
+                await inter.reply(err_msg);
+            }
+        }
+    } else {
+            command.execute({ inter, client });
         }
     }
-}
-else {
-    command.execute({ inter, client });
-}
-    }
-    
-    // check if command is not of type SlashCommand that extends SlashCommandBuilder
 
     if (inter.type === InteractionType.MessageComponent) {
         try {
@@ -79,17 +76,17 @@ else {
             const button = require(`../src/buttons/${file_of_button}.js`)
             if (button) return button({ client, inter, customId, queue });
         }
-    } catch (error) {
-        console.error(error);
-        const err_msg = {
-            content: "something went wrong, try again later",
-            ephemeral: true,
-        };
-        if (inter.deferred) await inter.followUp(err_msg);
-        else {
-            await inter.deferReply();
-            await inter.reply(err_msg);
+        } catch (error) {
+            console.error(error);
+            const err_msg = {
+                content: "Something went wrong, please report this to the dev and try again later.",
+                ephemeral: true,
+            };
+            if (inter.deferred) await inter.followUp(err_msg);
+            else {
+                await inter.deferReply();
+                await inter.reply(err_msg);
+            }
         }
-    }
     }
 };
