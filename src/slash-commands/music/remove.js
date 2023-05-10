@@ -26,6 +26,7 @@ module.exports = {
         const queue = player.nodes.get(inter.guildId);
 
         const alltracks = queue.tracks.toArray()
+        await inter.deferReply();
 
         if (!queue || !queue.isPlaying()) return inter.reply({ content: `No music currently playing ${inter.member}... try again ? ❌`, ephemeral: true });
         if (!track && !number) inter.reply({ content: `You have to use one of the options to remove a song ${inter.member}... try again ? ❌`, ephemeral: true });

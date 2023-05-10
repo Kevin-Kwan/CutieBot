@@ -14,7 +14,6 @@ module.exports = {
     ],
 
     async execute({ inter, client }) {
-	    await inter.deferReply();
         const song = inter.options.getString('song');
         const res = await player.search(song, {
             requestedBy: inter.member,
@@ -41,8 +40,8 @@ module.exports = {
             await player.deleteQueue(inter.guildId);
             return inter.editReply({ content: `I can't join the voice channel ${inter.member}... try again ? ❌`, ephemeral: true});
         }
-
-       await inter.editReply({ content:`Loading your ${res.playlist ? 'playlist' : 'track'}... 🎧`});
+        //await inter.deferReply();
+        await inter.deferReply({ content:`Loading your ${res.playlist ? 'playlist' : 'track'}... 🎧`});
 
         res.playlist ? queue.addTrack(res.tracks) : queue.addTrack(res.tracks[0]);
 

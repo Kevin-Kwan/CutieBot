@@ -16,12 +16,12 @@ module.exports = {
 
     async execute({ client, inter }) {
         const song = inter.options.getString('song');
-
+        
         const res = await player.search(song, {
             requestedBy: inter.member,
             searchEngine: QueryType.AUTO
         });
-
+        await inter.deferReply();
         if (!res || !res.tracks.length) return inter.reply({ content: `No results found ${inter.member}... try again ? ❌`, ephemeral: true });
 
         const queue = player.nodes.create(inter.guild, {

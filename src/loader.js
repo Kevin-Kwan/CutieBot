@@ -1,11 +1,12 @@
+// This file handles loading for slash commands.
+
 const { readdirSync } = require('fs');
-const { Collection } = require('discord.js');
+const { Collection, REST, Routes } = require('discord.js');
 require('dotenv').config();
 const guildId = String(process.env.GUILD_ID);
 const guildIds = guildId.split(',');
 console.log(guildIds)
 
-client.slashcommands = new Collection();
 CommandsArray = [];
 
 
@@ -22,6 +23,11 @@ for (const file of events) {
 };
 
 console.log(`Loading commands...`);
+for (const command of client.slashcommands.values()) {
+    CommandsArray.push(command.toJSON());
+    client.slashcommands.set(command.name.toLowerCase(), command);
+    console.log(`-> [Loaded Command] ${command.name.toLowerCase()}`);
+}
 // load from slash-commands
 readdirSync('./src/slash-commands/').forEach(dirs => {
     const commands = readdirSync(`./src/slash-commands/${dirs}`).filter(files => files.endsWith('.js'));
@@ -36,28 +42,32 @@ readdirSync('./src/slash-commands/').forEach(dirs => {
         } else {
             CommandsArray.push(command.data.toJSON());
             client.slashcommands.set(command.data.name.toLowerCase(), command);
-            console.log(`-> [Loaded Command] ${command.data.name.toLowerCase()}`);
-            delete require.cache[require.resolve(`../src/slash-commands/${dirs}/${file}`)];
+            console.log(`-> [Old Command] ${command.data.name.toLowerCase()}`);
+            //delete require.cache[require.resolve(`../src/slash-commands/${dirs}/${file}`)];
         }
     };
 });
-
-client.on('ready', (client) => {
-    if (client.config.app.global) {
-        if (client.application.commands.cache.size > 0) {
-            client.application.commands.set([])
-            console.log("Global slash commands reset!")
+const rest = new REST({ version: '10' }).setToken(process.env.DISCORD_TOKEN);
+client.on('ready', async (client) => {
+//     //console.log(CommandsArray)
+// clear all slash commands from global and guilds
+    if (client.application.commands.cache.size > 0) {
+        client.application.commands.set([])
+    }
+    guildIds.forEach(guild => {
+        // check if client.guilds.cache.get(guild) is undefined
+        if (client.guilds.cache.get(guild) && client.guilds.cache.get(guild).commands.cache.size > 0 ) {
+            client.guilds.cache.get(guild).commands.set([])
         }
+    })
+
+    if (client.config.app.global) {
         client.application.commands.set(CommandsArray)
         console.log("Slash commands set globally!")
     }  else {
-        const guilds = guildIds
         guilds.forEach(guild => {
-            if (client.guilds.cache.get(guild).commands.cache.size > 0) {
-                client.guilds.cache.get(guild).commands.set([])
-            }
             client.guilds.cache.get(guild).commands.set(CommandsArray)
         })
         console.log("Slash commands set for guilds: " + guildIds.join(","))
-  }
+    }
 })

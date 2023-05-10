@@ -3,10 +3,10 @@ module.exports = {
     app: {
         token: process.env.DISCORD_TOKEN,
         playing: 'XXX',
-        global: false,
-        guild: process.env.GUILD_ID
+        global: true,
+        guild: process.env.GUILD_ID,
+        ChatGPTJailbreak: false,
     },
-
     opt: {
         DJ: {
             enabled: false,

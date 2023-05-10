@@ -14,6 +14,7 @@ module.exports = {
         }
     ],
     async execute({ inter }) { 
+        await inter.deferReply();
         let Channel = inter.options.getChannel('channel');
         if (Channel.type !== 0) return inter.reply({ content: `you have to send it to a text channel.. ❌`, ephemeral: true})
     
