@@ -17,7 +17,7 @@ module.exports = {
     async execute({ client, inter }) {
         const target = inter.options.getUser('target');
         const reason = inter.options.getString('reason') ?? 'No reason provided';
-        await interaction.reply(`Banning ${target.username} for reason: ${reason}`);
-		await interaction.guild.members.ban(target);
+        await inter.reply(`Banning ${target.username} for reason: ${reason}`);
+		await inter.guild.members.ban(target);
     }
 };
