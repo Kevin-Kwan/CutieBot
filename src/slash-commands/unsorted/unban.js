@@ -2,62 +2,30 @@ const { SlashCommandBuilder } = require('discord.js');
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName('unban')
-        .setDescription('Unban a user from the server'),
-        async execute(interaction) {
-            await interaction.reply('Pong!');
-        },
-    run: async (client, message, args) => {
-
-    //basically the same but pass in id instead of mention
-    //todo: implement, this is currently just a copy/paste of the ban command
-    let reason = args.slice(1).join(" ");
-    function getUserFromMention(mention) {
-        if (!mention) return;
-    
-        if (mention.startsWith('<@') && mention.endsWith('>')) {
-            mention = mention.slice(2, -1);
-    
-            if (mention.startsWith('!')) {
-                mention = mention.slice(1);
-            }
-    
-            return message.guild.members.cache.get(mention);
-        }
-        else
-        {
-            return message.guild.members.cache.get(args[0]);
-        }
+		.setName('unban')
+		.setDescription('Unban someone.')
+		.addUserOption(option =>
+			option
+				.setName('target')
+				.setDescription('The member to ban (ID preferred).')
+				.setRequired(true))
+		.setDefaultMemberPermissions(PermissionFlagsBits.BanMembers)
+		.setDMPermission(false),
+    async execute({ client, inter }) {
+        const target = inter.options.getUser('target');
+		// attempt to unban the target member, catch error if no permissions or cannot somehow unban the member
+		await inter.guild.members.unban(target)
+		.then(() => {
+			// if the target member is successfully banned, send a success message
+			inter.reply(`Unbanned ${target.username} successfully.`);
+		})
+		.catch(err => {
+			// if the error is that the bot cannot ban the target member, send an error message
+			if (err.code == 50013) {
+				inter.reply("Error unbanning member. I am missing permissions to do this.");
+			} else {
+				inter.reply("Error unbanning member. Please try again later.");
+			}
+		});
     }
-
-    if (message.author.bot) return;
-    if (message.member.permissionsIn(message.channel).has("BAN_MEMBERS")) {
-        const user =  message.guild.members.cache.get(args[0]);
-        // todo: implement a way to set a ban duration
-        // https://stackoverflow.com/questions/55654965/how-to-add-reason-thing-to-ban-command
-        user.ban({reason}).then((user) => {
-            if (!reason) {
-            reason = "No reason provided."
-            }
-
-                let formattedReason = `\`\`${reason}\`\``;
-                message.channel.send(""+user.displayName + " has been successfully banned for: " + formattedReason);
-        }).catch((error) => {
-            console.log(error);
-            message.channel.send("You do not have permissions to ban "+ args[0]+".");
-        });
-    } else
-        {
-            message.reply("You do not have permissions to ban people.");
-        }
-    },
-};
-
-module.exports.info = {
-    name: "unban",
-    alias: [],
-    permission: "default",
-    category: "moderation",
-    guildOnly: true,
-	help: "unban someone by id"
 };
