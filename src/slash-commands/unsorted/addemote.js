@@ -15,7 +15,7 @@ module.exports = {
                         .setName('name')
                         .setDescription('The name of the emote')
                         .setRequired(true))
-        .setDefaultMemberPermissions(PermissionFlagsBits.ManageEmojisAndStickers),
+        .setDefaultMemberPermissions(PermissionFlagsBits.ManageGuildExpressions),
     async execute({inter}) {
         //await inter.deferReply();
         const emoteURL = inter.options.getString('url');

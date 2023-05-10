@@ -1,3 +1,4 @@
+// abandon this command once ALL slash commands are implemented
 const prefix = process.env.PREFIX;
 module.exports = {
     run: async (client, message, args) => {
