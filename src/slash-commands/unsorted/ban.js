@@ -17,7 +17,19 @@ module.exports = {
     async execute({ client, inter }) {
         const target = inter.options.getUser('target');
         const reason = inter.options.getString('reason') ?? 'No reason provided';
-        await inter.reply(`Banning ${target.username} for reason: ${reason}`);
-		await inter.guild.members.ban(target);
+		// attempt to ban the target member, catch error if no permissions or cannot
+		await inter.guild.members.ban(target, { reason: reason })
+		.then(() => {
+			// if the target member is successfully banned, send a success message
+			inter.reply(`Banned ${target.username} for reason: ${reason}`);
+		})
+		.catch(err => {
+			// if the error is that the bot cannot ban the target member, send an error message
+			if (err.code == 50013) {
+				inter.reply("Error banning member. I am missing permissions to do this.");
+			} else {
+				inter.reply("Error banning member. Please try again later.");
+			}
+		});
     }
 };
