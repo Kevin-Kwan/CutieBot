@@ -32,13 +32,13 @@ module.exports = {
                 .then(emoji => inter.reply(`✅ Succesfully Created New Emote: ${emoji.toString()}`))
                 .catch(err => {
                     if (err.code == 50013) {
-                        message.reply("Error creating emoji. I need the `MANAGE_EMOJIS` permission to do this.");
+                        inter.reply("Error creating emoji. I need the `MANAGE_EMOJIS` permission to do this.");
                     } else if (err.code == 30008) {
                         // catch max emote limit error
-                        message.reply("Error creating emoji. This server has reached the maximum number of emotes.");
+                        inter.reply("Error creating emoji. This server has reached the maximum number of emotes.");
                     } else {
                         // catch any other error
-                        message.reply("Error creating emoji. Check the file's size (no larger than 256.0 KB) or check your command's syntax.");
+                        inter.reply("Error creating emoji. Check the file's size (no larger than 256.0 KB) or check your command's syntax.");
                     }
                 });
         }
