@@ -6,18 +6,18 @@ module.exports = {
 		.addUserOption(option =>
 			option
 				.setName('target')
-				.setDescription('The member to ban')
+				.setDescription('The member to ban.')
 				.setRequired(true))
 		.addStringOption(option =>
 			option
 				.setName('reason')
-				.setDescription('The reason for banning'))
+				.setDescription('The reason for banning this user.'))
 		.setDefaultMemberPermissions(PermissionFlagsBits.BanMembers)
 		.setDMPermission(false),
     async execute({ client, inter }) {
         const target = inter.options.getUser('target');
         const reason = inter.options.getString('reason') ?? 'No reason provided';
-		// attempt to ban the target member, catch error if no permissions or cannot
+		// attempt to ban the target member, catch error if no permissions or cannot somehow ban the member
 		await inter.guild.members.ban(target, { reason: reason })
 		.then(() => {
 			// if the target member is successfully banned, send a success message
