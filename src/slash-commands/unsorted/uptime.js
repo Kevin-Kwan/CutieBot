@@ -10,7 +10,7 @@ module.exports = {
         async execute(interaction) {
             await interaction.reply('Pong!');
         },
-    run: async (client, message, args) => {
+    async execute({ client, inter }) {
     let totalSeconds = (client.uptime / 1000);
     let days = Math.floor(totalSeconds / 86400);
     totalSeconds %= 86400;
@@ -26,7 +26,7 @@ module.exports = {
         .setTimestamp();
     
     // send the embed to the channel
-    message.reply({embeds: [embed]});
+    inter.reply({embeds: [embed]});
 
     },
 };
