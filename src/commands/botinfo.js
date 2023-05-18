@@ -13,8 +13,7 @@ const websiteURL = process.env.WEBSITE_URL;
 var version = '0.0.1';
 // get the bot's name without tag and store into botName
 var botName;
-var botDescription = "A Discord bot coded running on Node.js! The project started in 2017, but was later too outdated. Thus, this bot aims to serve as version 2.";
-var botOwner;
+var botDescription = "A Discord bot coded running on Node.js! The project started in 2017, but was later too outdated. Thus, this bot aims to serve as version 2. This bot also supports slash commands.";
 var botRepo = process.env.GITHUB_REPO;
 var botRamUsage;
 var botPing;
