@@ -13,6 +13,6 @@ module.exports = {
 
         await queue.history.back();
 
-        inter.reply({ content:`Playing the **previous** track ✅`});
+        inter.reply({ content:"Playing the **previous** track ✅"});
     },
 };
