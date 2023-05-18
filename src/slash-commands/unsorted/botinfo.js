@@ -22,7 +22,7 @@ var guildAmount;
 var userAmount;
 var emojiAmount;
 
-var invite = 'https://discord.com/oauth2/authorize?client_id=927315876036898866&permissions=8&scope=bot'
+var invite = process.env.BOT_INVITE_LINK;
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('botinfo')
