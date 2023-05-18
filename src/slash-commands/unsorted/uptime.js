@@ -30,12 +30,3 @@ module.exports = {
 
     },
 };
-
-module.exports.info = {
-    name: "uptime",
-    alias: ["botuptime", "uptimebot"],
-    permission: "default",
-    category: "general",
-    guildOnly: false,
-	help: "command to get the bot's uptime"
-};

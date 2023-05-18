@@ -74,6 +74,9 @@ function time_convertor(milliseconds) {
     else return `${days} day(s)`;
 }
 
+// another idea, we can have a function calculate uptime of the bot and return a string
+// we have multiple commands that can utilize this
+
 module.exports = {
     SlashCommand,
     randint,
