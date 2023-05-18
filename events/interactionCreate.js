@@ -9,11 +9,11 @@ module.exports = async(client, inter) => {
         const user = inter.user;
 
     if (!command) return inter.reply({ embeds: [ new EmbedBuilder().setColor('#ff0000').setDescription('❌ | Error! Please contact Developers!')], ephemeral: true, }), client.slash.delete(inter.commandName)
-    if (command.permissions && !inter.member.permissions.has(command.permissions)) return inter.reply({ embeds: [ new EmbedBuilder().setColor('#ff0000').setDescription(`❌ | You need do not have the proper permissions to exacute this command`)], ephemeral: true, })
+    if (command.permissions && !inter.member.permissions.has(command.permissions)) return inter.reply({ embeds: [ new EmbedBuilder().setColor('#ff0000').setDescription("❌ | You need do not have the proper permissions to exacute this command")], ephemeral: true, })
     if (DJ.enabled && DJ.commands.includes(command) && !inter.member._roles.includes(inter.guild.roles.cache.find(x => x.name === DJ.roleName).id)) return inter.reply({ embeds: [ new EmbedBuilder().setColor('#ff0000').setDescription(`❌ | This command is reserved For members with \`${DJ.roleName}\` `)], ephemeral: true, })
     if (command.voiceChannel) {
-            if (!inter.member.voice.channel) return inter.reply({ embeds: [ new EmbedBuilder().setColor('#ff0000').setDescription(`❌ | You are not in a Voice Channel`)], ephemeral: true, })
-            if (inter.guild.members.me.voice.channel && inter.member.voice.channel.id !== inter.guild.members.me.voice.channel.id) return inter.reply({ embeds: [ new EmbedBuilder().setColor('#ff0000').setDescription(`❌ | You are not in the same Voice Channel`)], ephemeral: true, })
+            if (!inter.member.voice.channel) return inter.reply({ embeds: [ new EmbedBuilder().setColor('#ff0000').setDescription("❌ | You are not in a Voice Channel")], ephemeral: true, })
+            if (inter.guild.members.me.voice.channel && inter.member.voice.channel.id !== inter.guild.members.me.voice.channel.id) return inter.reply({ embeds: [ new EmbedBuilder().setColor('#ff0000').setDescription("❌ | You are not in the same Voice Channel")], ephemeral: true, })
        }
     // check if command is of type SlashCommand that extends SlashCommandBuilder
     if (command instanceof SlashCommand) {
@@ -29,7 +29,7 @@ module.exports = async(client, inter) => {
                 const cmd_time = userCD.per;
                 if (cur_time.getTime() <= cmd_time.getTime()) {
                     return await inter.reply(
-                        `Command is on cooldown, please retry after ` +
+                        "Command is on cooldown, please retry after " +
                             `\`${time_convertor(cmd_time - cur_time)}\``
                     );
                 } else

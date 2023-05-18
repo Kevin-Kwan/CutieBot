@@ -1,6 +1,6 @@
 const { EmbedBuilder } = require('discord.js');
 module.exports = async ({ client, inter, queue }) => { 
-    if (!queue || !queue.isPlaying()) return inter.reply({ content: `No music currently playing... try again ? ❌`, ephemeral: true });
+    if (!queue || !queue.isPlaying()) return inter.reply({ content: "No music currently playing... try again ? ❌", ephemeral: true });
 
     const alltracks = queue.tracks.toArray()
 

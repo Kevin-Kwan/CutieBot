@@ -61,5 +61,5 @@ player.events.on('emptyQueue', (queue) => {
 });
 
 player.events.on('audioTracksAdd', (queue, tracks) => {
-    queue.metadata.channel.send(`All the songs in playlist added into the queue ✅`);
+    queue.metadata.channel.send("All the songs in playlist added into the queue ✅");
 });
