@@ -30,7 +30,7 @@ module.exports = {
             }
 
                 let formattedReason = `\`\`${reason}\`\``;
-                message.channel.send(""+user.displayName + " has been successfully banned for: " + formattedReason);
+                message.channel.send(String(user.displayName) + " has been successfully banned for: " + formattedReason);
         }).catch((error) => {
             console.log(error);
             message.channel.send("You do not have permissions to ban "+ args[0]+".");

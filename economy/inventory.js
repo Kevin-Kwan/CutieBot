@@ -141,7 +141,7 @@ sell.callback(async ({inter}) => {
 
             await open_inv(user);
             await update_inv(user, -1, item.name);
-            await update_bank(user, +cost);
+            await update_bank(user, Number(cost));
             return await inter.followUp(
                 `${userMention(user.id)} you sold ${item_name} for $ ${cost}`
             );

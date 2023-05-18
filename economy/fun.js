@@ -64,7 +64,7 @@ coinflip.callback(async ({inter}) => {
         return await inter.followUp(`Got ${result}, you lost $ ${amount}`);
     }
 
-    await update_bank(user, +reward);
+    await update_bank(user, Number(reward));
     await inter.followUp(`Got ${result}, you won $ ${amount + reward}`);
 });
 
@@ -109,7 +109,7 @@ roulette.callback(async ({inter}) => {
         return await inter.followUp(`You lost $ ${amount}`);
     }
 
-    await update_bank(user, +reward);
+    await update_bank(user, Number(reward));
     await inter.followUp(`You won $ ${amount + reward}`);
 });
 
@@ -170,7 +170,7 @@ rob.callback(async ({inter}) => {
     }
     if (chosenAmountToSteal > 0) {
         await update_bank(target, -chosenAmountToSteal);
-        await update_bank(user, +chosenAmountToSteal);
+        await update_bank(user, Number(chosenAmountToSteal));
         return await inter.followUp(`You managed to steal $${chosenAmountToSteal} from ${target.username}`);
     } else if (chosenAmountToSteal < 0) {
         await update_bank(user, chosenAmountToSteal);
@@ -247,11 +247,11 @@ slots.callback(async ({inter}) => {
     let reward, content;
     if (s1 == s2 && s2 == s3 && s1 == s3) {
         reward = Math.floor(amount);
-        await update_bank(user, +reward);
+        await update_bank(user, Number(reward));
         content = `Jackpot! you won $ ${amount + reward}`;
     } else if (s1 == s2 || s2 == s3 || s1 == s3) {
         reward = Math.floor(amount / 2);
-        await update_bank(user, +reward);
+        await update_bank(user, Number(reward));
         content = `GG! you only won $ ${amount + reward}`;
     } else {
         await update_bank(user, -amount);
@@ -515,7 +515,7 @@ dice.callback(async ({inter}) => {
     }
 
     const reward = Math.floor(amount);
-    await update_bank(user, +reward);
+    await update_bank(user, Number(reward));
     await inter.followUp(`Got ${rand_num}, you won $ ${amount + reward}`);
 });
 

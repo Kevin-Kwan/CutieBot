@@ -20,7 +20,7 @@ daily.callback(async ({inter}) => {
     await open_bank(user);
 
     let rand_amt = randint(3000, 5000);
-    await update_bank(user, +rand_amt);
+    await update_bank(user, Number(rand_amt));
     await inter.followUp(
         `${userMention(user.id)} your daily pocket money is $ ${rand_amt}`
     );
@@ -37,7 +37,7 @@ weekly.callback(async ({inter}) => {
     await open_bank(user);
 
     let rand_amt = randint(7000, 10000);
-    await update_bank(user, +rand_amt);
+    await update_bank(user, Number(rand_amt));
     await inter.followUp(
         `${userMention(user.id)} your weekly pocket money is $ ${rand_amt}`
     );
@@ -54,7 +54,7 @@ monthly.callback(async ({inter}) => {
     await open_bank(user);
 
     let rand_amt = randint(30000, 50000);
-    await update_bank(user, +rand_amt);
+    await update_bank(user, Number(rand_amt));
     await inter.followUp(
         `${userMention(user.id)} your monthly pocket money is $ ${rand_amt}`
     );
@@ -120,7 +120,7 @@ pay.callback(async ({inter}) => {
     collector.on("collect", async (i) => {
         if (i.customId === "confirm") {
             await update_bank(user, -amount);
-            await update_bank(member, +amount);
+            await update_bank(member, Number(amount));
             await i.update({
                 embeds: [new EmbedBuilder().setTitle("Payment Successful").setDescription(`You paid ${userMention(member.id)} $${amount}`).setColor('#F1C40F')],
                 components: [],

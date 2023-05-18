@@ -60,7 +60,7 @@ withdraw.callback(async ({inter}) => {
     const users = await get_bank_data(user);
     const bank_amt = users[2];
     if (["all", "max"].includes(amount.toLowerCase())) {
-        await update_bank(user, +bank_amt);
+        await update_bank(user, Number(bank_amt));
         await update_bank(user, -bank_amt, "bank");
 
         return await inter.followUp(
@@ -78,7 +78,7 @@ withdraw.callback(async ({inter}) => {
             `${userMention(user.id)} enter a valid amount!`
         );
 
-    await update_bank(user, +amount);
+    await update_bank(user, Number(amount));
     await update_bank(user, -amount, "bank");
     await inter.followUp(
         `${userMention(user.id)} you withdrew $ ${amount} from your bank`
@@ -104,7 +104,7 @@ deposit.callback(async ({inter}) => {
     const wallet_amt = users[1];
     if (["all", "max"].includes(amount.toLowerCase())) {
         await update_bank(user, -wallet_amt);
-        await update_bank(user, +wallet_amt, "bank");
+        await update_bank(user, Number(wallet_amt), "bank");
 
         return await inter.followUp(
             `${userMention(user.id)} you deposited $ ${wallet_amt} in your bank`
@@ -122,7 +122,7 @@ deposit.callback(async ({inter}) => {
         );
 
     await update_bank(user, -amount);
-    await update_bank(user, +amount, "bank");
+    await update_bank(user, Number(amount), "bank");
     await inter.followUp(
         `${userMention(user.id)} you deposited ${amount} in your bank`
     );
@@ -160,7 +160,7 @@ send.callback(async ({inter}) => {
         return await inter.followUp("You don't have enough money! You have $ " + wallet_amt + " in your wallet!");
 
     await update_bank(user, -amount);
-    await update_bank(member, +amount);
+    await update_bank(member, Number(amount));
     await inter.followUp(
         `You sent ${amount} to ${userMention(member.id)}`
     );
@@ -233,7 +233,7 @@ add_money.callback(async ({inter}) => {
     const member = inter.options.getUser("member", true);
     const amount = inter.options.getInteger("amount", true);
     // give money to member
-    await update_bank(member, +amount);
+    await update_bank(member, Number(amount));
     await inter.followUp(
         `Added $ ${amount} to ${userMention(member.id)}`
     );

@@ -106,21 +106,21 @@ client.on('ready', async () => {
   console.log(`Logged in as ${client.user.tag}!`);
   storeNumbers();
   // 
-  client.user.setActivity("" + prefix + "help | Cutie has awoken!", { type: ActivityType.Streaming, url: 'https://www.twitch.tv/KoolKev246' });
+  client.user.setActivity(String(prefix) + "help | Cutie has awoken!", { type: ActivityType.Streaming, url: 'https://www.twitch.tv/KoolKev246' });
   setInterval(() => {
     storeNumbers();
     let activities = [
         //"<help | website",
         "<help | koolkev246.net",
         //"<help | website",
-        "" + prefix + "help | Managing " + guildnum + " guilds!",
-        "" + guildnum + " servers | " + usernum +" users",
-        "" + prefix + "help | " + usernum + " users",
-        "" + prefix + "help | " + process.env.TWITCH,
+        String(prefix) + "help | Managing " + guildnum + " guilds!",
+        String(guildnum) + " servers | " + usernum +" users",
+        String(prefix) + "help | " + usernum + " users",
+        String(prefix) + "help | " + process.env.TWITCH,
         //"<help | website",
-        "" + process.env.TWITCH,
+        String(process.env.TWITCH),
         //"" + process.env.INSTAGRAM,
-        "" + process.env.TWITTER
+        String(process.env.TWITTER)
       ];
     const randomIndex = Math.floor(Math.random() * (activities.length - 1) + 1);
     const newActivity = activities[randomIndex];
