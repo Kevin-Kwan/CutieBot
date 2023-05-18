@@ -10,6 +10,6 @@ module.exports = {
 
         queue.delete();
 
-        inter.reply({ content: `Music stopped into this server, see you next time ✅`});
+        inter.reply({ content: "Music stopped into this server, see you next time ✅"});
     },
 };
