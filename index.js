@@ -110,14 +110,14 @@ client.on('ready', async () => {
   setInterval(() => {
     storeNumbers();
     let activities = [
-        //"<help | discord.koolkev246.com",
+        //"<help | website",
         "<help | koolkev246.net",
-        //"<help | invite.gg/GSMST",
+        //"<help | website",
         "" + prefix + "help | Managing " + guildnum + " guilds!",
         "" + guildnum + " servers | " + usernum +" users",
         "" + prefix + "help | " + usernum + " users",
         "" + prefix + "help | " + process.env.TWITCH,
-        //"<help | discord.gg/uE2Enuv",
+        //"<help | website",
         "" + process.env.TWITCH,
         //"" + process.env.INSTAGRAM,
         "" + process.env.TWITTER

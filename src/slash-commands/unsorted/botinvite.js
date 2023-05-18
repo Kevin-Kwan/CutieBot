@@ -13,7 +13,7 @@ module.exports = {
     },
     run: async (client, message, args) => {
     const prefix = process.env.PREFIX;
-    message.reply('https://discord.com/api/oauth2/authorize?client_id=927315876036898866&permissions=8&scope=bot%20applications.commands');
+    message.reply('Use this link to invite the bot to your server: ' + process.env.BOT_INVITE_LINK);
     },
 };
 
