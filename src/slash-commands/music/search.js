@@ -54,7 +54,7 @@ module.exports = {
         });
 
         collector.on('collect', async (query) => {
-            if (query.content.toLowerCase() === 'cancel') return inter.followUp({ content: `Search cancelled ✅`, ephemeral: true }), collector.stop();
+            if (query.content.toLowerCase() === 'cancel') return inter.followUp({ content: "Search cancelled ✅", ephemeral: true }), collector.stop();
 
             const value = parseInt(query);
             if (!value || value <= 0 || value > maxTracks.length) return inter.followUp({ content: `Invalid response, try a value between **1** and **${maxTracks.length}** or **cancel**... try again ? ❌`, ephemeral: true });
@@ -68,7 +68,7 @@ module.exports = {
                 return inter.followUp({ content: `I can't join the voice channel ${inter.member}... try again ? ❌`, ephemeral: true });
             }
 
-            await inter.followUp(`Loading your search... 🎧`);
+            await inter.followUp("Loading your search... 🎧");
 
             queue.addTrack(res.tracks[query.content - 1]);
 

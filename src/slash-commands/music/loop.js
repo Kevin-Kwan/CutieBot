@@ -33,7 +33,7 @@ module.exports = {
                     return inter.reply({ content: `Something went wrong ${inter.member}... try again ? ❌` });
                 }
 
-                return inter.reply({ content: `Repeat mode **enabled** the whole queue will be repeated endlessly 🔁` });
+                return inter.reply({ content: "Repeat mode **enabled** the whole queue will be repeated endlessly 🔁" });
                 break
             }
             case 'disable_loop': {
@@ -45,7 +45,7 @@ module.exports = {
                     return inter.reply({ content: `Something went wrong ${inter.member}... try again ? ❌` });
                 }
 
-                return inter.reply({ content: `Repeat mode **disabled**` });
+                return inter.reply({ content: "Repeat mode **disabled**" });
                 break
             }
             case 'enable_loop_song': {
@@ -57,7 +57,7 @@ module.exports = {
                     return inter.reply({ content: `Something went wrong ${inter.member}... try again ? ❌`, ephemeral: true });
                 }
 
-                return inter.reply({ content: `Repeat mode **enabled** the current song will be repeated endlessly (you can end the loop with /loop disable)` });
+                return inter.reply({ content: "Repeat mode **enabled** the current song will be repeated endlessly (you can end the loop with /loop disable)" });
                 break
             }
         }

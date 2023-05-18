@@ -13,6 +13,6 @@ module.exports = {
 
         await queue.tracks.clear();
 
-        inter.reply(`The queue has just been cleared 🗑️`);
+        inter.reply("The queue has just been cleared 🗑️");
     },
 };
