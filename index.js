@@ -54,6 +54,8 @@ global.client = new Client(
 const prefix = process.env.PREFIX;
 const owner = process.env.OWNER;
 let usernum = client.guilds.cache.reduce((a, g) => a + g.memberCount, 0)
+
+// todo: update guildnum after in time intervals or when a guild is added/removed
 let guildnum = client.guilds.cache.size;
 //client.slashcommands = new Collection();
 const port = process.env.PORT;
@@ -117,8 +119,10 @@ client.on('ready', async () => {
         "" + guildnum + " servers | " + usernum +" users",
         "" + prefix + "help | " + usernum + " users",
         "" + prefix + "help | " + process.env.TWITCH,
+        "" + prefix + "help | " + process.env.YOUTUBE,
         //"<help | website",
         "" + process.env.TWITCH,
+        "" + process.env.YOUTUBE,
         //"" + process.env.INSTAGRAM,
         "" + process.env.TWITTER
       ];
