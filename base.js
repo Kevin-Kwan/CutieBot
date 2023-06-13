@@ -74,6 +74,30 @@ function time_convertor(milliseconds) {
     else return `${days} day(s)`;
 }
 
+
+async function getImage(givenMessage, subredditName)
+{
+    sub = subreddits[Math.round(Math.random() * (subreddits.length - 1))];
+    let subr = await trev.getCustomSubreddit(sub);
+    if (!subr || !subr.media) {
+        subr = await trev.getCustomSubreddit(sub);
+    }
+    let image = subr.media;
+    //console.log(image);
+    if ((image.toString()).includes(".png") || (image.toString()).includes(".jpg") || (image.toString()).includes(".jpeg") || (image.toString()).includes(".gif")) {
+        const imageEmbed = new EmbedBuilder()
+            .setColor(Math.floor(Math.random() * 16777215).toString(16))
+            .setTitle('Random Image from r/'+sub)
+            .setURL(image)
+            .setImage(image);
+        givenMessage.reply({ embeds: [imageEmbed] });
+    } else {
+        getImage(givenMessage, sub).catch(e => getImage(givenMessage, sub));
+    }
+    //givenMessage.delete({timeout: delay}).catch(console.error);
+
+}
+
 // another idea, we can have a function calculate uptime of the bot and return a string
 // we have multiple commands that can utilize this
 
@@ -82,4 +106,5 @@ module.exports = {
     randint,
     shuffle,
     time_convertor,
+    getImage
 };
