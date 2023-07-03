@@ -31,6 +31,7 @@
     "openai": "^3.2.1",
     "opusscript": "^0.0.8",
     "patch-package": "^6.4.7",
+    "reddit-image-fetcher": "^2.0.11",
     "trev": "^2.0.8",
     "ytdl-core": "^4.11.4"
   },
