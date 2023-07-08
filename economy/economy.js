@@ -1,70 +1,70 @@
-const { SlashCommand, randint } = require('../base.js');
+const { SlashCommand, randint } = require('../base.js')
 const {
   open_bank,
   get_bank_data,
   update_bank,
-  get_networth_lb,
-} = require('../modules/bank_funcs.js');
+  get_networth_lb
+} = require('../modules/bank_funcs.js')
 
 const {
   EmbedBuilder,
   userMention,
   ActionRowBuilder,
   ButtonBuilder,
-  ButtonStyle,
-} = require('discord.js');
+  ButtonStyle
+} = require('discord.js')
 
 const daily = new SlashCommand()
   .setName('daily')
   .setDescription('get daily pocket money')
   .setDMPermission(false)
-  .setCooldown(24 * 3600);
+  .setCooldown(24 * 3600)
 daily.callback(async ({ inter }) => {
-  //console.log(inter)
-  await inter.deferReply();
-  const user = inter.user;
-  await open_bank(user);
+  // console.log(inter)
+  await inter.deferReply()
+  const user = inter.user
+  await open_bank(user)
 
-  let rand_amt = randint(3000, 5000);
-  await update_bank(user, +rand_amt);
+  const rand_amt = randint(3000, 5000)
+  await update_bank(user, +rand_amt)
   await inter.followUp(
     `${userMention(user.id)} your daily pocket money is $ ${rand_amt}`
-  );
-});
+  )
+})
 
 const weekly = new SlashCommand()
   .setName('weekly')
   .setDescription('get weekly pocket money')
   .setDMPermission(false)
-  .setCooldown(7 * 24 * 3600);
+  .setCooldown(7 * 24 * 3600)
 weekly.callback(async ({ inter }) => {
-  await inter.deferReply();
-  const user = inter.user;
-  await open_bank(user);
+  await inter.deferReply()
+  const user = inter.user
+  await open_bank(user)
 
-  let rand_amt = randint(7000, 10000);
-  await update_bank(user, +rand_amt);
+  const rand_amt = randint(7000, 10000)
+  await update_bank(user, +rand_amt)
   await inter.followUp(
     `${userMention(user.id)} your weekly pocket money is $ ${rand_amt}`
-  );
-});
+  )
+})
 
 const monthly = new SlashCommand()
   .setName('monthly')
   .setDescription('get monthly pocket money')
   .setDMPermission(false)
-  .setCooldown(30 * 24 * 3600);
+  .setCooldown(30 * 24 * 3600)
 monthly.callback(async ({ inter }) => {
-  await inter.deferReply();
-  const user = inter.user;
-  await open_bank(user);
+  await inter.deferReply()
+  const user = inter.user
+  await open_bank(user)
 
-  let rand_amt = randint(30000, 50000);
-  await update_bank(user, +rand_amt);
+  const rand_amt = randint(30000, 50000)
+  await update_bank(user, +rand_amt)
   await inter.followUp(
     `${userMention(user.id)} your monthly pocket money is $ ${rand_amt}`
-  );
-});
+  )
+})
 
 const pay = new SlashCommand()
   .setName('pay')
@@ -81,26 +81,26 @@ const pay = new SlashCommand()
       .setDescription("amount, 'all' or 'max'")
       .setRequired(true)
   )
-  .setDMPermission(false);
+  .setDMPermission(false)
 pay.callback(async ({ inter }) => {
-  await inter.deferReply();
-  const user = inter.user;
-  const member = inter.options.getUser('member');
-  let amount = inter.options.getString('amount');
-  await open_bank(user);
-  const users = await get_bank_data(user);
+  await inter.deferReply()
+  const user = inter.user
+  const member = inter.options.getUser('member')
+  let amount = inter.options.getString('amount')
+  await open_bank(user)
+  const users = await get_bank_data(user)
   if (['all', 'max'].includes(amount.toLowerCase())) {
-    amount = users[1];
+    amount = users[1]
   } else {
-    amount = parseInt(amount);
+    amount = parseInt(amount)
   }
   if (users[1] < amount) {
     return await inter.followUp(
       "You don't have enough money to pay that much! You currently have $" +
         users[1]
-    );
+    )
   } else if (amount < 0) {
-    return await inter.followUp("You can't pay with negative money!");
+    return await inter.followUp("You can't pay with negative money!")
   }
   // ask for confirmation
   const embed = new EmbedBuilder()
@@ -108,7 +108,7 @@ pay.callback(async ({ inter }) => {
     .setDescription(
       `Are you sure you want to pay ${userMention(member.id)} $${amount}?`
     )
-    .setColor('#F1C40F');
+    .setColor('#F1C40F')
   // add buttons green and red
   const row = new ActionRowBuilder().addComponents(
     new ButtonBuilder()
@@ -119,29 +119,29 @@ pay.callback(async ({ inter }) => {
       .setCustomId('cancel')
       .setLabel('Cancel')
       .setStyle(ButtonStyle.Danger)
-  );
+  )
   // send the message
-  const msg = await inter.followUp({ embeds: [embed], components: [row] });
+  const msg = await inter.followUp({ embeds: [embed], components: [row] })
   // wait for a button click from the user who ran the command
-  const filter = (i) => i.user.id === user.id;
+  const filter = (i) => i.user.id === user.id
   // if pressed confirm button, pay the money
   const collector = msg.createMessageComponentCollector({
     filter,
-    time: 15000,
-  });
+    time: 15000
+  })
   collector.on('collect', async (i) => {
     if (i.customId === 'confirm') {
-      await update_bank(user, -amount);
-      await update_bank(member, +amount);
+      await update_bank(user, -amount)
+      await update_bank(member, +amount)
       await i.update({
         embeds: [
           new EmbedBuilder()
             .setTitle('Payment Successful')
             .setDescription(`You paid ${userMention(member.id)} $${amount}`)
-            .setColor('#F1C40F'),
+            .setColor('#F1C40F')
         ],
-        components: [],
-      });
+        components: []
+      })
     } else if (i.customId === 'cancel') {
       await i.update({
         embeds: [
@@ -150,12 +150,12 @@ pay.callback(async ({ inter }) => {
             .setDescription(
               `You cancelled the payment to ${userMention(member.id)}`
             )
-            .setColor('#F1C40F'),
+            .setColor('#F1C40F')
         ],
-        components: [],
-      });
+        components: []
+      })
     }
-  });
+  })
   collector.on('end', async (collected, reason) => {
     if (reason === 'time') {
       await msg.edit({
@@ -167,16 +167,16 @@ pay.callback(async ({ inter }) => {
                 member.id
               )}`
             )
-            .setColor('#F1C40F'),
+            .setColor('#F1C40F')
         ],
-        components: [],
-      });
+        components: []
+      })
     }
-  });
-});
+  })
+})
 
 module.exports = {
   setup: () => {
-    console.log(`- ${__filename.slice(__dirname.length + 1)}`);
-  },
-};
+    console.log(`- ${__filename.slice(__dirname.length + 1)}`)
+  }
+}
