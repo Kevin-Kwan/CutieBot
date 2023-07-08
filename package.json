@@ -23,7 +23,7 @@
     "fluent-ffmpeg": "latest",
     "fs": "latest",
     "hh-mm-ss": "latest",
-    "jimp": "^0.3.5",
+    "jimp": "^0.3.11",
     "jpeg-js": "^0.4.4",
     "mathjs": "^11.7.0",
     "mongodb": "^5.1.0",
