@@ -1,5 +1,5 @@
-const prefix = process.env.PREFIX;
-const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
+const prefix = process.env.PREFIX
+const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js')
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -18,13 +18,13 @@ module.exports = {
         .setRequired(true)
     )
     .setDefaultMemberPermissions(PermissionFlagsBits.ManageGuildExpressions),
-  async execute({ inter }) {
-    //await inter.deferReply();
-    const emoteURL = inter.options.getString('url');
-    const emoteName = inter.options.getString('name');
+  async execute ({ inter }) {
+    // await inter.deferReply();
+    const emoteURL = inter.options.getString('url')
+    const emoteName = inter.options.getString('name')
     // this checks if emoteURL is a valid url
     const validURL = (str) => {
-      var pattern = new RegExp(
+      const pattern = new RegExp(
         '^(https?:\\/\\/)?' + // protocol
           '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
           '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
@@ -32,18 +32,15 @@ module.exports = {
           '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
           '(\\#[-a-z\\d_]*)?$',
         'i'
-      ); // fragment locator
-      return !!pattern.test(str);
-    };
+      ) // fragment locator
+      return !!pattern.test(str)
+    }
     if (!validURL(emoteURL)) {
-      inter.reply('Please provide a valid image/gif URL.');
-      return;
+      inter.reply('Please provide a valid image/gif URL.')
     } else if (emoteURL == undefined) {
-      inter.reply('Please provide a image/gif URL.');
-      return;
+      inter.reply('Please provide a image/gif URL.')
     } else if (emoteName == undefined) {
-      inter.reply('Please provide a valid emote name.');
-      return;
+      inter.reply('Please provide a valid emote name.')
     } else {
       // create emoji using interaction
       inter.guild.emojis
@@ -55,19 +52,19 @@ module.exports = {
           if (err.code == 50013) {
             inter.reply(
               'Error creating emoji. I need the `MANAGE_EMOJIS` permission to do this.'
-            );
+            )
           } else if (err.code == 30008) {
             // catch max emote limit error
             inter.reply(
               'Error creating emoji. This server has reached the maximum number of emotes.'
-            );
+            )
           } else {
             // catch any other error
             inter.reply(
               "Error creating emoji. Check the file's size (no larger than 256.0 KB) or check your command's syntax."
-            );
+            )
           }
-        });
+        })
     }
-  },
-};
+  }
+}

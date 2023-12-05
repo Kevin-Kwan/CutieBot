@@ -1,5 +1,5 @@
-const maxVol = client.config.opt.maxVol;
-const { ApplicationCommandOptionType } = require('discord.js');
+const maxVol = client.config.opt.maxVol
+const { ApplicationCommandOptionType } = require('discord.js')
 
 module.exports = {
   name: 'volume',
@@ -12,32 +12,34 @@ module.exports = {
       type: ApplicationCommandOptionType.Number,
       required: true,
       minValue: 1,
-      maxValue: maxVol,
-    },
+      maxValue: maxVol
+    }
   ],
 
-  async execute({ inter }) {
-    const queue = player.nodes.get(inter.guildId);
+  async execute ({ inter }) {
+    const queue = player.nodes.get(inter.guildId)
 
-    if (!queue)
+    if (!queue) {
       return inter.reply({
         content: `No music currently playing ${inter.member}... try again ? ❌`,
-        ephemeral: true,
-      });
-    const vol = inter.options.getNumber('volume');
+        ephemeral: true
+      })
+    }
+    const vol = inter.options.getNumber('volume')
 
-    if (queue.node.volume === vol)
+    if (queue.node.volume === vol) {
       return inter.reply({
         content: `The volume you want to change is already the current one ${inter.member}... try again ? ❌`,
-        ephemeral: true,
-      });
+        ephemeral: true
+      })
+    }
 
-    const success = queue.node.setVolume(vol);
+    const success = queue.node.setVolume(vol)
 
     return inter.reply({
       content: success
         ? `The volume has been modified to **${vol}**/**${maxVol}**% 🔊`
-        : `Something went wrong ${inter.member}... try again ? ❌`,
-    });
-  },
-};
+        : `Something went wrong ${inter.member}... try again ? ❌`
+    })
+  }
+}

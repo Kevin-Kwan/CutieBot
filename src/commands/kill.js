@@ -1,16 +1,16 @@
 module.exports = {
-    run: async (client, message, args) => {
-    if (message.author.bot) return;
+  run: async (client, message, args) => {
+    if (message.author.bot) return
     message.channel.send('Shutting down the bot...')
-    process.exit();
-    },
-};
+    process.exit()
+  }
+}
 
 module.exports.info = {
-    name: "kill",
-    alias: ["","",""],
-    permission: "owner",
-    category: "danger",
-    guildOnly: false,
-	help: "shut down the bot"
-};
+  name: 'kill',
+  alias: ['', '', ''],
+  permission: 'owner',
+  category: 'danger',
+  guildOnly: false,
+  help: 'shut down the bot'
+}
