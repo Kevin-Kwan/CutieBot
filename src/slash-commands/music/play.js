@@ -1,5 +1,15 @@
-const { QueryType } = require('discord-player');
+const { ExtractorModel, QueryType, Player } = require('discord-player');
+const { YouTubeExtractor } = require('@discord-player/extractor');
 const { ApplicationCommandOptionType } = require('discord.js');
+
+const player = new Player(client);
+
+async function loadDefaultExtractors() {
+  await player.extractors.loadDefault();
+}
+
+loadDefaultExtractors();
+
 module.exports = {
   name: 'play',
   description: 'play a song!',
@@ -14,6 +24,7 @@ module.exports = {
   ],
 
   async execute({ inter, client }) {
+    await inter.deferReply();
     const song = inter.options.getString('song');
     const res = await player.search(song, {
       requestedBy: inter.member,
@@ -47,8 +58,8 @@ module.exports = {
         ephemeral: true,
       });
     }
-    //await inter.deferReply();
-    inter.reply({
+
+    inter.editReply({
       content: `Loading your ${res.playlist ? 'playlist' : 'track'}... 🎧`,
     });
 
