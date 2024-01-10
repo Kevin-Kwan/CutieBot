@@ -1,31 +1,32 @@
-const { EmbedBuilder, ActionRowBuilder, ButtonBuilder } = require('discord.js');
+const { EmbedBuilder, ActionRowBuilder, ButtonBuilder } = require('discord.js')
 
 module.exports = {
   name: 'nowplaying',
   description: 'veiw what is playing!',
   voiceChannel: true,
 
-  async execute({ inter }) {
-    const queue = player.nodes.get(inter.guildId);
-    await inter.deferReply();
-    if (!queue)
+  async execute ({ inter }) {
+    const queue = player.nodes.get(inter.guildId)
+    await inter.deferReply()
+    if (!queue) {
       return inter.followUp({
         content: `No music currently playing ${inter.member}... try again ? ❌`,
-        ephemeral: true,
-      });
+        ephemeral: true
+      })
+    }
 
-    const track = queue.currentTrack;
+    const track = queue.currentTrack
 
-    const methods = ['disabled', 'track', 'queue', 'autoplay'];
+    const methods = ['disabled', 'track', 'queue', 'autoplay']
 
-    const trackDuration = track.duration;
+    const trackDuration = track.duration
 
-    const progress = queue.node.createProgressBar();
+    const progress = queue.node.createProgressBar()
 
     const embed = new EmbedBuilder()
       .setAuthor({
         name: track.title,
-        iconURL: client.user.displayAvatarURL({ size: 1024, dynamic: true }),
+        iconURL: client.user.displayAvatarURL({ size: 1024, dynamic: true })
       })
       .setThumbnail(track.thumbnail)
       .setDescription(
@@ -37,35 +38,35 @@ module.exports = {
       )
       .setFooter({
         text: 'In Development (Report Bugs plz)',
-        iconURL: inter.member.avatarURL({ dynamic: true }),
+        iconURL: inter.member.avatarURL({ dynamic: true })
       })
       .setColor('ff0000')
-      .setTimestamp();
+      .setTimestamp()
 
     const saveButton = new ButtonBuilder()
       .setLabel('Save this track')
       .setCustomId(JSON.stringify({ ffb: 'savetrack' }))
-      .setStyle('Danger');
+      .setStyle('Danger')
 
     const volumeup = new ButtonBuilder()
       .setLabel('Volume up')
       .setCustomId(JSON.stringify({ ffb: 'volumeup' }))
-      .setStyle('Primary');
+      .setStyle('Primary')
 
     const volumedown = new ButtonBuilder()
       .setLabel('Volume Down')
       .setCustomId(JSON.stringify({ ffb: 'volumedown' }))
-      .setStyle('Primary');
+      .setStyle('Primary')
 
     const loop = new ButtonBuilder()
       .setLabel('Loop')
       .setCustomId(JSON.stringify({ ffb: 'loop' }))
-      .setStyle('Danger');
+      .setStyle('Danger')
 
     const resumepause = new ButtonBuilder()
       .setLabel('Resume & Pause')
       .setCustomId(JSON.stringify({ ffb: 'resume&pause' }))
-      .setStyle('Success');
+      .setStyle('Success')
 
     const row = new ActionRowBuilder().addComponents(
       volumedown,
@@ -73,8 +74,8 @@ module.exports = {
       resumepause,
       loop,
       volumeup
-    );
+    )
 
-    inter.followUp({ embeds: [embed], components: [row] });
-  },
-};
+    inter.followUp({ embeds: [embed], components: [row] })
+  }
+}

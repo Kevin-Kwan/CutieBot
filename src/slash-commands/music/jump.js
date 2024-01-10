@@ -1,4 +1,4 @@
-const { ApplicationCommandOptionType } = require('discord.js');
+const { ApplicationCommandOptionType } = require('discord.js')
 
 module.exports = {
   name: 'jump',
@@ -9,58 +9,61 @@ module.exports = {
       name: 'song',
       description: 'the name/url of the track you want to jump to',
       type: ApplicationCommandOptionType.String,
-      required: false,
+      required: false
     },
     {
       name: 'number',
       description: 'the place in the queue the song is in',
       type: ApplicationCommandOptionType.Number,
-      required: false,
-    },
+      required: false
+    }
   ],
 
-  async execute({ inter }) {
-    const track = inter.options.getString('song');
-    const number = inter.options.getNumber('number');
+  async execute ({ inter }) {
+    const track = inter.options.getString('song')
+    const number = inter.options.getNumber('number')
 
-    const queue = player.nodes.get(inter.guildId);
-    if (!queue || !queue.isPlaying())
+    const queue = player.nodes.get(inter.guildId)
+    if (!queue || !queue.isPlaying()) {
       return inter.reply({
         content: `No music currently playing ${inter.member}... try again ? ❌`,
-        ephemeral: true,
-      });
+        ephemeral: true
+      })
+    }
 
-    const alltracks = queue.tracks.toArray();
-    await inter.deferReply();
-    if (!track && !number)
+    const alltracks = queue.tracks.toArray()
+    await inter.deferReply()
+    if (!track && !number) {
       return inter.reply({
         content: `You have to use one of the options to jump to a song ${inter.member}... try again ? ❌`,
-        ephemeral: true,
-      });
+        ephemeral: true
+      })
+    }
 
     if (track) {
-      for (let song of alltracks) {
+      for (const song of alltracks) {
         if (song.title === track || song.url === track) {
-          queue.node.skipTo(song);
-          return inter.reply({ content: `Skipped to ${track} ✅` });
+          queue.node.skipTo(song)
+          return inter.reply({ content: `Skipped to ${track} ✅` })
         }
       }
       return inter.reply({
         content: `Could not find ${track} ${inter.member}... try using the url or the full name of the song ? ❌`,
-        ephemeral: true,
-      });
+        ephemeral: true
+      })
     }
 
     if (number) {
-      const index = number - 1;
-      const trackname = alltracks[index].title;
-      if (!trackname)
+      const index = number - 1
+      const trackname = alltracks[index].title
+      if (!trackname) {
         return inter.reply({
           content: `This track dose not seem to exist ${inter.member}...  try again ?❌`,
-          ephemeral: true,
-        });
-      queue.node.skipTo(index);
-      return inter.reply({ content: `Jumped to ${trackname}  ✅` });
+          ephemeral: true
+        })
+      }
+      queue.node.skipTo(index)
+      return inter.reply({ content: `Jumped to ${trackname}  ✅` })
     }
-  },
-};
+  }
+}
