@@ -1,5 +1,5 @@
-const { ApplicationCommandOptionType, EmbedBuilder } = require('discord.js');
-const { QueryType } = require('discord-player');
+const { ApplicationCommandOptionType, EmbedBuilder } = require('discord.js')
+const { QueryType } = require('discord-player')
 
 module.exports = {
   name: 'search',
@@ -10,42 +10,43 @@ module.exports = {
       name: 'song',
       description: 'the song you want to search',
       type: ApplicationCommandOptionType.String,
-      required: true,
-    },
+      required: true
+    }
   ],
 
-  async execute({ client, inter }) {
-    const song = inter.options.getString('song');
+  async execute ({ client, inter }) {
+    const song = inter.options.getString('song')
 
     const res = await player.search(song, {
       requestedBy: inter.member,
-      searchEngine: QueryType.AUTO,
-    });
-    await inter.deferReply();
-    if (!res || !res.tracks.length)
+      searchEngine: QueryType.AUTO
+    })
+    await inter.deferReply()
+    if (!res || !res.tracks.length) {
       return inter.followUp({
         content: `No results found ${inter.member}... try again ? ❌`,
-        ephemeral: true,
-      });
+        ephemeral: true
+      })
+    }
 
     const queue = player.nodes.create(inter.guild, {
       metadata: {
         channel: inter.channel,
         client: inter.guild.members.me,
-        requestedBy: inter.user,
+        requestedBy: inter.user
       },
       selfDeaf: true,
       volume: client.config.opt.defaultvolume,
       leaveOnEmpty: client.config.opt.leaveOnEmpty,
-      leaveOnEnd: client.config.opt.leaveOnEnd,
-    });
-    const maxTracks = res.tracks.slice(0, 10);
+      leaveOnEnd: client.config.opt.leaveOnEnd
+    })
+    const maxTracks = res.tracks.slice(0, 10)
 
     const embed = new EmbedBuilder()
       .setColor('#ff0000')
       .setAuthor({
         name: `Results for ${song}`,
-        iconURL: client.user.displayAvatarURL({ size: 1024, dynamic: true }),
+        iconURL: client.user.displayAvatarURL({ size: 1024, dynamic: true })
       })
       .setDescription(
         `${maxTracks
@@ -57,57 +58,60 @@ module.exports = {
       .setTimestamp()
       .setFooter({
         text: 'In Development (Report Bugs plz)',
-        iconURL: inter.member.avatarURL({ dynamic: true }),
-      });
+        iconURL: inter.member.avatarURL({ dynamic: true })
+      })
 
-    inter.followUp({ embeds: [embed] });
+    inter.followUp({ embeds: [embed] })
 
     const collector = inter.channel.createMessageCollector({
       time: 15000,
       max: 1,
       errors: ['time'],
-      filter: (m) => m.author.id === inter.member.id,
-    });
+      filter: (m) => m.author.id === inter.member.id
+    })
 
     collector.on('collect', async (query) => {
-      if (query.content.toLowerCase() === 'cancel')
+      if (query.content.toLowerCase() === 'cancel') {
         return (
           inter.followUp({ content: 'Search cancelled ✅', ephemeral: true }),
           collector.stop()
-        );
-
-      const value = parseInt(query);
-      if (!value || value <= 0 || value > maxTracks.length)
-        return inter.followUp({
-          content: `Invalid response, try a value between **1** and **${maxTracks.length}** or **cancel**... try again ? ❌`,
-          ephemeral: true,
-        });
-
-      collector.stop();
-
-      try {
-        if (!queue.connection) await queue.connect(inter.member.voice.channel);
-      } catch {
-        await player.deleteQueue(inter.guildId);
-        return inter.followUp({
-          content: `I can't join the voice channel ${inter.member}... try again ? ❌`,
-          ephemeral: true,
-        });
+        )
       }
 
-      await inter.followUp('Loading your search... 🎧');
+      const value = parseInt(query)
+      if (!value || value <= 0 || value > maxTracks.length) {
+        return inter.followUp({
+          content: `Invalid response, try a value between **1** and **${maxTracks.length}** or **cancel**... try again ? ❌`,
+          ephemeral: true
+        })
+      }
 
-      queue.addTrack(res.tracks[query.content - 1]);
+      collector.stop()
 
-      if (!queue.isPlaying()) await queue.node.play();
-    });
+      try {
+        if (!queue.connection) await queue.connect(inter.member.voice.channel)
+      } catch {
+        await player.deleteQueue(inter.guildId)
+        return inter.followUp({
+          content: `I can't join the voice channel ${inter.member}... try again ? ❌`,
+          ephemeral: true
+        })
+      }
+
+      await inter.followUp('Loading your search... 🎧')
+
+      queue.addTrack(res.tracks[query.content - 1])
+
+      if (!queue.isPlaying()) await queue.node.play()
+    })
 
     collector.on('end', (msg, reason) => {
-      if (reason === 'time')
+      if (reason === 'time') {
         return inter.followUp({
           content: `Search timed out ${inter.member}... try again ? ❌`,
-          ephemeral: true,
-        });
-    });
-  },
-};
+          ephemeral: true
+        })
+      }
+    })
+  }
+}

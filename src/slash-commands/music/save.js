@@ -1,18 +1,19 @@
-const { EmbedBuilder } = require('discord.js');
+const { EmbedBuilder } = require('discord.js')
 
 module.exports = {
   name: 'save',
   description: 'save the current track!',
   voiceChannel: true,
 
-  async execute({ inter }) {
-    const queue = player.nodes.get(inter.guildId);
-    await inter.deferReply();
-    if (!queue)
+  async execute ({ inter }) {
+    const queue = player.nodes.get(inter.guildId)
+    await inter.deferReply()
+    if (!queue) {
       return inter.followUp({
         content: `No music currently playing ${inter.member}... try again ? ❌`,
-        ephemeral: true,
-      });
+        ephemeral: true
+      })
+    }
 
     inter.member
       .send({
@@ -25,41 +26,41 @@ module.exports = {
               {
                 name: ':hourglass: Duration:',
                 value: `\`${queue.currentTrack.duration}\``,
-                inline: true,
+                inline: true
               },
               {
                 name: 'Song by:',
                 value: `\`${queue.currentTrack.author}\``,
-                inline: true,
+                inline: true
               },
               {
                 name: 'Views :eyes:',
                 value: `\`${Number(
                   queue.currentTrack.views
                 ).toLocaleString()}\``,
-                inline: true,
+                inline: true
               },
               { name: 'Song URL:', value: `\`${queue.currentTrack.url}\`` }
             )
             .setThumbnail(queue.currentTrack.thumbnail)
             .setFooter({
               text: `From the server ${inter.member.guild.name}`,
-              iconURL: inter.member.guild.iconURL({ dynamic: false }),
-            }),
-        ],
+              iconURL: inter.member.guild.iconURL({ dynamic: false })
+            })
+        ]
       })
       .then(() => {
         return inter.followUp({
           content:
             'I have sent you the title of the music by private messages ✅',
-          ephemeral: true,
-        });
+          ephemeral: true
+        })
       })
       .catch((error) => {
         return inter.followUp({
           content: 'Unable to send you a private message... try again ? ❌',
-          ephemeral: true,
-        });
-      });
-  },
-};
+          ephemeral: true
+        })
+      })
+  }
+}

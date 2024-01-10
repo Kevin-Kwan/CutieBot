@@ -1,8 +1,8 @@
-const ms = require('ms');
+const ms = require('ms')
 const {
   ApplicationCommandType,
-  ApplicationCommandOptionType,
-} = require('discord.js');
+  ApplicationCommandOptionType
+} = require('discord.js')
 
 module.exports = {
   name: 'seek',
@@ -13,28 +13,30 @@ module.exports = {
       name: 'time',
       description: 'time that you want to skip to',
       type: ApplicationCommandOptionType.String,
-      required: true,
-    },
+      required: true
+    }
   ],
-  async execute({ inter }) {
-    const queue = player.nodes.get(inter.guildId);
-    await inter.deferReply();
+  async execute ({ inter }) {
+    const queue = player.nodes.get(inter.guildId)
+    await inter.deferReply()
 
-    if (!queue || !queue.isPlaying())
+    if (!queue || !queue.isPlaying()) {
       return inter.followUp({
         content: `No music currently playing ${inter.followUp}... try again ? ❌`,
-        ephemeral: true,
-      });
+        ephemeral: true
+      })
+    }
 
-    const timeToMS = ms(inter.options.getString('time'));
+    const timeToMS = ms(inter.options.getString('time'))
 
-    if (timeToMS >= queue.currentTrack.durationMS)
+    if (timeToMS >= queue.currentTrack.durationMS) {
       return inter.followUp({
         content: `The indicated time is higher than the total time of the current song ${inter.member}... try again ? ❌\n*Try for example a valid time like **5s, 10s, 20 seconds, 1m**...*`,
-        ephemeral: true,
-      });
+        ephemeral: true
+      })
+    }
 
-    await queue.node.seek(timeToMS);
+    await queue.node.seek(timeToMS)
 
     /*
             Seek function is currently broken, waiting on some fix from the devs...
@@ -42,8 +44,8 @@ module.exports = {
 
     inter.followUp({
       content: `Time set on the current song **${ms(timeToMS, {
-        long: true,
-      })}** ✅`,
-    });
-  },
-};
+        long: true
+      })}** ✅`
+    })
+  }
+}
