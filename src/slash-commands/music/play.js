@@ -1,5 +1,4 @@
-const { ExtractorModel, QueryType, Player } = require('discord-player');
-const { YouTubeExtractor } = require('@discord-player/extractor');
+const { QueryType, Player } = require('discord-player');
 const { ApplicationCommandOptionType } = require('discord.js');
 
 const player = new Player(client);
