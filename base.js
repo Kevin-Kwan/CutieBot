@@ -1,11 +1,11 @@
-const Math = require('mathjs');
+const Math = require("mathjs");
 const {
   Client,
   GatewayIntentBits,
   Collection,
   Interaction,
   SlashCommandBuilder,
-} = require('discord.js');
+} = require("discord.js");
 class SlashCommand extends SlashCommandBuilder {
   constructor() {
     super();
@@ -83,10 +83,10 @@ async function getImage(givenMessage, subredditName) {
   const image = subr.media;
   // console.log(image);
   if (
-    image.toString().includes('.png') ||
-    image.toString().includes('.jpg') ||
-    image.toString().includes('.jpeg') ||
-    image.toString().includes('.gif')
+    image.toString().includes(".png") ||
+    image.toString().includes(".jpg") ||
+    image.toString().includes(".jpeg") ||
+    image.toString().includes(".gif")
   ) {
     const imageEmbed = new EmbedBuilder()
       .setColor(Math.floor(Math.random() * 16777215).toString(16))
