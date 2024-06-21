@@ -16,7 +16,7 @@
     "@discord-player/extractor": "^4.4.5",
     "@discordjs/builders": "^1.1.0",
     "discord-player": "^6.1.1",
-    "discord.js": "^14.14.1",
+    "discord.js": "^14.15.3",
     "dotenv": "latest",
     "ffmpeg": "latest",
     "ffmpeg-static": "latest",
