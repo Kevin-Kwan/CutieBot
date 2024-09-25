@@ -1,9 +1,9 @@
-const { QueryType, useMainPlayer } = require('discord-player');
-const { YoutubeiExtractor } = require('discord-player-youtubei');
-const { ApplicationCommandOptionType } = require('discord.js');
+const { QueryType, useMainPlayer } = require('discord-player')
+const { YoutubeiExtractor } = require('discord-player-youtubei')
+const { ApplicationCommandOptionType } = require('discord.js')
 
-const player = useMainPlayer(client);
-player.extractors.register(YoutubeiExtractor, {});
+const player = useMainPlayer(client)
+player.extractors.register(YoutubeiExtractor, {})
 
 // async function loadDefaultExtractors() {
 //   await player.extractors.loadDefault();
@@ -20,52 +20,53 @@ module.exports = {
       name: 'song',
       description: 'the song you want to play',
       type: ApplicationCommandOptionType.String,
-      required: true,
-    },
+      required: true
+    }
   ],
 
-  async execute({ inter, client }) {
-    await inter.deferReply();
-    const song = inter.options.getString('song');
+  async execute ({ inter, client }) {
+    await inter.deferReply()
+    const song = inter.options.getString('song')
     const res = await player.search(song, {
       requestedBy: inter.member,
-      searchEngine: QueryType.AUTO,
-    });
+      searchEngine: QueryType.AUTO
+    })
 
-    if (!res || !res.tracks.length)
+    if (!res || !res.tracks.length) {
       return inter.editReply({
         content: `No results found ${inter.member}... try again ? ❌`,
-        ephemeral: true,
-      });
+        ephemeral: true
+      })
+    }
 
     const queue = player.nodes.create(inter.guild, {
       metadata: {
         channel: inter.channel,
         client: inter.guild.members.me,
-        requestedBy: inter.user,
+        requestedBy: inter.user
       },
       selfDeaf: true,
       volume: client.config.opt.defaultvolume,
       leaveOnEmpty: client.config.opt.leaveOnEmpty,
-      leaveOnEnd: client.config.opt.leaveOnEnd,
-    });
+      leaveOnEnd: client.config.opt.leaveOnEnd
+    })
 
     try {
-      if (!queue.connection) await queue.connect(inter.member.voice.channel);
+      if (!queue.connection) await queue.connect(inter.member.voice.channel)
     } catch {
-      await player.deleteQueue(inter.guildId);
+      await player.deleteQueue(inter.guildId)
       return inter.editReply({
         content: `I can't join the voice channel ${inter.member}... try again ? ❌`,
-        ephemeral: true,
-      });
+        ephemeral: true
+      })
     }
 
     inter.editReply({
-      content: `Loading your ${res.playlist ? 'playlist' : 'track'}... 🎧`,
-    });
+      content: `Loading your ${res.playlist ? 'playlist' : 'track'}... 🎧`
+    })
 
-    res.playlist ? queue.addTrack(res.tracks) : queue.addTrack(res.tracks[0]);
+    res.playlist ? queue.addTrack(res.tracks) : queue.addTrack(res.tracks[0])
 
-    if (!queue.isPlaying()) await queue.node.play();
-  },
-};
+    if (!queue.isPlaying()) await queue.node.play()
+  }
+}
