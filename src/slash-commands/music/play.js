@@ -5,11 +5,11 @@ const { ApplicationCommandOptionType } = require('discord.js');
 const player = useMainPlayer(client);
 player.extractors.register(YoutubeiExtractor, {});
 
-// async function loadDefaultExtractors() {
-//   await player.extractors.loadDefault();
-// }
+async function loadDefaultExtractors() {
+  await player.extractors.loadDefault();
+}
 
-// loadDefaultExtractors();
+loadDefaultExtractors();
 
 module.exports = {
   name: 'play',
