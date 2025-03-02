@@ -1,19 +1,11 @@
 const { SlashCommandBuilder } = require('discord.js');
 
 module.exports = {
-    data: new SlashCommandBuilder()
-        .setName('mcserver')
-        .setDescription('Get the status of a Minecraft server'),
-        async execute(interaction) {
-            await interaction.reply('Pong!');
-        },
-    }
-
-module.exports.info = {
-    name: "mcserver",
-    alias: [""],
-    permission: "default",
-    category: "general",
-    guildOnly: false,
-	help: ""
-}
+	data: new SlashCommandBuilder()
+		.setName('ping')
+		.setDescription('Replies with Pong!'),
+  async execute({ client, inter }) {
+    const m = await inter.reply("Ping?")
+    inter.editReply(`Pong! ${inter.client.ws.ping} ms`);
+  }
+};
