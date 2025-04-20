@@ -13,7 +13,7 @@
   "license": "ISC",
   "description": "A generic multi-purpose Discord bot. Mainly used for coding a bot from scratch.",
   "dependencies": {
-    "@discord-player/extractor": "^4.4.5",
+    "@discord-player/extractor": "^7.1.0",
     "@discordjs/builders": "^1.1.0",
     "@discordjs/opus": "^0.10.0",
     "@distube/ytdl-core": "^4.16.4",
