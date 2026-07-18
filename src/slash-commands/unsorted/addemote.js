@@ -24,16 +24,12 @@ module.exports = {
     const emoteName = inter.options.getString('name');
     // this checks if emoteURL is a valid url
     const validURL = (str) => {
-      var pattern = new RegExp(
-        '^(https?:\\/\\/)?' + // protocol
-          '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
-          '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
-          '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
-          '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
-          '(\\#[-a-z\\d_]*)?$',
-        'i'
-      ); // fragment locator
-      return !!pattern.test(str);
+      try {
+        const parsedURL = new URL(str);
+        return parsedURL.protocol === 'http:' || parsedURL.protocol === 'https:';
+      } catch {
+        return false;
+      }
     };
     if (!validURL(emoteURL)) {
       inter.reply('Please provide a valid image/gif URL.');
