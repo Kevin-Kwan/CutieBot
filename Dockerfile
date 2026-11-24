@@ -1,43 +1,26 @@
-# syntax = docker/dockerfile:1
+# CutieBot v3 — multi-stage build on Debian slim (PLAN §12).
+# discord-player voice needs system FFmpeg and native modules (DAVE/Opus)
+# that do not ship musl builds, so bookworm-slim, never Alpine.
 
-# Adjust NODE_VERSION as desired
-ARG NODE_VERSION=21.1.0
-FROM node:${NODE_VERSION}-slim as base
-
-LABEL fly_launch_runtime="Node.js"
-
-# Node.js app lives here
+FROM node:24-bookworm-slim AS deps
 WORKDIR /app
-
-# Set production environment
-ENV NODE_ENV="production"
-
-
-# Throw-away build stage to reduce size of final image
-FROM base as build
-
-# Install packages needed to build node modules
-RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y build-essential node-gyp pkg-config python-is-python3
-
-# Install node modules
-COPY --link package-lock.json package.json ./
+COPY package.json package-lock.json ./
 RUN npm ci
 
-# Copy application code
-COPY --link . .
+FROM deps AS build
+COPY tsconfig.json tsconfig.build.json ./
+COPY src ./src
+COPY scripts ./scripts
+RUN npm run build
 
-
-# Final stage for app image
-FROM base
-
-# Install packages needed for deployment
-RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y ffmpeg && \
-    rm -rf /var/lib/apt/lists /var/cache/apt/archives
-
-# Copy built application
-COPY --from=build /app /app
-
-# Start the server by default, this can be overwritten at runtime
-CMD [ "npm", "run", "start" ]
+FROM node:24-bookworm-slim AS runtime
+RUN apt-get update \
+  && apt-get install -y --no-install-recommends ffmpeg \
+  && rm -rf /var/lib/apt/lists/*
+WORKDIR /app
+ENV NODE_ENV=production
+COPY package.json package-lock.json ./
+RUN npm ci --omit=dev && npm cache clean --force
+COPY --from=build /app/dist ./dist
+USER node
+CMD ["node", "dist/src/index.js"]

@@ -1,5 +1,9 @@
-fly.toml
-Dockerfile
-.dockerignore
 node_modules
+dist
+.env
+.env.*
+!.env.example
 .git
+.github
+.test-tmp
+*.md
