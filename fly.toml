@@ -1,16 +1,16 @@
-# fly.toml app configuration file generated for cutiebot on 2023-08-05T23:54:54-04:00
-#
-# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
-#
+# CutieBot v3 — Fly.io worker (no HTTP service: this is a persistent
+# gateway bot, not a web app). See https://fly.io/docs/reference/configuration/
 
 app = "cutiebot"
 primary_region = "atl"
 
-[build]
+# A gateway bot must never be auto-stopped: it holds a persistent
+# Discord websocket connection.
+auto_stop_machines = false
 
-[http_service]
-  internal_port = 3000
-  force_https = true
-  auto_start_machines = true
-  min_machines_running = 1
-  processes = ["app"]
+[build]
+  dockerfile = "Dockerfile"
+
+[[vm]]
+  size = "shared-cpu-1x"
+  memory = "512mb"
