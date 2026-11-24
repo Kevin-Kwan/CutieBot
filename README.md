@@ -21,19 +21,19 @@ npm start
 
 ### Environment
 
-| Variable | Required | Notes |
-| --- | --- | --- |
-| `DISCORD_TOKEN` | yes | Bot token. |
-| `CLIENT_ID` | yes | Application (client) ID — a Discord snowflake. |
-| `MONGO_URI` | yes | Must point at a replica set for transactions. |
-| `GUILD_ID` | no | Default guild for the deploy script. |
-| `OWNER_ID` | no | Gates the owner-only admin commands (`/restart`, `/setavatar`, `/setusername`). |
-| `OPENAI_API_KEY` | no | Without it the AI features report themselves unavailable; everything else works. |
-| `OPENAI_MODEL` | no | Defaults to the built-in model choice. |
-| `YOUTUBE_COOKIE` | no | Optional burner-account cookie; see Limitations. |
-| `AI_PER_USER_DAILY_CAP` | no | Default 50. Non-negative integer; 0 disables AI per-user. |
-| `AI_GLOBAL_DAILY_CAP` | no | Default 500. Non-negative integer; 0 disables AI entirely. |
-| `LOG_LEVEL` | no | pino level: trace, debug, info, warn, error, fatal, silent. |
+| Variable                | Required | Notes                                                                            |
+| ----------------------- | -------- | -------------------------------------------------------------------------------- |
+| `DISCORD_TOKEN`         | yes      | Bot token.                                                                       |
+| `CLIENT_ID`             | yes      | Application (client) ID — a Discord snowflake.                                   |
+| `MONGO_URI`             | yes      | Must point at a replica set for transactions.                                    |
+| `GUILD_ID`              | no       | Default guild for the deploy script.                                             |
+| `OWNER_ID`              | no       | Gates the owner-only admin commands (`/restart`, `/setavatar`, `/setusername`).  |
+| `OPENAI_API_KEY`        | no       | Without it the AI features report themselves unavailable; everything else works. |
+| `OPENAI_MODEL`          | no       | Defaults to the built-in model choice.                                           |
+| `YOUTUBE_COOKIE`        | no       | Optional burner-account cookie; see Limitations.                                 |
+| `AI_PER_USER_DAILY_CAP` | no       | Default 50. Non-negative integer; 0 disables AI per-user.                        |
+| `AI_GLOBAL_DAILY_CAP`   | no       | Default 500. Non-negative integer; 0 disables AI entirely.                       |
+| `LOG_LEVEL`             | no       | pino level: trace, debug, info, warn, error, fatal, silent.                      |
 
 The bot fails fast at boot with a descriptive `EnvError` listing every
 missing or invalid variable.

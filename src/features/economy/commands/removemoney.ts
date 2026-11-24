@@ -29,7 +29,12 @@ export const removemoneyCommand: CommandModule = {
     await runEconomy(ctx, interaction, async (service) => {
       const member = interaction.options.getUser('member', true);
       const amount = interaction.options.getInteger('amount', true);
-      const user = await service.adminRemove(actorOf(member), amount, interaction.id, interaction.user.id);
+      const user = await service.adminRemove(
+        actorOf(member),
+        amount,
+        interaction.id,
+        interaction.user.id,
+      );
       ctx.logger.info(
         { action: 'removemoney', by: interaction.user.id, to: member.id, amount },
         'economy admin: money removed',

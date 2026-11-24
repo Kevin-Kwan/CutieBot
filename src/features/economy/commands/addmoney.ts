@@ -30,7 +30,12 @@ export const addmoneyCommand: CommandModule = {
     await runEconomy(ctx, interaction, async (service) => {
       const member = interaction.options.getUser('member', true);
       const amount = interaction.options.getInteger('amount', true);
-      const user = await service.adminAdd(actorOf(member), amount, interaction.id, interaction.user.id);
+      const user = await service.adminAdd(
+        actorOf(member),
+        amount,
+        interaction.id,
+        interaction.user.id,
+      );
       ctx.logger.info(
         { action: 'addmoney', by: interaction.user.id, to: member.id, amount },
         'economy admin: money added',

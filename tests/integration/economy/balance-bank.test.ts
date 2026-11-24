@@ -80,10 +80,7 @@ describe('/balance and /bank net worth (Phase 6e, R2)', () => {
     await repo.ensureUser('whale');
     await db
       .collection(ECONOMY_COLLECTION)
-      .updateOne(
-        { _id: 'whale' as never },
-        { $set: { wallet: Number.MAX_SAFE_INTEGER, bank: 2 } },
-      );
+      .updateOne({ _id: 'whale' as never }, { $set: { wallet: Number.MAX_SAFE_INTEGER, bank: 2 } });
     const ctx = makeCtx({ db: { client, db } });
 
     const balance = fakeInteraction(fakeUser('whale'));

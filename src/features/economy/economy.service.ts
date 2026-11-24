@@ -328,10 +328,17 @@ export class EconomyService {
     rawAmount: string,
     interactionId?: string,
   ): Promise<BetOutcome<RouletteOutcome>> {
-    return this.playGame(userId, rawAmount, interactionId, 'roulette', { rawAmount }, (bet, rng) => {
-      const outcome = roulette(rng, bet);
-      return { outcome, delta: outcome.delta };
-    });
+    return this.playGame(
+      userId,
+      rawAmount,
+      interactionId,
+      'roulette',
+      { rawAmount },
+      (bet, rng) => {
+        const outcome = roulette(rng, bet);
+        return { outcome, delta: outcome.delta };
+      },
+    );
   }
 
   async playDice(
@@ -340,10 +347,17 @@ export class EconomyService {
     betOn: number,
     interactionId?: string,
   ): Promise<BetOutcome<DiceOutcome>> {
-    return this.playGame(userId, rawAmount, interactionId, 'dice', { rawAmount, betOn }, (bet, rng) => {
-      const outcome = dice(rng, bet, betOn);
-      return { outcome, delta: outcome.delta };
-    });
+    return this.playGame(
+      userId,
+      rawAmount,
+      interactionId,
+      'dice',
+      { rawAmount, betOn },
+      (bet, rng) => {
+        const outcome = dice(rng, bet, betOn);
+        return { outcome, delta: outcome.delta };
+      },
+    );
   }
 
   async playSlots(
